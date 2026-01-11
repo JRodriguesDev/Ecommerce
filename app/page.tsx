@@ -1,11 +1,12 @@
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
-export default function Home() {
+const Home = () => {
   return (
     <main>
-      <Header/>
-      <Footer/>
+      <p>Rota /</p>
     </main>
   );
 }
+
+export default Home
