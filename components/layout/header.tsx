@@ -3,7 +3,7 @@ import { TiStarFullOutline } from "react-icons/ti";
 import { BiCategory } from "react-icons/bi";
 
 
-export const Header = () => {
+const Header = () => {
     return (
         <header className="bg-blue-900 w-full h-24 flex flex-col">
             <div className="w-full flex flex-1 flex-row items-center justify-around gap-10">
