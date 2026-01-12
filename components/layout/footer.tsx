@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <footer className="w-full h-48 bg-blue-900 flex flex-row flex-1 justify-around">
+        <footer className="w-full h-48 bg-blue-900 flex flex-row flex-1 justify-around mt-15">
             <div>
                 <h3 className="footer-title">Sobre</h3>
                 <ul className="flex flex-col footer-links">
