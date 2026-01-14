@@ -2,7 +2,7 @@
 
 import Form from 'next/form'
 
-const Home = () => {
+const Register = () => {
   return (
     <main className="w-full h-screen flex items-center justify-center">
       <div className="bg-blue-800 w-1/4 h-1/2 rounded-2xl flex flex-col items-center">
@@ -22,4 +22,4 @@ const Home = () => {
   );
 }
 
-export default Home
+export default Register
