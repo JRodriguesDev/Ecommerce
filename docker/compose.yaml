@@ -1,0 +1,9 @@
+services:
+  app:
+    container_name: next
+    build: 
+      context: ..
+      dockerfile: docker/app.dockerfile
+    ports:
+      - 3000:3000
+
