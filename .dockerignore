@@ -1,5 +1,7 @@
 node_modules
 .gitignore
+.dockerignore
 docker
 eslint.config.mjs
 README.md
+.env*

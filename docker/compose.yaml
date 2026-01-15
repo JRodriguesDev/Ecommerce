@@ -4,6 +4,8 @@ services:
     build: 
       context: ..
       dockerfile: docker/app.dockerfile
+    env_file:
+      - ../.env.local
     ports:
       - 3000:3000
 

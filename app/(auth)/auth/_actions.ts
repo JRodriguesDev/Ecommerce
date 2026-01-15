@@ -1,8 +1,9 @@
 'use server'
 
+import { cookies } from 'next/headers'
 import {loginSchema, registerSchema} from './_schema'
+import {generateToken} from '@/services/jwt/token'
 import {FormState} from './_types'
-import bcrypt from 'bcryptjs'
 
 export const loginForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
     const validatedFields = loginSchema.safeParse({
@@ -10,19 +11,24 @@ export const loginForm = async (prevState: FormState, form: FormData): Promise<F
         password: form.get('password')
     })
     if (!validatedFields.success) return {sucess: false, error: 'Invalid'}
-
+    console.log(validatedFields)
     return {sucess: true, error: null}
 }
 
 export const registerForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
-    const validateFields = registerSchema.safeParse({
+    const validatedFields = registerSchema.safeParse({
         name: form.get('name'),
         email: form.get('email'),
         password: form.get('password')
     })
-    if (!validateFields.success) return {sucess: false, error: 'Invalid'}
-    const password = await bcrypt.hash(validateFields.data.password, 10)
-    console.log(validateFields)
-    console.log(password)
+    if (!validatedFields.success) return {sucess: false, error: 'Invalid'}
+    const token = await generateToken(validatedFields.data)
+    const cookieStore = await cookies()
+    cookieStore.set('auth_session', token, {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'lax',
+        priority: 'high'
+    })
     return {sucess: true, error: null}
 }
