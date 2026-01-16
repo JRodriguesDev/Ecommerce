@@ -6,6 +6,31 @@ services:
       dockerfile: docker/app.dockerfile
     env_file:
       - ../.env.local
+    networks:
+      - api
+    volumes:
+      - prisma-migrate:/app/migrate
     ports:
       - 3000:3000
+    depends_on:
+      - db
+  db:
+    container_name: postgres
+    image: postgres:16
+    restart: always
+    env_file:
+      - ../.env.local
+    networks:
+      - api
+    volumes:
+      - postgres-volume:/var/lib/postgresql/dat
+    ports:
+      - "5432:5432"
+networks:
+  api:
+    driver: bridge
+volumes:
+  postgres-volume:
+  prisma-migrate:
+
 
