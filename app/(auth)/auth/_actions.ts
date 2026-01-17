@@ -1,27 +1,20 @@
 'use server'
 
-import { cookies } from 'next/headers'
 import {loginSchema, registerSchema} from './_schema'
-import {userRegister, userLogin} from '@/services/prisma/routes/auth'
-import {generateToken} from '@/services/jwt/token'
+import {userRegister} from '@/lib/prisma/routes/auth'
 import {FormState} from './_types'
+import {signIn} from '@/lib/authjs/auth'
+import {redirect} from 'next/navigation'
 
 export const loginForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
     const validatedFields = loginSchema.safeParse({
         email: form.get('email'),
         password: form.get('password')
     })
-    if (!validatedFields.success) return {sucess: false, error: 'Credenciais Invalidas'}
-    const user = await userLogin(validatedFields.data)
-    if (!user.sucess) return {sucess: false, error: user.error!}
-    const token = await generateToken({id: user.id})
-    const cookieStore = await cookies()
-    cookieStore.set('auth_session', token, {
-        secure: true,
-        httpOnly: true,
-        sameSite: 'lax',
-        priority: 'high'
-    })
+    if (!validatedFields.success) return {sucess: false, error: 'Campos Invalidos'}
+    const {email, password} = validatedFields.data
+    await signIn('credentials', {email, password, redirect: false})
+    redirect('/shop')
     return {sucess: true, error: null}
 }
 
@@ -31,15 +24,11 @@ export const registerForm = async (prevState: FormState, form: FormData): Promis
         email: form.get('email'),
         password: form.get('password')
     })
-    if (!validatedFields.success) return {sucess: false, error: 'Credenciais Invalidas'}
-    const user = await userRegister(validatedFields.data)
-    const token = await generateToken({id: user.id})
-    const cookieStore = await cookies()
-    cookieStore.set('auth_session', token, {
-        secure: true,
-        httpOnly: true,
-        sameSite: 'lax',
-        priority: 'high'
-    })
+    if (!validatedFields.success) return {sucess: false, error: 'Campos Invalidos'}
+    const {email, password} = validatedFields.data
+    const registerResult = await userRegister(validatedFields.data)
+    if (!registerResult.sucess) return {sucess: false, error: 'erro no Banco'}
+    await signIn('credentials', {email, password, redirect: false})
+    redirect('/shop')
     return {sucess: true, error: null}
 }
