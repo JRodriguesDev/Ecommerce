@@ -2,7 +2,7 @@
 
 import Form from 'next/form'
 import { useActionState } from 'react';
-import {registerForm} from '../_actions'
+import {registerForm} from '../actions'
 import {signIn} from 'next-auth/react'
 
 const Register = () => {

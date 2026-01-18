@@ -1,4 +1,4 @@
-import Carousel from "@/components/ui/Carousel"
+import Carousel from "@/components/Carousel"
 
 const Shop = () => {
     const data = [

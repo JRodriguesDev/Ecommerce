@@ -5,3 +5,4 @@ docker
 eslint.config.mjs
 README.md
 .env*
+.next

@@ -1,8 +1,8 @@
 'use server'
 
-import {loginSchema, registerSchema} from './_schema'
+import {loginSchema, registerSchema} from './schema'
 import {userRegister} from '@/lib/prisma/routes/auth'
-import {FormState} from './_types'
+import {FormState} from './types'
 import {signIn} from '@/lib/authjs/auth'
 import {redirect} from 'next/navigation'
 

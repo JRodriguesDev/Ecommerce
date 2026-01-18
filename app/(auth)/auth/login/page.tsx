@@ -1,7 +1,7 @@
 'use client'
 import Form from 'next/form'
 import {useActionState} from 'react'
-import { loginForm } from '../_actions'
+import { loginForm } from '../actions'
 import {signIn} from 'next-auth/react'
 
 export const Login = () => {
