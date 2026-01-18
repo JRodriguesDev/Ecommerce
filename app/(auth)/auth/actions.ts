@@ -15,7 +15,6 @@ export const loginForm = async (prevState: FormState, form: FormData): Promise<F
     const {email, password} = validatedFields.data
     await signIn('credentials', {email, password, redirect: false})
     redirect('/shop')
-    return {sucess: true, error: null}
 }
 
 export const registerForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
@@ -30,5 +29,4 @@ export const registerForm = async (prevState: FormState, form: FormData): Promis
     if (!registerResult.sucess) return {sucess: false, error: 'erro no Banco'}
     await signIn('credentials', {email, password, redirect: false})
     redirect('/shop')
-    return {sucess: true, error: null}
 }
