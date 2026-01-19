@@ -1,9 +1,13 @@
+'use client'
+
 import { FaUserCircle, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { TiStarFullOutline } from "react-icons/ti";
 import { BiCategory } from "react-icons/bi";
+import { signOut } from "next-auth/react"
 
 
 const Header = () => {
+
     return (
         <header className="bg-blue-900 w-full h-24 flex flex-col">
             <div className="w-full flex flex-1 flex-row items-center justify-around gap-10">
@@ -19,7 +23,7 @@ const Header = () => {
                 <nav className="flex items-center gap-6">
                     <button className="flex items-center gap-2 cursor-pointer hover:scale-110 duration-100 text-black font-semibold"><TiStarFullOutline className="text-yellow-300"/> Favoritos</button>
                     <button className="flex items-center gap-2 cursor-pointer hover:scale-110 duration-100 text-black font-semibold"> <FaShoppingCart className="text-gray-300"/> Carrinho</button>
-                    <button className="text-black text-3xl hover:scale-105 duration-100 cursor-pointer"><FaUserCircle/></button>
+                    <button className="text-black text-3xl hover:scale-105 duration-100 cursor-pointer" onClick={() => signOut()}><FaUserCircle/></button>
                 </nav>
             </div>    
         </header>
