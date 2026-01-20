@@ -13,11 +13,11 @@ const myCredentials = Credentials({
         })
         if (!result.sucess || !result.user) return null
         return {
-        id: result.user.id,
-        email: result.user.email,
-        name: result.user.name,
+            id: result.user.id,
+            email: result.user.email,
+            name: result.user.name,
         }
-    }
+    }   
 })
 
 export default myCredentials
