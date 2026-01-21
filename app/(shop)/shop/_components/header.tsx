@@ -4,6 +4,7 @@ import { FaUserCircle, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { TiStarFullOutline } from "react-icons/ti";
 import { BiCategory } from "react-icons/bi";
 import { signOut, useSession} from "next-auth/react"
+import Link from "next/link";
 
 
 const Header = () => {
@@ -13,7 +14,7 @@ const Header = () => {
     return (
         <header className="bg-blue-900 w-full h-24 flex flex-col">
             <div className="w-full flex flex-1 flex-row items-center justify-around gap-10">
-                <h1 className="cursor-pointer text-black text-2xl font-semibold hover:scale-105 duration-75">Ecommerce</h1>
+                <Link href='/shop' className="cursor-pointer text-black text-2xl font-semibold hover:scale-105 duration-75">Ecommerce</Link>
                 <div className="relative w-2/6 flex items-center">
                 <BiCategory className="text-black text-3xl absolute -left-12 cursor-pointer hover:scale-110 duration-75"/>
                     <input 
@@ -31,8 +32,8 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <button className="flex items-center gap-2 cursor-pointer hover:scale-110 duration-100 text-black font-semibold">Entrar</button>
-                            <button className="flex items-center gap-2 cursor-pointer hover:scale-110 duration-100 text-black font-semibold">Registrar</button>
+                            <Link href={'/auth/login'} className="flex items-center gap-2 cursor-pointer hover:scale-110 duration-100 text-black font-semibold">Entrar</Link>
+                            <Link href={'/auth/register'} className="flex items-center gap-2 cursor-pointer hover:scale-110 duration-100 text-black font-semibold">Registrar</Link>
                         </>
                     )
                     }
