@@ -1,14 +1,17 @@
 import "./globals.css";
+import SessionWrapper from "@/components/sessionProvider";
 
 const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
+}>) => {  
   return (
     <html lang="en">
       <body>
-        {children}
+        <SessionWrapper>
+          {children}
+        </SessionWrapper>
       </body>
     </html>
   );
