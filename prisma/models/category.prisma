@@ -1,0 +1,6 @@
+model Category {
+    id String @id @default(nanoid())
+    name String
+
+    @@map("categories")
+}

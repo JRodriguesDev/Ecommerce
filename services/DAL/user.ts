@@ -4,7 +4,7 @@ import {auth} from '@/lib/authjs/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 
-export const veriftSession = async () => {
+export const verifySession = async () => {
     const session = await auth()
     if(!session?.user?.id) redirect('/login')
     
@@ -12,7 +12,7 @@ export const veriftSession = async () => {
 }
 
 export const getUser = async () => {
-    const session = await veriftSession()
+    const session = await verifySession()
     if (!session) return null
 
     try {

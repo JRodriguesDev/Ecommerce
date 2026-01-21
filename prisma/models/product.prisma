@@ -1,0 +1,13 @@
+model Product {
+    id String @id @default(nanoid())
+    thumbnail String
+    slug String
+    title String
+    category String
+    description String
+    price Int
+    stock Int
+    images String[]
+
+    @@map("products")
+}
