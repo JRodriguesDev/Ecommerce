@@ -27,7 +27,7 @@ export const cleanedDTO = (data: {fakeStore: fakeStore[], jsonDummy: jsonDummy, 
     } satisfies Omit<Product, 'id'>))
 
     const cleanedPlatzi = data.platzi.map(el => ({
-        thumbnail: el.title,
+        thumbnail: el.images[0],
         slug: el.slug,
         title: el.title,
         category: el.category.slug,

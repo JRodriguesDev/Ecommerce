@@ -1,20 +1,19 @@
 'use client'
 
 import useEmblaCarousel from 'embla-carousel-react'
-import { useEffect, useCallback } from 'react'
-import Image from 'next/image'
-
+import { useEffect, useCallback} from 'react'
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
-import {Product} from '@/types/product'
+import {Product} from '@/app/(shop)/shop/_components/product'
+import {Product as typeProduct} from '@/types/product'
 
-type ProductCarouselItem = Omit<Product, 'images' | 'description' | 'category' | 'stock'>
+type ProductCarouselItem = Omit<typeProduct, 'images' | 'description' | 'category' | 'stock'>
 interface CarouselProps {
     products: ProductCarouselItem[]
 }
 
-const Carousel = ({products}: CarouselProps) => {
-    const [emblaRef, emblaApi] = useEmblaCarousel({loop: false, watchDrag: false, startIndex: 2})
+export const Carousel = ({products}: CarouselProps) => {
+    const [emblaRef, emblaApi] = useEmblaCarousel({loop: false, watchDrag: false, startIndex: 0})
     useEffect(() => {
         if (emblaApi) {
         console.log(emblaApi.slideNodes()) 
@@ -34,18 +33,7 @@ const Carousel = ({products}: CarouselProps) => {
                 <div className="flex flex-row">
                     {
                         products.map((el => (
-                            <div key='a' className='shrink-0 bg-white w-52 h-56 m-10 flex flex-col'>
-                            <div className="relative w-full h-44">
-                                <Image
-                                    src={el.thumbnail}
-                                    fill
-                                    className="object-cover"
-                                    alt={el.title}
-                                />
-                            </div>
-                            <span className='text-xl font-semibold my-2 ml-1.5'>{el.title}</span>
-                            <span className='text-lg font-bold ml-1.5'>R$: {el.price}</span>
-                            </div>
+                            <Product key={el.id} el={el}/>
                         )))
                     }
                 </div>
@@ -56,4 +44,16 @@ const Carousel = ({products}: CarouselProps) => {
     )
 }
 
-export default Carousel
+export const CarrouselSkeleton = () => {
+    return (
+        <>
+            {[...Array(5)].map((_, i) => (
+                <div key={i} className="w-full h-80 rounded-lg bg-grau-800 animate-pulse flex flex-col gap-2 p-4">
+                    <div className="w-full h-44 "/>
+                    <div className="w-3/4 h-6 bg-gray-300 rounded "/>
+                    <div className="w-1/2 h-6 bg-gray-300 rounded "/>
+                </div>
+            ))}
+        </>
+    )
+}
