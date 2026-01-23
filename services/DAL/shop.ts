@@ -1,8 +1,11 @@
 import 'server-only'
 
+import { cacheTag } from 'next/cache'
 import prisma from '@/lib/prisma'
 
 export const getLowStockProducts = async () => {
+    'use cache'
+    cacheTag('productsLowStock')
     const products = await prisma.product.findMany({
         where: {stock: {lt: 25}},
         take: 15,
@@ -17,6 +20,8 @@ export const getLowStockProducts = async () => {
 }
 
 export const getProductsByCategory = async (category: string) => {
+    'use cache'
+    cacheTag(`products_${category}`)
     const products = await prisma.product.findMany({
         where: {category: {startsWith: category, mode: 'insensitive'}},
         take: 15,

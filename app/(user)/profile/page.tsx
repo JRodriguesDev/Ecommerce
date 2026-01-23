@@ -1,8 +1,8 @@
-import { veriftSession } from "@/services/DAL/user"
+import { verifySession } from "@/services/DAL/user"
 import { getProfileDTO } from "@/services/DTO/user"
 
 const Profile = async () => {
-    const session = await veriftSession()
+    const session = await verifySession()
     const profile = await getProfileDTO()
     
 
