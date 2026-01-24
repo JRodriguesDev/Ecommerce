@@ -35,3 +35,12 @@ export const getProductsByCategory = async (category: string) => {
     return products
 }
 
+export const getCategories = async () => {
+    'use cache'
+    cacheTag('categories')
+    const categories = await prisma.category.findMany({
+        select: {id: true, name: true}
+    })
+    return categories
+}
+
