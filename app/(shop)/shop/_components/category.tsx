@@ -2,7 +2,6 @@ import {allCategories} from '../actions'
 import { Suspense } from "react";
 import Link from 'next/link';
 
-
 export const DropCategories = () => {
 
     return (
@@ -31,7 +30,7 @@ export const Categories = async () => {
     return (
         <div className="w-full min-h-30 bg-white flex flex-col content-center flex-wrap rounded-md">
             {categories.map((el) => (
-                <Link href={`/product?cat=${el.name}`} key={el.id} className="text-blue-800 cursor-pointer">{el.name.replace('-', ' ')}</Link>
+                <Link href={`/products?cat=${el.name}`} key={el.id} className="text-blue-800 cursor-pointer">{el.name.replace('-', ' ')}</Link>
             ))}
         </div>
     )

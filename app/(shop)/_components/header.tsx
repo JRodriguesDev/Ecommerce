@@ -1,6 +1,6 @@
 import Link from "next/link";
-import SearchBarServer from "./searhBarServer";
-import AuthNav from "./authNav";
+import SearchBarServer from "../shop/_components/searhBarServer";
+import AuthNav from "../shop/_components/authNav";
 
 const Header = () => {
 

@@ -10,7 +10,7 @@ const SearchBarClient = ({children}: {children: React.ReactNode}) => {
 
 
     return (
-        <Form className="relative w-2/6 flex items-center" action='/product'>
+        <Form className="relative w-2/6 flex items-center" action='/products'>
             <BiCategory onClick={() => setIsOpen(!isOpen)} className="text-black text-3xl absolute -left-12 cursor-pointer hover:scale-110 duration-75"/>
             <input 
                 name="q"

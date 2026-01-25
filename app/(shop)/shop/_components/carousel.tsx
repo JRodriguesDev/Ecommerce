@@ -4,7 +4,7 @@ import useEmblaCarousel from 'embla-carousel-react'
 import { useEffect, useCallback} from 'react'
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
-import {Product} from '@/app/(shop)/shop/_components/product'
+import {Product} from './product'
 import {Product as typeProduct} from '@/types/product'
 
 type ProductCarouselItem = Omit<typeProduct, 'images' | 'description' | 'category' | 'stock'>

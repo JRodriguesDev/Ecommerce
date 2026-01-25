@@ -1,5 +1,5 @@
-import Header from "@/app/(shop)/shop/_components/header"
-import Footer from "@/app/(shop)/shop/_components/footer"
+import Header from "./_components/header"
+import Footer from "./_components/footer"
 
 const ShopLayout = ({
     children

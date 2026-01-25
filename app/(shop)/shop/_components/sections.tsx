@@ -1,4 +1,4 @@
-import {Carousel} from "@/app/(shop)/shop/_components/carousel"
+import {Carousel} from "./carousel"
 import {productsLowStock, productsByCategory} from '../actions'
 
 export const LowStockProductsSection = async () => {

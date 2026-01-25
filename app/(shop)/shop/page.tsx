@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { CarrouselSkeleton } from "@/app/(shop)/shop/_components/carousel"
+import { CarrouselSkeleton } from "./_components/carousel"
 import {ByCategoryProducts, LowStockProductsSection} from './_components/sections'
 
 const Shop = () => {
