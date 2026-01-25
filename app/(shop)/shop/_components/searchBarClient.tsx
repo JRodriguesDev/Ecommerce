@@ -2,15 +2,15 @@
 
 import { FaSearch } from "react-icons/fa";
 import Form from "next/form";
-import React, { useState } from "react";
+import { useState } from "react";
 import { BiCategory } from "react-icons/bi";
 
 const SearchBarClient = ({children}: {children: React.ReactNode}) => {
     const [isOpen, setIsOpen] = useState(false)
-    console.log(isOpen)
+
 
     return (
-        <Form className="relative w-2/6 flex items-center" action={'/product'}>
+        <Form className="relative w-2/6 flex items-center" action='/product'>
             <BiCategory onClick={() => setIsOpen(!isOpen)} className="text-black text-3xl absolute -left-12 cursor-pointer hover:scale-110 duration-75"/>
             <input 
                 name="q"
