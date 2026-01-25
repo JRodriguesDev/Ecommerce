@@ -7,7 +7,7 @@ const ShopLayout = ({
     return (
         <>
             <Header/>
-            {children}
+                {children}
             <Footer/>
         </>
     )
