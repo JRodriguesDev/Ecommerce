@@ -1,10 +1,7 @@
-import {FormButton} from '@/components/button'
-
 const Home = () => {
   return (
-    <main>
+    <main className='w-3/4'>
       <h1>Rota/</h1>
-        <FormButton name='login'/>
     </main>
   );
 }
