@@ -12,7 +12,6 @@ export const {handlers, signIn, signOut, auth} = nextAuth({
         Google
     ],
     callbacks: {
-        
         async jwt({token, user}) {
             if (user) {
                 token.id = user.id
