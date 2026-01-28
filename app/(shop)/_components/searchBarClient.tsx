@@ -4,11 +4,14 @@ import { FaSearch } from "react-icons/fa";
 import { BiCategory } from "react-icons/bi";
 import Form from "next/form";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation"
 import { Input } from "@/components/ui/input"; // Componente do Shadcn
 import { Button } from "@/components/ui/button";
 
 const SearchBarClient = ({children}: {children: React.ReactNode}) => {
     const [isOpen, setIsOpen] = useState(false)
+    const params = useSearchParams()
+    const category = params.get('cat') || null
 
     return (
         <Form className="relative flex items-center w-full max-w-xl group" action='/products'>
@@ -24,6 +27,7 @@ const SearchBarClient = ({children}: {children: React.ReactNode}) => {
             </Button>
 
             {/* Input Container */}
+            {category && <input type="hidden" name="cat" value={category} />}
             <div className="relative w-full">
                 <Input 
                     name="q"

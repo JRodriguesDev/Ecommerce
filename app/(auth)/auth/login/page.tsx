@@ -27,7 +27,6 @@ const prevState: FormState = {sucess: false, error: null}
 
 const Login = () => {
     const [state, formAction, peding] = useActionState(loginForm, prevState)
-    console.log(state)
 
     return (
         <Card className='w-full max-w-sm m-auto mt-25'>
