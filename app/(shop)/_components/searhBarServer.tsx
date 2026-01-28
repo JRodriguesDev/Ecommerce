@@ -1,5 +1,5 @@
     import SearchBarClient from "./searchBarClient"
-    import { DropCategories } from "./category"
+    import { DropCategories } from "./dropCategories"
     const SearchBarServer = () => {
         return (
             <SearchBarClient>

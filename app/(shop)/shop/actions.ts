@@ -9,7 +9,3 @@ export const productsLowStock = async () => {
 export const productsByCategory = async (category: string) => {
     return await getProductsByCategory(category)
 }
-
-export const allCategories = async () => {
-    return await getCategories()
-}

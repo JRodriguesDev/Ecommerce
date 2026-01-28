@@ -77,7 +77,7 @@ const Login = () => {
                     </div>
                 </Form>
             </CardContent>
-            <CardFooter className='flex-col gap-2'>
+            <CardFooter className='flex-col gap-2 cursor-pointer'>
                 <Button disabled={peding} form='formLogin' type="submit" className="w-full">
                     {peding ? (
                         <>
@@ -87,7 +87,7 @@ const Login = () => {
                         'Login'
                     )}
                 </Button>
-                <Button variant="outline" type='button' className="w-full flex flex-row gap-2" onClick={() => signIn('google', {redirectTo: '/shop'})}>
+                <Button variant="outline" type='button' className="w-full flex flex-row gap-2 cursor-pointer" onClick={() => signIn('google', {redirectTo: '/shop'})}>
                 <FaGoogle/> Login with Google
                 </Button>
             </CardFooter>
