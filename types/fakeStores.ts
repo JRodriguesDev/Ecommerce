@@ -4,11 +4,12 @@ export interface fakeStore {
     category: string
     image: string
     price: number
+    rating: {rate: number, count: number}
 }
 
 export interface jsonDummy {
     limit: number
-    products: [{title: string, thumbnail: string, description: string, category: string, images: string[], price: number, stock: number}]
+    products: [{title: string, rating: number, thumbnail: string, description: string, category: string, images: string[], price: number, stock: number}]
     skip: number
     total: number
 }

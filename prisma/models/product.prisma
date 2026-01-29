@@ -1,6 +1,7 @@
 model Product {
     id String @id @default(nanoid())
     thumbnail String
+    rating Float
     slug String
     title String
     category String

@@ -2,10 +2,12 @@ import 'server-only'
 
 import {fakeStore, jsonDummy, platzi} from '@/types/fakeStores'
 import { Product } from '@/types/product'
+import {normalizeRating} from '@/lib/utils'
 
 export const cleanedDTO = (data: {fakeStore: fakeStore[], jsonDummy: jsonDummy, platzi: platzi[]}) => {
     const cleanedFakeStore = data.fakeStore.map(el => ({
         thumbnail: el.image,
+        rating: normalizeRating(el.rating.rate),
         slug: el.title.toLowerCase().replaceAll(' ', '-'),
         title: el.title,
         category: el.category,
@@ -17,6 +19,7 @@ export const cleanedDTO = (data: {fakeStore: fakeStore[], jsonDummy: jsonDummy, 
 
     const cleanedJsonDummy = data.jsonDummy.products.map(el => ({
         thumbnail: el.thumbnail,
+        rating: normalizeRating(el.rating),
         slug: el.title.toLowerCase().replaceAll(' ', '-'),
         title: el.title,
         category: el.category,
@@ -28,6 +31,7 @@ export const cleanedDTO = (data: {fakeStore: fakeStore[], jsonDummy: jsonDummy, 
 
     const cleanedPlatzi = data.platzi.map(el => ({
         thumbnail: el.images[0],
+        rating: Number((Math.random() * 5).toFixed(1)),
         slug: el.slug,
         title: el.title,
         category: el.category.slug,

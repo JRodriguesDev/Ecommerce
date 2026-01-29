@@ -2,7 +2,6 @@ import { allCategories } from '../actions'
 import { Suspense } from "react";
 import Link from 'next/link';
 import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea } from "@/components/ui/scroll-area"; // Opcional: para categorias longas
 
 export const DropCategories = () => {
     return (

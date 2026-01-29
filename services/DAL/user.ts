@@ -6,10 +6,8 @@ import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 
 export const verifySession = async () => {
-    'use cache'
     const session = await auth()
     if(!session?.user?.id) redirect('/login')
-    cacheTag(`session_${session.user.id}`)
     
     return {isAuth: true, userId: session.user.id}
 }

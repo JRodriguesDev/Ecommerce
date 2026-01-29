@@ -19,7 +19,6 @@ const Seed = () => {
         resPlatzi.json()
     ])
     const allData = { fakeStore: fakeData, jsonDummy: dummyData, platzi: platziData }
-    console.log(allData)
     await seedProductsAction(allData)
     setLoading(false)
     }
