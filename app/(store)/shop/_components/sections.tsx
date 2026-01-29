@@ -1,7 +1,7 @@
 import {CarouselSection} from "./carousel"
 import {productsLowStock, productsByCategory} from '../actions'
 import { Suspense } from "react"
-import { CarrouselSkeleton } from "../_components/carousel"
+import { CarrouselSkeleton } from "./carousel"
 
 export const ByCategoryProducts = async ({category}: {category: string}) => {
     const products = await productsByCategory(category)
