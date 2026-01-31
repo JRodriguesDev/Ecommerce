@@ -2,6 +2,7 @@ import 'server-only'
 
 import { cacheTag } from 'next/cache'
 import prisma from '@/lib/prisma'
+import {ParamsFilter} from '@/types/params'
 
 export const getLowStockProducts = async () => {
     'use cache'
@@ -44,3 +45,25 @@ export const getCategories = async () => {
     return categories
 }
 
+export const getFilteredProducts = async (filtered: ParamsFilter) => {
+        const minRating = (filtered.rating && filtered.rating.length > 0)
+        ? Math.min(...filtered.rating.map(Number))
+        : undefined;
+
+    const products = await prisma.product.findMany({
+        where: {
+            category: filtered.cat,
+            title: {startsWith: filtered.q, mode: 'insensitive'},
+            price: {gte: filtered.minPrice, lte: filtered.maxPrice},
+            stock: filtered.inStock ? {gt: 0} : undefined,
+            rating: minRating ? { gte: minRating } : undefined 
+        },
+        omit: {
+            description: true,
+            images: true,
+        }
+    })
+
+
+    return products
+}

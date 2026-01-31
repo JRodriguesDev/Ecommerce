@@ -1,11 +1,12 @@
 import FilterSideBar from "./_components/filterSidebar"
 import { Suspense } from "react"
 import {ProductListSkeleton, ProductList} from './_components/products'
+import {ParamsFilter} from '@/types/params'
 
 const ProductsPage = async ({
     searchParams
 }: {
-    searchParams : Promise<{[key: string]: string | string[] | undefined}>
+    searchParams : Promise<ParamsFilter>
 }) => {
     const params = await searchParams
 
@@ -19,8 +20,8 @@ const ProductsPage = async ({
 
                 {/* 70% - Products Area */}
                 <main className="md:col-span-3">
-                    <Suspense fallback={<ProductListSkeleton/>}>
-                        <ProductListSkeleton/>
+                    <Suspense key={JSON.stringify(params)} fallback={<ProductListSkeleton/>}>
+                        <ProductList params={params}/>
                     </Suspense>
                 </main>
             </div>

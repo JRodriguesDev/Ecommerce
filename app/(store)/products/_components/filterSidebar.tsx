@@ -111,7 +111,7 @@ const FilterSideBar = () => {
                             </Label>
                         </div>
                         <div className="flex items-center space-x-3 group cursor-pointer">
-                            <Checkbox id="on-sale" checked={onSale} onCheckedChange={(checked) => setOnSale(!!checked)} className="border-zinc-700 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600" />
+                            <Checkbox disabled={true} id="on-sale" checked={onSale} onCheckedChange={(checked) => setOnSale(!!checked)} className="border-zinc-700 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600" />
                             <Label htmlFor="on-sale" className="text-sm text-zinc-400 group-hover:text-zinc-200 cursor-pointer transition-colors">
                                 On Sale
                             </Label>
@@ -125,7 +125,7 @@ const FilterSideBar = () => {
                         Customer Rating
                     </AccordionTrigger>
                     <AccordionContent className="space-y-3 pt-2">
-                        {[4, 3, 2].map((rating) => (
+                        {[5, 4, 3, 2, 1].map((rating) => (
                             <div key={rating} className="flex items-center space-x-3 group">
                                 <Checkbox id={`rating-${rating}`} checked={selectedRatings.includes(rating)} onCheckedChange={(checked) => handlerRatingChange(rating, !!checked)} className="border-zinc-700" />
                                 <Label htmlFor={`rating-${rating}`} className="flex items-center gap-1 text-sm text-zinc-400 group-hover:text-zinc-200 cursor-pointer">

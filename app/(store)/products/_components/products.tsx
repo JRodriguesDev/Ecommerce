@@ -1,11 +1,97 @@
 import { Skeleton } from "@/components/ui/skeleton"
-import { Card, CardFooter } from "@/components/ui/card"
+import { Card, CardFooter, CardContent } from "@/components/ui/card"
+import {Product} from '@/types/product'
+import {getFilteredProductsAction} from '../actions'
+import {ParamsFilter} from '@/types/params'
+import { FaStar, FaBoxOpen } from "react-icons/fa6"
+import { MdOutlineArrowForwardIos } from "react-icons/md"
+import Image from "next/image"
+import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 
-export const ProductList = async ({params}: {params: {[key: string]: string | string[] | undefined}}) => {
+
+export const ProductList = async ({ params }: { params: ParamsFilter }) => {
+  const products = await getFilteredProductsAction(params)
+
+  // Caso não encontre produtos com os filtros aplicados
+  if (products.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] w-full border-2 border-dashed border-zinc-800 rounded-xl bg-zinc-900/20">
+        <p className="text-zinc-500 font-medium">Nenhum produto encontrado para estes filtros.</p>
+        <button className="mt-4 text-blue-500 text-sm hover:underline" onClick={() => window.location.href = '/products'}>
+          Limpar todos os filtros
+        </button>
+      </div>
+    )
+  }
 
   return (
-    <p>Lista</p>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-6 gap-y-10">
+      {products.map((el) => (
+        <ProductCard key={el.id} el={el} />
+      ))}
+    </div>
   )
+}
+
+export const ProductCard = ({ el }: {el: Product}) => {
+
+    return (
+        <Link href='#' className="block group">
+            <Card className="h-full overflow-hidden border-zinc-800 bg-zinc-900/40 hover:bg-zinc-900/60 transition-all duration-300">
+                <CardContent className="p-0">
+                    
+                    {/* Área da Imagem */}
+                    <div className="relative aspect-square w-full bg-white overflow-hidden">
+                        {/* Rating Badge */}
+                        <Badge 
+                            variant="secondary" 
+                            className="absolute top-3 left-3 z-10 bg-zinc-950/90 text-yellow-500 border-zinc-700 gap-1.5 py-1"
+                        >
+                            <FaStar className="text-[10px]" />
+                            <span className="text-[11px] font-bold">{el.rating.toFixed(1)}</span>
+                        </Badge>
+
+                        <Image  
+                            src={el.thumbnail}
+                            fill
+                            className="object-contain p-6 transition-transform duration-500 group-hover:scale-110"
+                            alt={el.title}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                        />
+                    </div>
+
+                    {/* Conteúdo */}
+                    <div className="p-5 flex flex-col gap-3">
+                        <span className="text-[10px] text-blue-500 uppercase tracking-widest font-black">
+                            {el.category}
+                        </span>
+
+                        <h3 className="text-zinc-100 font-semibold text-sm line-clamp-2 h-10 group-hover:text-blue-400 transition-colors leading-snug">
+                            {el.title}
+                        </h3>
+
+                        <div className="flex items-center gap-2 text-zinc-500">
+                            <FaBoxOpen className="text-xs" />
+                            <span className="text-[11px]">Estoque: {el.stock} unid.</span>
+                        </div>
+
+                        {/* Rodapé do Card */}
+                        <div className="flex items-center justify-between mt-2 pt-4 border-t border-zinc-800">
+                            <span className="text-zinc-100 text-xl font-black tracking-tight">
+                                {(el.price / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            </span>
+                            
+                            <div className="p-2 bg-zinc-800 rounded-full text-zinc-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                <MdOutlineArrowForwardIos className="text-xs" />
+                            </div>
+                        </div>
+                    </div>
+
+                </CardContent>
+            </Card>
+        </Link>
+    )
 }
 
 export const ProductListSkeleton = () => {
