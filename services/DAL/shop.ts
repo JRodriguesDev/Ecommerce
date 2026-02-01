@@ -64,6 +64,15 @@ export const getFilteredProducts = async (filtered: ParamsFilter) => {
         }
     })
 
-
     return products
+}
+
+export const getProductById = async (id: string) => {
+    const product = await prisma.product.findUnique({
+        where: {id: id},
+        omit: {
+            category: true
+        }
+    })
+    return product
 }

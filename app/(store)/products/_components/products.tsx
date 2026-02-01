@@ -37,7 +37,7 @@ export const ProductList = async ({ params }: { params: ParamsFilter }) => {
 export const ProductCard = ({ el }: {el: Product}) => {
 
     return (
-        <Link href='#' className="block group">
+        <Link href={`products/${el.id}`} className="block group">
             <Card className="h-full overflow-hidden border-zinc-800 bg-zinc-900/40 hover:bg-zinc-900/60 transition-all duration-300">
                 <CardContent className="p-0">
                     
