@@ -14,9 +14,9 @@ const Header = () => {
                     href='/shop' 
                     className="flex items-center gap-2 cursor-pointer text-zinc-100 text-2xl font-bold tracking-tighter hover:opacity-80 transition-all"
                 >
-                    <div className="size-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
+                    <span className="size-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
                         <IoBagHandleOutline className="text-white" size={20} />
-                    </div>
+                    </span>
                     <span className="hidden sm:block">Ecommerce</span>
                 </Link>
 

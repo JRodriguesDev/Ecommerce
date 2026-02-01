@@ -4,26 +4,42 @@ import {Product} from '@/types/product'
 import {getFilteredProductsAction} from '../actions'
 import {ParamsFilter} from '@/types/params'
 import { FaStar, FaBoxOpen } from "react-icons/fa6"
+import { LuSearchX } from "react-icons/lu";
 import { MdOutlineArrowForwardIos } from "react-icons/md"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 
 
-export const ProductList = async ({ params }: { params: ParamsFilter }) => {
+export const ProductList = async ({ searchParams }: { searchParams: Promise<ParamsFilter> }) => {
+  const params = await searchParams
   const products = await getFilteredProductsAction(params)
 
   // Caso não encontre produtos com os filtros aplicados
   if (products.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] w-full border-2 border-dashed border-zinc-800 rounded-xl bg-zinc-900/20">
-        <p className="text-zinc-500 font-medium">Nenhum produto encontrado para estes filtros.</p>
-        <button className="mt-4 text-blue-500 text-sm hover:underline" onClick={() => window.location.href = '/products'}>
-          Limpar todos os filtros
-        </button>
-      </div>
+        <div className="flex flex-col items-center justify-center min-h-[450px] w-full border border-zinc-800/50 rounded-2xl bg-zinc-900/10 backdrop-blur-sm animate-in fade-in zoom-in duration-500">
+            <div className="size-16 bg-zinc-800/30 rounded-full flex items-center justify-center mb-4 ring-1 ring-zinc-700/50">
+                <LuSearchX className="text-zinc-500 size-8" />
+            </div>
+            
+            <h3 className="text-zinc-200 font-semibold text-lg">
+                Nenhum resultado encontrado
+            </h3>
+            
+            <p className="text-zinc-500 text-sm max-w-[280px] text-center mt-2 leading-relaxed">
+                Tente ajustar os filtros ou pesquisar por um termo menos específico.
+            </p>
+
+            <Link 
+                href="/products" 
+                className="mt-6 px-6 py-2 rounded-full border border-zinc-800 bg-zinc-900 text-zinc-300 text-xs font-bold hover:bg-zinc-800 hover:text-white transition-all tracking-tight"
+            >
+                Limpar todos os filtros
+            </Link>
+        </div>
     )
-  }
+}
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-6 gap-y-10">

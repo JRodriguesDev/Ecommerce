@@ -1,16 +1,10 @@
 import {Product} from '@/types/product'
 import {getProduct} from '../actions'
-import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { 
     FaStar, 
     FaBoxOpen, 
-    FaCartPlus, 
-    FaHeart, 
-    FaBagShopping 
 } from "react-icons/fa6"
 
 import { Skeleton } from "@/components/ui/skeleton"
