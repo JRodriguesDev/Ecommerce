@@ -5,43 +5,58 @@ import Image from "next/image"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { FaBagShopping, FaHeart, FaCartPlus } from "react-icons/fa6"
+import { cn } from "@/lib/utils"
 
 interface GalleryProps {
     thumbnail: string
     images: string[]
     title: string
 }
-
 export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
-    // A primeira imagem é sempre a thumbnail
     const [activeImage, setActiveImage] = useState(thumbnail)
     const allImages = [thumbnail, ...images]
 
     return (
-        <div className="flex flex-col gap-4">
-            <Card className="relative aspect-square overflow-hidden bg-white border-zinc-800 p-8">
+        <div className="flex flex-col-reverse lg:flex-row gap-4">
+            {/* MINIATURAS: Embaixo no mobile, Lado no Desktop */}
+            <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto lg:max-h-[600px] scrollbar-hide shrink-0">
+                {allImages.map((img, i) => (
+                    <button 
+                        key={i}
+                        onMouseEnter={() => setActiveImage(img)} // Troca ao passar o mouse (opcional, mas pro)
+                        onClick={() => setActiveImage(img)}
+                        className={cn(
+                            "relative size-16 lg:size-20 rounded-xl border-2 overflow-hidden bg-white shrink-0 transition-all duration-200",
+                            activeImage === img 
+                                ? "border-blue-600 ring-2 ring-blue-600/20 scale-95" 
+                                : "border-zinc-800/50 opacity-50 hover:opacity-100 hover:border-zinc-700"
+                        )}
+                    >
+                        <Image 
+                            src={img} 
+                            alt={`${title}-${i}`} 
+                            fill 
+                            className="object-contain p-1.5" 
+                        />
+                    </button>
+                ))}
+            </div>
+
+            {/* IMAGEM PRINCIPAL */}
+            <Card className="relative flex-1 h-200 aspect-square lg:aspect-[4/5] overflow-hidden bg-white border-zinc-800 shadow-2xl shadow-black/20 group">
                 <Image 
                     src={activeImage} 
                     alt={title} 
                     fill 
-                    className="object-contain transition-all duration-300"
+                    className="object-contain p-8 transition-transform duration-700 group-hover:scale-110"
                     priority
                 />
+                
+                {/* Badge de Zoom ou Dica (Opcional) */}
+                <div className="absolute bottom-4 right-4 bg-zinc-950/20 backdrop-blur-md px-2 py-1 rounded text-[10px] text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                    Hover to zoom
+                </div>
             </Card>
-            
-            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                {allImages.map((img, i) => (
-                    <button 
-                        key={i}
-                        onClick={() => setActiveImage(img)}
-                        className={`relative w-20 h-20 rounded-md border-2 overflow-hidden bg-white shrink-0 transition-all ${
-                            activeImage === img ? 'border-blue-600 scale-105' : 'border-zinc-800 opacity-60'
-                        }`}
-                    >
-                        <Image src={img} alt={`${title}-${i}`} fill className="object-contain p-1" />
-                    </button>
-                ))}
-            </div>
         </div>
     )
 }

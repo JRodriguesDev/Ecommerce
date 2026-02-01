@@ -19,53 +19,64 @@ export const ProductDetails = async ({params}: {params: Promise<{id: string}>}) 
     if (!product) return null
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 py-8">
-            {/* LADO ESQUERDO: GALERIA (CLIENT) */}
-            <Gallery 
-                thumbnail={product.thumbnail} 
-                images={product.images} 
-                title={product.title} 
-            />
+        /* Grid de 12 colunas para controle fino de espaço */
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-16 py-8 items-start">
+            
+            {/* LADO ESQUERDO: GALERIA (Ocupa 7 colunas) */}
+            <div className="lg:col-span-7 w-full">
+                <Gallery 
+                    thumbnail={product.thumbnail} 
+                    images={product.images} 
+                    title={product.title} 
+                />
+            </div>
 
-            {/* LADO DIREITO: INFORMAÇÕES (SERVER) */}
-            <div className="flex flex-col gap-6">
-                <div className="space-y-2">
-                    <Badge variant="outline" className="text-blue-500 border-blue-500/30 uppercase tracking-widest text-[10px]">
+            {/* LADO DIREITO: INFORMAÇÕES (Ocupa 5 colunas e fica fixo ao rolar) */}
+            <div className="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-28">
+                <div className="space-y-4">
+                    <Badge variant="outline" className="text-blue-500 border-blue-500/30 uppercase tracking-[0.2em] text-[10px] font-bold px-3">
                         {product.category}
                     </Badge>
-                    <h1 className="text-3xl md:text-4xl font-black text-zinc-100 tracking-tight leading-none">
+                    
+                    <h1 className="text-3xl md:text-4xl xl:text-5xl font-black text-zinc-100 tracking-tight leading-[1.1]">
                         {product.title}
                     </h1>
-                    <div className="flex items-center gap-4 mt-2">
-                        <div className="flex items-center gap-1 text-yellow-500 text-sm font-bold bg-yellow-500/10 px-2 py-0.5 rounded">
-                            <FaStar /> {product.rating.toFixed(1)}
+
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1.5 text-yellow-500 text-sm font-bold bg-yellow-500/10 px-3 py-1 rounded-full border border-yellow-500/20">
+                            <FaStar className="size-3" /> {product.rating.toFixed(1)}
                         </div>
-                        <div className="flex items-center gap-2 text-zinc-400 text-xs">
-                            <FaBoxOpen /> {product.stock} unidades disponíveis
+                        <div className="flex items-center gap-2 text-zinc-400 text-xs font-medium">
+                            <FaBoxOpen className="text-zinc-500" /> {product.stock} in stock
                         </div>
                     </div>
                 </div>
 
-                <Separator className="bg-zinc-800" />
+                <Separator className="bg-zinc-800/50" />
 
                 <div className="space-y-1">
-                    <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider">Melhor preço à vista</span>
-                    <div className="text-4xl font-black text-zinc-100 tracking-tighter">
-                        {(product.price / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    <span className="text-zinc-500 text-[11px] font-bold uppercase tracking-widest">Price</span>
+                    <div className="text-4xl xl:text-5xl font-black text-zinc-100 tracking-tighter flex items-baseline gap-1">
+                        <span className="text-xl font-bold text-blue-500">R$</span>
+                        {(product.price / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                     </div>
                 </div>
 
-                <p className="text-zinc-400 text-sm leading-relaxed max-w-prose">
-                    {product.description}
-                </p>
+                <div className="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50">
+                    <h4 className="text-zinc-200 text-xs font-bold uppercase mb-2 tracking-wider">Description</h4>
+                    <p className="text-zinc-400 text-sm leading-relaxed">
+                        {product.description}
+                    </p>
+                </div>
 
                 {/* AÇÕES (CLIENT) */}
-                <ActionButtons productId={product.id} />
+                <div className="mt-auto">
+                    <ActionButtons productId={product.id} />
+                </div>
             </div>
         </div>
     )
 }
-
 export const ProductSkeleton = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 py-8 animate-pulse">
