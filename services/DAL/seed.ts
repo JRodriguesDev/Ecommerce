@@ -1,7 +1,7 @@
 import 'server-only'
 
 import prisma from '@/lib/prisma'
-import {verifySession} from './user'
+import {verifySession} from './auth'
 import { Product } from '@/types/product'
 import { Category } from '@/types/category'
 

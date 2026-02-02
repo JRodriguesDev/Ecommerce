@@ -1,16 +1,9 @@
 import 'server-only'
 
 import { cacheTag } from 'next/cache'
-import {auth} from '@/lib/authjs/auth'
-import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
+import {verifySession} from './auth'
 
-export const verifySession = async () => {
-    const session = await auth()
-    if(!session?.user?.id) redirect('/login')
-    
-    return {isAuth: true, userId: session.user.id}
-}
 
 export const getProfile = async () => {
     'use cache'

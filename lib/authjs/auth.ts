@@ -6,7 +6,10 @@ import Credentials from './providers/credentials'
 
 export const {handlers, signIn, signOut, auth} = nextAuth({
     adapter: PrismaAdapter(prisma),
-    session: {strategy: 'jwt'},
+    session: {
+        strategy: 'jwt',
+        maxAge: 1
+    },
     providers: [
         Credentials,
         Google
@@ -15,15 +18,21 @@ export const {handlers, signIn, signOut, auth} = nextAuth({
         async jwt({token, user}) {
             if (user) {
                 token.id = user.id
+                token.picture = user.image
             }
             return token
         },
         async session({session, token}) {
             if (session.user) {
                 session.user.id = token.id as string
+                session.user.image = token.picture as string
             }
             return session
         }
     },
-
+    events: {
+        async signIn({user, account, profile}) {
+            console.log(`User: ${user.email} loggin from ${account?.provider}`)
+        }
+    }
 })
