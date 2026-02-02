@@ -5,6 +5,7 @@ import { signOut, useSession } from "next-auth/react"
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import { TiStarFullOutline } from "react-icons/ti";
 import { Button } from "@/components/ui/button"; // Se estiver usando Shadcn
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import {
     DropdownMenu,
@@ -16,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 const AuthNav = () => {
-    const { status } = useSession()
+    const { status, data: session } = useSession()
     
     return (
         <nav className="flex items-center gap-4">
@@ -36,11 +37,21 @@ const AuthNav = () => {
 
                     <DropdownMenu>
                     {/* O Trigger substitui o NavigationMenuTrigger */}
-                    <DropdownMenuTrigger className="focus:outline-none">
-                        <div className="p-2 bg-transparent hover:bg-zinc-900 text-zinc-400 hover:text-white rounded-full transition-colors cursor-pointer">
-                        <FaUserCircle size={24} />
-                        </div>
-                    </DropdownMenuTrigger>
+                    <DropdownMenuTrigger className="focus:outline-none outline-none group cursor-pointer">
+                            {/* O Avatar do Shadcn cria o círculo perfeito e corta a imagem */}
+                            <Avatar className="h-9 w-9 border border-zinc-800 transition-all group-hover:border-zinc-700">
+                                {/* Aqui passamos a URL da imagem do NextAuth */}
+                                <AvatarImage 
+                                    src={session?.user?.image || ""} 
+                                    alt={session?.user?.name || "User"} 
+                                />
+                                
+                                {/* O Fallback aparece se a imagem for nula ou falhar ao carregar */}
+                                <AvatarFallback className="bg-zinc-900 text-zinc-400">
+                                    <FaUserCircle size={24} />
+                                </AvatarFallback>
+                            </Avatar>
+                        </DropdownMenuTrigger>
 
                     {/* O segredo está no align="end" */}
                     <DropdownMenuContent 

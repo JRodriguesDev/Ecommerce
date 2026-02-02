@@ -8,7 +8,7 @@ export const {handlers, signIn, signOut, auth} = nextAuth({
     adapter: PrismaAdapter(prisma),
     session: {
         strategy: 'jwt',
-        maxAge: 1
+        maxAge: 24 * 60 * 60
     },
     providers: [
         Credentials,
@@ -31,7 +31,7 @@ export const {handlers, signIn, signOut, auth} = nextAuth({
         }
     },
     events: {
-        async signIn({user, account, profile}) {
+        async signIn({user, account}) {
             console.log(`User: ${user.email} loggin from ${account?.provider}`)
         }
     }
