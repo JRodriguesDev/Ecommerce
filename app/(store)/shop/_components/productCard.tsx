@@ -1,7 +1,6 @@
 'use client'
 
 import Image from "next/image"
-import { useState } from "react"
 import { Product } from '@/types/product'
 import { Card, CardContent } from "@/components/ui/card"
 import { Star } from "lucide-react"
@@ -12,9 +11,6 @@ import Link from "next/link"
 type ProductCarouselItem = Omit<Product, 'images' | 'description' | 'category' | 'stock'>
 
 export const ProductCard = ({ el }: { el: ProductCarouselItem }) => {
-    const [hasError, setHasError] = useState(false)
-
-    if (hasError) return null
 
     return (
         <div className="shrink-0 m-4">
@@ -37,7 +33,6 @@ export const ProductCard = ({ el }: { el: ProductCarouselItem }) => {
                             src={el.thumbnail}
                             fill
                             className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-110"
-                            onError={() => setHasError(true)}
                             alt={el.title}
                             sizes="224px"
                         />
