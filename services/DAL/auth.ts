@@ -1,3 +1,5 @@
+import 'server-only'
+
 import prisma from '../../lib/prisma/index'
 import bcrypt from 'bcryptjs'
 import {User} from '@/types/user'

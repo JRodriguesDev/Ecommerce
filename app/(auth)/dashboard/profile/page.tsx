@@ -4,36 +4,18 @@ import {
     LuShieldCheck, 
     LuCreditCard, 
     LuHistory, 
-    LuMapPin,
     LuArrowRight,
-    LuCamera,
     LuFileText
 } from "react-icons/lu"
 import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
+import PerfilInfo from './_components/perfilnfo'
 
 const Profile = async () => {
     return (
         <div className="max-w-5xl mx-auto space-y-12 pb-20 px-6">
             
             {/* 1. HEADER DE IDENTIFICAÇÃO */}
-            <header className="flex flex-col md:flex-row items-center gap-6 mt-6">
-                <div className="relative">
-                    <Avatar className="size-28 border-2 border-zinc-800">
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback className="bg-zinc-900 text-2xl font-bold">JS</AvatarFallback>
-                    </Avatar>
-                    <div className="absolute -bottom-1 -right-1 p-2 bg-blue-600 rounded-full border-4 border-black">
-                        <LuCamera className="size-3 text-white" />
-                    </div>
-                </div>
-                <div className="text-center md:text-left">
-                    <h1 className="text-3xl font-black tracking-tighter text-zinc-100 uppercase">João Silva</h1>
-                    <p className="text-zinc-500 text-sm font-medium">Conta verificada · Membro desde 2026</p>
-                </div>
-            </header>
-
+            <PerfilInfo/>
             {/* 2. GRID DE NAVEGAÇÃO (CADA CARD É UM LINK) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 

@@ -7,6 +7,7 @@ import {
     LuShieldCheck, LuStore, LuGem, LuHeart, LuLogOut 
 } from "react-icons/lu"
 import { Separator } from "@/components/ui/separator"
+import { signOut } from "next-auth/react"
 
 const DashboardSidebar = () => {
     const pathName = usePathname() // 1. Pega a URL atual (ex: /dashboard/profile)
@@ -93,9 +94,9 @@ const DashboardSidebar = () => {
             <div className="mt-auto px-3">
                 <button className="flex items-center gap-4 w-full px-4 py-3 text-red-500/70 hover:text-red-500 hover:bg-red-500/5 rounded-xl transition-all overflow-hidden">
                     <LuLogOut className="size-5 shrink-0" />
-                    <span className="text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    <button onClick={() => signOut()} className="cursor-pointer text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                         Sair
-                    </span>
+                    </button>
                 </button>
             </div>
         </aside>
