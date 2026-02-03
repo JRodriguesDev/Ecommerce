@@ -64,7 +64,7 @@ const AuthNav = () => {
                         
                         <DropdownMenuItem asChild>
                         <Link 
-                            href="/profile" 
+                            href="/dashboard/profile" 
                             className="w-full block px-2 py-1.5 text-sm text-zinc-300 hover:text-white focus:bg-zinc-900 focus:text-white rounded-md transition-colors cursor-pointer"
                         >
                             My Profile
