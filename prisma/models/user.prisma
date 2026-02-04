@@ -4,7 +4,11 @@ model User {
     password String?
     email String @unique
     emailVerified DateTime?
+    mainImage String?
     image String?
+    googleImage String?
+    discordImage String?
+    images String[]
     accounts  Account[]
 
     createdAt DateTime @default(now())

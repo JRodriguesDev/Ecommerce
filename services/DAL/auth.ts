@@ -5,15 +5,29 @@ import bcrypt from 'bcryptjs'
 import {User} from '@/types/user'
 import {auth} from '@/lib/authjs/auth'
 import { redirect } from 'next/navigation'
-import { cacheTag } from 'next/cache'
 
 export const verifySession = async () => {
-    'use cache'
     const session = await auth()
     if(!session?.user?.id) redirect('/login')
-    cacheTag(`session:${session.user.id}`)
     
     return {isAuth: true, userId: session.user.id}
+}
+
+export const imageRegister = async (userId: string, provider: string, imageURL: string) => {
+    switch (provider) {
+        case 'google':
+            return  await prisma.user.update({
+                where: {id: userId},
+                data: {googleImage: imageURL},
+                select: {mainImage: true}
+            })
+        case 'discord':
+            return await prisma.user.update({
+                where: {id: userId},
+                data: {discordImage: imageURL},
+                select: {mainImage: true}
+            })
+    }
 }
 
 export const userRegister = async (data: Omit<User, 'id'>) => {

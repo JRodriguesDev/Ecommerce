@@ -20,7 +20,7 @@ const Profile = async () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 
                 <ProfileMenuCard 
-                    href="/profile/personal-data"
+                    href="profile/personalData"
                     icon={<LuUser />}
                     title="Dados Pessoais"
                     description="Edite seu nome, e-mail e informações de contato."

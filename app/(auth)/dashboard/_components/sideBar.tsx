@@ -94,9 +94,9 @@ const DashboardSidebar = () => {
             <div className="mt-auto px-3">
                 <button className="flex items-center gap-4 w-full px-4 py-3 text-red-500/70 hover:text-red-500 hover:bg-red-500/5 rounded-xl transition-all overflow-hidden">
                     <LuLogOut className="size-5 shrink-0" />
-                    <button onClick={() => signOut()} className="cursor-pointer text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    <span onClick={() => signOut()} className="cursor-pointer text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                         Sair
-                    </button>
+                    </span>
                 </button>
             </div>
         </aside>

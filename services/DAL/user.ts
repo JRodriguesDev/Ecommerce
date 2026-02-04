@@ -1,25 +1,30 @@
 import 'server-only'
 
-import { cacheTag } from 'next/cache'
 import prisma from '@/lib/prisma'
 import {verifySession} from './auth'
 
 
 export const getProfile = async () => {
-    'use cache'
     const session = await verifySession()
-    if (!session) return null
-    cacheTag(`sessionUser_${session.userId}`)
+    if (!session.isAuth) return null
 
     try {
-        const data = await prisma.user.findUnique({
-            where: {id: session.userId},
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                image: true
-            }
+        const data = await prisma.$transaction(async (prisma) => {
+            const user = await prisma.user.findUnique({
+                where: {id: session.userId},
+                select: {
+                    name: true,
+                    email: true,
+                    mainImage: true,
+                    googleImage: true,
+                    discordImage: true
+                }
+            })
+            const accounts = await prisma.user.findUnique({
+                where: {id: session.userId},
+                select: {accounts: {select: {provider: true}}}
+            })
+            return {name: user?.name, email: user?.email, accounts: accounts?.accounts, images: {main: user?.mainImage, google: user?.googleImage, discord: user?.discordImage}}
         })
         return data
     } catch (err) {

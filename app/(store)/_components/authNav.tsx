@@ -18,6 +18,7 @@ import {
 
 const AuthNav = () => {
     const { status, data: session } = useSession()
+    console.log(session)
     
     return (
         <nav className="flex items-center gap-4">
