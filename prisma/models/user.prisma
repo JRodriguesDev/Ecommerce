@@ -8,7 +8,6 @@ model User {
     image String?
     googleImage String?
     discordImage String?
-    images String[]
     accounts  Account[]
 
     createdAt DateTime @default(now())

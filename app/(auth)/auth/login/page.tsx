@@ -1,13 +1,18 @@
 'use client'
-
-import { signIn } from 'next-auth/react'
+// 1. React & Next.js Core
 import { useActionState } from 'react';
-import {loginForm} from '../actions'
-import Form from 'next/form'
 import Link from 'next/link';
-import {FormState} from '../types'
+import Form from 'next/form';
 
-import { Button } from "@/components/ui/button"
+// 2. Auth & Icons (Third-party)
+import { signIn } from 'next-auth/react';
+import { FaGoogle } from "react-icons/fa";
+
+// 3. UI Components (Shadcn / Design System)
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Spinner } from '@/components/ui/spinner';
 import {
     Card,
     CardAction,
@@ -16,17 +21,16 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
-import { Spinner } from '@/components/ui/spinner';
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { FaGoogle } from "react-icons/fa";
+} from "@/components/ui/card";
 
+// 4. Business Logic & Types (Local)
+import { loginForm } from '../actions';
+import { FormState } from '../types';
 
-const prevState: FormState = {sucess: false, error: null}
+const prevState: FormState = {success: false, error: null}
 
 const Login = () => {
-    const [state, formAction, peding] = useActionState(loginForm, prevState)
+    const [state, formAction, pending] = useActionState(loginForm, prevState)
 
     return (
         <Card className='w-full max-w-sm m-auto mt-25'>
@@ -45,10 +49,12 @@ const Login = () => {
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
                             <Input
+                                id='email'
                                 name='email'
                                 type="email"
                                 placeholder="email@example.com"
                                 required
+                                disabled={pending}
                             />
                         </div>
                         <div className="grid gap-2">
@@ -61,7 +67,7 @@ const Login = () => {
                                         Forgot your password?
                                     </a>
                             </div>
-                            <Input name='password' type="password" required />
+                            <Input id='password' name='password' type="password" required  disabled={pending}/>
                             {state?.error && (
                                 <div 
                                     role="alert" 
@@ -77,8 +83,8 @@ const Login = () => {
                 </Form>
             </CardContent>
             <CardFooter className='flex-col gap-2 cursor-pointer'>
-                <Button disabled={peding} form='formLogin' type="submit" className="w-full">
-                    {peding ? (
+                <Button disabled={pending} form='formLogin' type="submit" className="w-full">
+                    {pending ? (
                         <>
                             <Spinner className='size-5'/> Processing
                         </>

@@ -1,13 +1,19 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
+// 1. React & Next.js
 import { useActionState } from 'react';
-import {registerForm} from '../actions'
-import Form from 'next/form'
 import Link from 'next/link';
-import {FormState} from '../types'
+import Form from 'next/form';
 
-import { Button } from "@/components/ui/button"
+// 2. Third-party Libraries (Auth & Icons)
+import { signIn } from 'next-auth/react';
+import { FaGoogle } from "react-icons/fa";
+
+// 3. UI Components (Shadcn & Custom UI)
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Spinner } from '@/components/ui/spinner';
 import {
     Card,
     CardAction,
@@ -16,17 +22,17 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
-import { Spinner } from '@/components/ui/spinner';
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { FaGoogle } from "react-icons/fa";
+} from "@/components/ui/card";
+
+// 4. Local Logic (Actions, Types, Config)
+import { registerForm } from '../actions';
+import { FormState } from '../types';
 
 
-const prevState: FormState = {sucess: false, error: null} 
+const prevState: FormState = {success: false, error: null} 
 
 const Register = () => {
-    const [state, formAction, peding] = useActionState(registerForm, prevState)
+    const [state, formAction, pending] = useActionState(registerForm, prevState)
 
     return (
         <Card className='w-full max-w-sm m-auto mt-15'>
@@ -45,19 +51,23 @@ const Register = () => {
                         <div className="grid gap-2">
                             <Label htmlFor="name">Name</Label>
                             <Input
+                                id='name'
                                 name='name'
                                 type="text"
                                 placeholder="You name"
                                 required
+                                disabled={pending}
                             />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
                             <Input
+                                id='email'
                                 name='email'
                                 type="email"
                                 placeholder="email@example.com"
                                 required
+                                disabled={pending}
                             />
                         </div>
                         <div className="grid gap-2">
@@ -70,7 +80,7 @@ const Register = () => {
                                         Forgot your password?
                                     </a>
                             </div>
-                            <Input name='password' type="password" required />
+                            <Input id='password' name='password' type="password" required disabled={pending} />
                             {state?.error && (
                                 <div 
                                     role="alert" 
@@ -86,8 +96,8 @@ const Register = () => {
                 </Form>
             </CardContent>
             <CardFooter className='flex-col gap-2'>
-                <Button disabled={peding} form='formRegister' type="submit" className="w-full cursor-pointer">
-                    {peding ? (
+                <Button disabled={pending} form='formRegister' type="submit" className="w-full cursor-pointer">
+                    {pending ? (
                         <>
                             <Spinner className='size-5'/> Processing
                         </>

@@ -1,6 +1,4 @@
-import  type {Prisma} from '@/lib/prisma'
-
 export type FormState = {
-    sucess: boolean
+    success: boolean
     error: string | null
 }

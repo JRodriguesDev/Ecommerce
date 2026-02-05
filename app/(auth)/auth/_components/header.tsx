@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { LuArrowLeft } from 'react-icons/lu'
 
 const Header = () => {
     return (
@@ -13,10 +14,14 @@ const Header = () => {
                     Ecommerce
                 </Link>
                 <nav>
-                    <Link href="/help" className='text-xs text-zinc-500 hover:text-zinc-300 transition-colors'>
-                        Need help?
-                    </Link>
-                </nav>
+    <Link 
+        href="/shop" 
+        className="group flex items-center gap-2 text-xs font-medium text-zinc-400 hover:text-zinc-100 transition-all"
+    >
+        <LuArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+        Back to Shop
+    </Link>
+</nav>
             </div>
         </header>
     )
