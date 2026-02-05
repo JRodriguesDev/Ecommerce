@@ -8,11 +8,11 @@ import { Card } from "@/components/ui/card"
 import {profile} from './actions'
 import {ConnectionCard} from './_components/connectionCard'
 import {Avatar} from './_components/avatar'
+import {ImageSourceSelector} from './_components/imageSourceSelector'
 
 const PersonalData = async () => {
     const userProfile = await profile() 
     const providers = userProfile!.accounts!.map((el) => el.provider)
-    console.log(userProfile)
 
     return (
         <div className="max-w-4xl mx-auto space-y-8 pb-20 px-4">
@@ -29,7 +29,9 @@ const PersonalData = async () => {
                 <Card className="bg-zinc-900/20 border-zinc-800 divide-y divide-zinc-800/50 overflow-hidden">
                     
                     {/* FOTO DE PERFIL */}
-                    <Avatar images={userProfile!.images}/>
+                    <ImageSourceSelector images={userProfile!.images}>
+                        <Avatar images={userProfile!.images}/>
+                    </ImageSourceSelector>
 
                     {/* NOME */}
                     <DataItem 
