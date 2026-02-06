@@ -7,9 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog" // Componentes do Shadcn
+} from "@/components/ui/dialog"
 import { FaGoogle, FaDiscord } from "react-icons/fa"
-import { LuCamera } from "react-icons/lu"
+import { LuCamera, LuCheck } from "react-icons/lu"
+import { cn } from "@/lib/utils"
 
 interface Props {
   children: React.ReactNode
@@ -18,77 +19,105 @@ interface Props {
 
 export function ImageSourceSelector({ children, images }: Props) {
   const [open, setOpen] = useState(false)
+  const [isPending, setIsPending] = useState(false) // Para loading futuro
 
-  // Função apenas para simular o clique por enquanto
-  const handleSelect = (type: 'google' | 'discord') => {
-    console.log("Selecionou a fonte:", type)
-    setOpen(false) // Fecha o modal após clicar
+  const handleSelect = async (type: 'google' | 'discord') => {
+    setIsPending(true)
+    console.log("Chamando Server Action para trocar para:", type)
+    
+    // Simulação de delay de rede
+    await new Promise(resolve => setTimeout(resolve, 800))
+    
+    setIsPending(false)
+    setOpen(false)
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {/* O DialogTrigger faz com que o que estiver dentro dele abra o modal ao clicar */}
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
       
-      <DialogContent className="sm:max-w-[400px] bg-zinc-950 border-zinc-800 text-zinc-100 shadow-2xl">
-        <DialogHeader>
-          <DialogTitle className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 pt-2">
-            Escolher origem da foto
+      <DialogContent className="sm:max-w-[420px] bg-zinc-950 border-zinc-800 text-zinc-100 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] p-0 overflow-hidden">
+        <DialogHeader className="p-6 pb-0">
+          <DialogTitle className="text-left text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500">
+            Origem da Imagem
           </DialogTitle>
+          <p className="text-zinc-400 text-sm font-medium mt-1">Selecione qual avatar você deseja exibir no seu perfil.</p>
         </DialogHeader>
 
-        <div className="grid gap-3 py-6">
+        <div className="grid gap-2 p-6">
           {/* OPÇÃO GOOGLE */}
           {images.google && (
-            <button
+            <SourceOption 
+              label="Google Account"
+              sublabel="Sincronizado via Google Auth"
+              image={images.google}
+              icon={<FaGoogle size={10} className="text-blue-500" />}
+              isActive={images.main === images.google}
               onClick={() => handleSelect('google')}
-              className="flex items-center gap-4 p-3 rounded-xl bg-zinc-900/40 border border-zinc-800 hover:border-blue-500/40 hover:bg-blue-500/5 transition-all group"
-            >
-              <div className="relative size-12 shadow-lg">
-                <img src={images.google} className="size-full rounded-full object-cover border-2 border-zinc-800" alt="Google" />
-                <div className="absolute -bottom-1 -right-1 bg-zinc-950 p-1 rounded-full border border-zinc-800">
-                  <FaGoogle size={10} className="text-blue-500" />
-                </div>
-              </div>
-              <div className="text-left flex-1">
-                <p className="text-sm font-bold text-zinc-200">Google Account</p>
-                <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-tighter">Usar foto do Google</p>
-              </div>
-            </button>
+              accentColor="hover:border-blue-500/40 hover:bg-blue-500/5"
+            />
           )}
 
           {/* OPÇÃO DISCORD */}
           {images.discord && (
-            <button
+            <SourceOption 
+              label="Discord Profile"
+              sublabel="Sincronizado via Discord App"
+              image={images.discord}
+              icon={<FaDiscord size={10} className="text-[#5865F2]" />}
+              isActive={images.main === images.discord}
               onClick={() => handleSelect('discord')}
-              className="flex items-center gap-4 p-3 rounded-xl bg-zinc-900/40 border border-zinc-800 hover:border-[#5865F2]/40 hover:bg-[#5865F2]/5 transition-all group"
-            >
-              <div className="relative size-12 shadow-lg">
-                <img src={images.discord} className="size-full rounded-full object-cover border-2 border-zinc-800" alt="Discord" />
-                <div className="absolute -bottom-1 -right-1 bg-zinc-950 p-1 rounded-full border border-zinc-800">
-                  <FaDiscord size={10} className="text-[#5865F2]" />
-                </div>
-              </div>
-              <div className="text-left flex-1">
-                <p className="text-sm font-bold text-zinc-200">Discord Profile</p>
-                <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-tighter">Usar foto do Discord</p>
-              </div>
-            </button>
+              accentColor="hover:border-[#5865F2]/40 hover:bg-[#5865F2]/5"
+            />
           )}
 
-          {/* FUTURA OPÇÃO DE UPLOAD (Vazio por enquanto) */}
-          <button className="flex items-center gap-4 p-3 rounded-xl bg-zinc-900/20 border border-dashed border-zinc-800 hover:border-zinc-600 transition-all opacity-60">
-            <div className="size-12 rounded-full bg-zinc-900 flex items-center justify-center border-2 border-zinc-800">
-              <LuCamera className="text-zinc-600" size={20} />
+          {/* FUTURA OPÇÃO DE UPLOAD */}
+          <div className="flex items-center gap-4 p-4 rounded-2xl bg-zinc-900/10 border border-dashed border-zinc-800/50 opacity-40 mt-2">
+            <div className="size-12 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800">
+              <LuCamera className="text-zinc-600" size={18} />
             </div>
             <div className="text-left flex-1">
-              <p className="text-sm font-bold text-zinc-500 italic">Em breve: Upload</p>
+              <p className="text-xs font-bold text-zinc-600 uppercase">Upload Personalizado</p>
+              <p className="text-[10px] text-zinc-700 font-bold uppercase tracking-tighter">Disponível em breve</p>
             </div>
-          </button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
+  )
+}
+
+// SUB-COMPONENTE PARA LIMPEZA DO CÓDIGO
+function SourceOption({ label, sublabel, image, icon, isActive, onClick, accentColor }: any) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        "flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 group relative overflow-hidden",
+        isActive 
+          ? "bg-zinc-900 border-zinc-700" 
+          : cn("bg-zinc-900/40 border-zinc-800", accentColor)
+      )}
+    >
+      <div className="relative size-12 shrink-0">
+        <img src={image} className={cn("size-full rounded-full object-cover border-2 transition-all", isActive ? "border-blue-500" : "border-zinc-800")} alt={label} />
+        <div className="absolute -bottom-1 -right-1 bg-zinc-950 p-1.5 rounded-full border border-zinc-800 shadow-xl">
+          {icon}
+        </div>
+      </div>
+      
+      <div className="text-left flex-1">
+        <p className={cn("text-sm font-bold transition-colors", isActive ? "text-white" : "text-zinc-300")}>{label}</p>
+        <p className="text-[10px] text-zinc-500 uppercase font-black tracking-widest">{sublabel}</p>
+      </div>
+
+      {isActive && (
+        <div className="bg-blue-500/10 text-blue-500 p-1.5 rounded-full border border-blue-500/20">
+          <LuCheck size={14} strokeWidth={3} />
+        </div>
+      )}
+    </button>
   )
 }

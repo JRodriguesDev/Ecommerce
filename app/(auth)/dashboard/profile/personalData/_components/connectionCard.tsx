@@ -1,51 +1,72 @@
 import { Card } from "@/components/ui/card"
 import { FaGoogle, FaDiscord } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 
-// 1. Definimos as configurações de cada provider disponível
 const SUPPORTED_PROVIDERS = [
     {
         id: "google",
         name: "Google",
-        icon: <FaGoogle size={20} />,
+        icon: <FaGoogle size={18} />,
         color: "group-hover:text-blue-400"
     },
     {
         id: "discord",
         name: "Discord",
         icon: <FaDiscord size={20} />,
-        color: "group-hover:text-[#5865F2]" // Cor oficial do Discord
+        color: "group-hover:text-[#5865F2]"
     }
 ]
 
 export const ConnectionCard = ({ connectedProviders }: { connectedProviders: string[] }) => {
     return (
-        <Card className="bg-zinc-900/20 border-zinc-800 divide-y divide-zinc-800/50 overflow-hidden">
+        <Card className="bg-zinc-900/20 border-zinc-800/50 backdrop-blur-sm divide-y divide-zinc-800/50 overflow-hidden shadow-xl">
             {SUPPORTED_PROVIDERS.map((provider) => {
-                // 2. Verificamos se este provider específico está no array que veio do banco
                 const isConnected = connectedProviders.includes(provider.id);
 
                 return (
                     <div 
                         key={provider.id} 
-                        className="p-6 flex items-center justify-between hover:bg-zinc-800/20 transition-colors cursor-pointer group"
+                        className="p-6 flex items-center justify-between hover:bg-zinc-800/10 transition-all group"
                     >
-                        <div className="flex items-center gap-4">
-                            <div className={`size-10 rounded-lg bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-400 transition-colors ${provider.color}`}>
+                        <div className="flex items-center gap-5">
+                            {/* ÍCONE DO PROVIDER */}
+                            <div className={cn(
+                                "size-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-500 transition-all duration-300",
+                                provider.color,
+                                isConnected && "border-zinc-700 text-zinc-300"
+                            )}>
                                 {provider.icon}
                             </div>
-                            <div>
-                                <p className="text-xs font-bold text-zinc-200">{provider.name}</p>
-                                <p className={`text-[11px] italic ${isConnected ? 'text-emerald-500/70' : 'text-zinc-500'}`}>
-                                    {isConnected ? 'Conectado' : 'Não conectado'}
+
+                            <div className="space-y-1">
+                                <p className="text-sm font-black text-zinc-100 uppercase tracking-tighter">
+                                    {provider.name}
                                 </p>
+                                
+                                {/* STATUS COM INDICADOR VISUAL */}
+                                <div className="flex items-center gap-2">
+                                    <div className={cn(
+                                        "size-1.5 rounded-full animate-pulse",
+                                        isConnected ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" : "bg-zinc-700"
+                                    )} />
+                                    <span className={cn(
+                                        "text-[10px] font-bold uppercase tracking-widest",
+                                        isConnected ? "text-emerald-500/80" : "text-zinc-500"
+                                    )}>
+                                        {isConnected ? 'Conta Vinculada' : 'Não Identificado'}
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
-                        {/* 3. O botão muda de cor e texto dependendo do estado */}
-                        <button className={`text-[10px] font-black uppercase transition-all hover:underline ${
-                            isConnected ? 'text-zinc-500 hover:text-red-500' : 'text-blue-500'
-                        }`}>
-                            {isConnected ? 'Desvincular' : 'Conectar'}
+                        {/* BOTÃO DE AÇÃO */}
+                        <button className={cn(
+                            "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all active:scale-95",
+                            isConnected 
+                                ? 'bg-zinc-900 text-zinc-500 hover:text-red-500 hover:bg-red-500/10 border border-zinc-800' 
+                                : 'bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-600/10'
+                        )}>
+                            {isConnected ? 'Desvincular' : 'Conectar Agora'}
                         </button>
                     </div>
                 );

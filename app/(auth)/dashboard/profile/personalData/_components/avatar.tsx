@@ -4,69 +4,90 @@ import {
     LuCamera,
 } from "react-icons/lu"
 import { FaGoogle, FaDiscord } from "react-icons/fa"
+import { cn } from "@/lib/utils"
+import Image from "next/image";
 
-export const Avatar = ({ images }: { images: { main: string | null, google: string | null, discord: string | null } }) => {
+interface AvatarProps {
+    images: { 
+        main: string | null; 
+        google: string | null; 
+        discord: string | null; 
+    }
+}
+
+export const Avatar = ({ images }: AvatarProps) => {
     
     return (
-        <div className="p-6 flex items-center justify-between hover:bg-zinc-800/20 transition-colors cursor-pointer group">
+        <div className="p-6 flex items-center justify-between hover:bg-zinc-800/10 transition-all cursor-pointer group select-none">
             <div className="flex items-center gap-6">
-                {/* AVATAR PRINCIPAL */}
+                {/* CONTAINER DO AVATAR PRINCIPAL */}
                 <div className="relative">
-                    <div className="size-16 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center overflow-hidden ring-2 ring-zinc-950 shadow-xl">
+                    <div className="size-20 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center overflow-hidden ring-4 ring-zinc-950 shadow-2xl transition-transform duration-300 group-hover:scale-105">
                         {images.main ? (
-                            <img 
+                            <Image 
                                 src={images.main} 
                                 alt="Profile" 
-                                className="size-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                                className="size-full object-cover transition-transform duration-700 group-hover:scale-110" 
                             />
                         ) : (
-                            <LuUser className="size-8 text-zinc-600" />
+                            <LuUser className="size-10 text-zinc-700" />
                         )}
+                        
+                        {/* Overlay sutil no hover */}
+                        <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
                     
-                    {/* INDICADOR DE EDIÇÃO */}
-                    <div className="absolute bottom-0 right-0 p-1.5 bg-blue-600 rounded-full text-white border-2 border-zinc-950 shadow-lg">
-                        <LuCamera size={12} />
+                    {/* INDICADOR DE EDIÇÃO (Crachá) */}
+                    <div className="absolute -bottom-1 -right-1 p-2 bg-blue-600 rounded-lg text-white border-4 border-zinc-950 shadow-xl group-hover:bg-blue-500 transition-colors">
+                        <LuCamera size={14} />
                     </div>
                 </div>
 
-                {/* TEXTOS E LISTA DE FONTES DISPONÍVEIS */}
-                <div className="space-y-1.5">
+                {/* TEXTOS E FONTES */}
+                <div className="space-y-2">
                     <div>
-                        <p className="text-xs font-bold text-zinc-200 uppercase tracking-tight">Foto de Perfil</p>
-                        <p className="text-[11px] text-zinc-500">Clique para gerenciar suas imagens.</p>
+                        <p className="text-sm font-black text-zinc-100 uppercase tracking-tighter italic">Sua Identidade Visual</p>
+                        <p className="text-[11px] text-zinc-500 font-medium">Gerencie as fontes da sua imagem de perfil.</p>
                     </div>
 
-                    {/* LISTA DE FONTES (Google/Discord) */}
-                    <div className="flex items-center gap-2 pt-1">
+                    {/* BADGES DE CONEXÃO */}
+                    <div className="flex items-center gap-2">
                         {images.google && (
-                            <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-zinc-950 border border-zinc-800">
-                                <FaGoogle size={8} className="text-blue-400" />
-                                <span className="text-[9px] font-bold text-zinc-500 uppercase">Google</span>
-                            </div>
+                            <SourceBadge icon={<FaGoogle size={8} />} label="Google" color="text-blue-400" />
                         )}
                         {images.discord && (
-                            <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-zinc-950 border border-zinc-800">
-                                <FaDiscord size={10} className="text-[#5865F2]" />
-                                <span className="text-[9px] font-bold text-zinc-500 uppercase">Discord</span>
-                            </div>
+                            <SourceBadge icon={<FaDiscord size={10} />} label="Discord" color="text-[#5865F2]" />
                         )}
                     </div>
                 </div>
             </div>
 
-            <div className="flex items-center gap-4">
-                {/* Se você quiser mostrar as miniaturas reais das outras fotos antes de clicar */}
-                <div className="flex -space-x-2">
-                    {images.google && images.google !== images.main && (
-                        <img src={images.google} className="size-6 rounded-full border-2 border-zinc-900 grayscale-[0.5] opacity-50" />
-                    )}
-                    {images.discord && images.discord !== images.main && (
-                        <img src={images.discord} className="size-6 rounded-full border-2 border-zinc-900 grayscale-[0.5] opacity-50" />
-                    )}
+            {/* LADO DIREITO: MINIATURAS E CHEVRON */}
+            <div className="flex items-center gap-5">
+                <div className="hidden sm:flex -space-x-3 transition-all group-hover:-space-x-1">
+                    {/* Mostra as opções que NÃO são a principal */}
+                    {Object.entries(images).map(([key, src]) => (
+                        src && src !== images.main && (
+                            <div key={key} className="size-8 rounded-full border-2 border-zinc-950 overflow-hidden bg-zinc-900 ring-1 ring-zinc-800 shadow-lg">
+                                <img src={src} className="size-full object-cover grayscale group-hover:grayscale-0 transition-all opacity-40 group-hover:opacity-100" />
+                            </div>
+                        )
+                    ))}
                 </div>
-                <LuChevronRight className="text-zinc-700 group-hover:text-zinc-400 group-hover:translate-x-1 transition-all" />
+                
+                <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold text-zinc-700 opacity-0 group-hover:opacity-100 transition-all uppercase tracking-widest">Ajustar</span>
+                    <LuChevronRight className="text-zinc-700 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
+                </div>
             </div>
         </div>
     )
 }
+
+// Pequeno sub-componente interno para as badges de fonte
+const SourceBadge = ({ icon, label, color }: { icon: React.ReactNode, label: string, color: string }) => (
+    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-zinc-950 border border-zinc-800/50">
+        <span className={color}>{icon}</span>
+        <span className="text-[9px] font-black text-zinc-500 uppercase tracking-wider">{label}</span>
+    </div>
+)
