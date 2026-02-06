@@ -50,16 +50,15 @@ export const ProductList = async ({ searchParams }: { searchParams: Promise<Para
   )
 }
 
-export const ProductCard = ({ el }: {el: Product}) => {
-
+export const ProductCard = ({ el }: { el: Product }) => {
     return (
-        <Link href={`products/${el.id}`} className="block group">
-            <Card className="h-full overflow-hidden border-zinc-800 bg-zinc-900/40 hover:bg-zinc-900/60 transition-all duration-300">
+        // Faxina: Adicionada a barra "/" para evitar rotas relativas quebradas
+        <Link href={`/products/${el.id}`} className="block group">
+            <Card className="h-full overflow-hidden border-zinc-800 bg-zinc-900/40 hover:bg-zinc-900/60 transition-all duration-300 shadow-xl shadow-black/20">
                 <CardContent className="p-0">
                     
-                    {/* Área da Imagem */}
+                    {/* Área da Imagem - Mantendo aspect-square do real */}
                     <div className="relative aspect-square w-full bg-white overflow-hidden">
-                        {/* Rating Badge */}
                         <Badge 
                             variant="secondary" 
                             className="absolute top-3 left-3 z-10 bg-zinc-950/90 text-yellow-500 border-zinc-700 gap-1.5 py-1"
@@ -71,9 +70,10 @@ export const ProductCard = ({ el }: {el: Product}) => {
                         <Image  
                             src={el.thumbnail}
                             fill
-                            className="object-contain p-6 transition-transform duration-500 group-hover:scale-110"
+                            className="object-contain p-6 transition-transform duration-500 group-hover:scale-105" // Reduzi o scale para 105 para ser mais sutil
                             alt={el.title}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                            priority={false} // Imagens da lista não precisam de prioridade total
                         />
                     </div>
 
@@ -89,27 +89,24 @@ export const ProductCard = ({ el }: {el: Product}) => {
 
                         <div className="flex items-center gap-2 text-zinc-500">
                             <FaBoxOpen className="text-xs" />
-                            <span className="text-[11px]">Estoque: {el.stock} unid.</span>
+                            <span className="text-[11px]">Disponível: {el.stock} unidades</span>
                         </div>
 
-                        {/* Rodapé do Card */}
-                        <div className="flex items-center justify-between mt-2 pt-4 border-t border-zinc-800">
+                        <div className="flex items-center justify-between mt-2 pt-4 border-t border-zinc-800/50">
                             <span className="text-zinc-100 text-xl font-black tracking-tight">
-                                {(el.price / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                {el.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                             </span>
                             
-                            <div className="p-2 bg-zinc-800 rounded-full text-zinc-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                            <div className="p-2 bg-zinc-800 rounded-full text-zinc-400 group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:translate-x-1">
                                 <MdOutlineArrowForwardIos className="text-xs" />
                             </div>
                         </div>
                     </div>
-
                 </CardContent>
             </Card>
         </Link>
     )
 }
-
 export const ProductListSkeleton = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

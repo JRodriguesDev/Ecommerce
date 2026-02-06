@@ -8,21 +8,22 @@ import {
 } from "react-icons/fa6"
 
 import { Skeleton } from "@/components/ui/skeleton"
+import { notFound } from 'next/navigation'
 
 // Importe os novos componentes client
 import { Gallery, ActionButtons } from "./productInteractive" 
 
-export const ProductDetails = async ({params}: {params: Promise<{id: string}>}) => {
-    const {id} = await params
+export const ProductDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
+    const { id } = await params
     const product = await getProduct(id) as Product
 
-    if (!product) return null
+    // Faxina: Em vez de null, usamos notFound() para uma UX melhor
+    if (!product) notFound()
 
     return (
-        /* Grid de 12 colunas para controle fino de espaço */
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-16 py-8 items-start">
             
-            {/* LADO ESQUERDO: GALERIA (Ocupa 7 colunas) */}
+            {/* LADO ESQUERDO: GALERIA */}
             <div className="lg:col-span-7 w-full">
                 <Gallery 
                     thumbnail={product.thumbnail} 
@@ -31,7 +32,7 @@ export const ProductDetails = async ({params}: {params: Promise<{id: string}>}) 
                 />
             </div>
 
-            {/* LADO DIREITO: INFORMAÇÕES (Ocupa 5 colunas e fica fixo ao rolar) */}
+            {/* LADO DIREITO: INFOS (Sticky) */}
             <div className="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-28">
                 <div className="space-y-4">
                     <Badge variant="outline" className="text-blue-500 border-blue-500/30 uppercase tracking-[0.2em] text-[10px] font-bold px-3">
@@ -44,10 +45,10 @@ export const ProductDetails = async ({params}: {params: Promise<{id: string}>}) 
 
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1.5 text-yellow-500 text-sm font-bold bg-yellow-500/10 px-3 py-1 rounded-full border border-yellow-500/20">
-                            <FaStar className="size-3" /> {product.rating.toFixed(1)}
+                            <FaStar className="size-3" /> {product.rating?.toFixed(1) || "0.0"}
                         </div>
                         <div className="flex items-center gap-2 text-zinc-400 text-xs font-medium">
-                            <FaBoxOpen className="text-zinc-500" /> {product.stock} in stock
+                            <FaBoxOpen className="text-zinc-500" /> {product.stock} em estoque
                         </div>
                     </div>
                 </div>
@@ -55,21 +56,21 @@ export const ProductDetails = async ({params}: {params: Promise<{id: string}>}) 
                 <Separator className="bg-zinc-800/50" />
 
                 <div className="space-y-1">
-                    <span className="text-zinc-500 text-[11px] font-bold uppercase tracking-widest">Price</span>
+                    <span className="text-zinc-500 text-[11px] font-bold uppercase tracking-widest">Preço à vista</span>
                     <div className="text-4xl xl:text-5xl font-black text-zinc-100 tracking-tighter flex items-baseline gap-1">
                         <span className="text-xl font-bold text-blue-500">R$</span>
-                        {(product.price / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        {((product.price || 0) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                     </div>
                 </div>
 
-                <div className="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50">
-                    <h4 className="text-zinc-200 text-xs font-bold uppercase mb-2 tracking-wider">Description</h4>
+                <div className="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50 backdrop-blur-sm">
+                    <h4 className="text-zinc-200 text-xs font-bold uppercase mb-2 tracking-wider">Descrição</h4>
                     <p className="text-zinc-400 text-sm leading-relaxed">
                         {product.description}
                     </p>
                 </div>
 
-                {/* AÇÕES (CLIENT) */}
+                {/* AÇÕES (CLIENT COMPONENT) */}
                 <div className="mt-auto">
                     <ActionButtons productId={product.id} />
                 </div>
@@ -77,6 +78,7 @@ export const ProductDetails = async ({params}: {params: Promise<{id: string}>}) 
         </div>
     )
 }
+
 export const ProductSkeleton = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 py-8 animate-pulse">

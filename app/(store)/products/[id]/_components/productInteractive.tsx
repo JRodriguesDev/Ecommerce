@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import Image from "next/image"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -12,49 +12,55 @@ interface GalleryProps {
     images: string[]
     title: string
 }
+
 export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
     const [activeImage, setActiveImage] = useState(thumbnail)
-    const allImages = [thumbnail, ...images]
+    
+    // Faxina: Remove duplicatas caso o thumbnail já esteja no array de images
+    const allImages = useMemo(() => {
+        return Array.from(new Set([thumbnail, ...images])).filter(Boolean)
+    }, [thumbnail, images])
 
     return (
-        <div className="flex flex-col-reverse lg:flex-row gap-4">
-            {/* MINIATURAS: Embaixo no mobile, Lado no Desktop */}
-            <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto lg:max-h-[600px] scrollbar-hide shrink-0">
+        <div className="flex flex-col-reverse lg:flex-row gap-4 h-full">
+            {/* MINIATURAS */}
+            <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto lg:max-h-[600px] no-scrollbar shrink-0 pb-2 lg:pb-0">
                 {allImages.map((img, i) => (
                     <button 
-                        key={i}
-                        onMouseEnter={() => setActiveImage(img)} // Troca ao passar o mouse (opcional, mas pro)
+                        key={`${img}-${i}`}
+                        onMouseEnter={() => setActiveImage(img)}
                         onClick={() => setActiveImage(img)}
                         className={cn(
-                            "relative size-16 lg:size-20 rounded-xl border-2 overflow-hidden bg-white shrink-0 transition-all duration-200",
+                            "relative size-16 lg:size-20 rounded-xl border-2 overflow-hidden bg-white shrink-0 transition-all duration-300",
                             activeImage === img 
-                                ? "border-blue-600 ring-2 ring-blue-600/20 scale-95" 
-                                : "border-zinc-800/50 opacity-50 hover:opacity-100 hover:border-zinc-700"
+                                ? "border-blue-600 ring-4 ring-blue-600/10 scale-90" 
+                                : "border-zinc-800/50 opacity-60 hover:opacity-100 hover:border-zinc-600"
                         )}
                     >
                         <Image 
                             src={img} 
-                            alt={`${title}-${i}`} 
+                            alt={`${title} view ${i}`} 
                             fill 
-                            className="object-contain p-1.5" 
+                            className="object-contain p-1.5"
+                            sizes="80px"
                         />
                     </button>
                 ))}
             </div>
 
             {/* IMAGEM PRINCIPAL */}
-            <Card className="relative flex-1 h-200 aspect-square lg:aspect-[4/5] overflow-hidden bg-white border-zinc-800 shadow-2xl shadow-black/20 group">
+            <Card className="relative flex-1 aspect-square lg:aspect-[4/5] overflow-hidden bg-white border-zinc-800/50 shadow-2xl shadow-black/40 group cursor-zoom-in">
                 <Image 
                     src={activeImage} 
                     alt={title} 
                     fill 
                     className="object-contain p-8 transition-transform duration-700 group-hover:scale-110"
                     priority
+                    sizes="(max-width: 1024px) 100vw, 60vw"
                 />
                 
-                {/* Badge de Zoom ou Dica (Opcional) */}
-                <div className="absolute bottom-4 right-4 bg-zinc-950/20 backdrop-blur-md px-2 py-1 rounded text-[10px] text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                    Hover to zoom
+                <div className="absolute bottom-4 right-4 bg-zinc-950/40 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider text-zinc-200 opacity-0 group-hover:opacity-100 transition-opacity border border-white/10">
+                    Passe o mouse para ampliar
                 </div>
             </Card>
         </div>
@@ -62,27 +68,31 @@ export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
 }
 
 export const ActionButtons = ({ productId }: { productId: string }) => {
+    
     return (
         <div className="flex flex-col gap-3 mt-4">
             <div className="flex gap-3">
-                <Button size="lg" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold gap-2">
-                    <FaBagShopping /> Comprar Agora
+                <Button 
+                    size="lg" 
+                    className="flex-[3] bg-blue-600 hover:bg-blue-700 text-white font-bold gap-2 text-md h-14 shadow-lg shadow-blue-900/20 transition-all active:scale-95"
+                >
+                    <FaBagShopping className="size-5" /> Comprar Agora
                 </Button>
+                
                 <Button 
                     size="lg" 
                     variant="outline" 
-                    className="border-zinc-700 hover:bg-zinc-800 text-zinc-300"
-                    onClick={() => console.log("Favoritado:", productId)}
+                    className="flex-1 border-zinc-700 hover:bg-zinc-800 text-zinc-300 h-14 transition-colors"
                 >
-                    <FaHeart />
+                    <FaHeart className="size-5 hover:text-red-500 transition-colors" />
                 </Button>
             </div>
+
             <Button 
                 variant="secondary" 
-                className="w-full gap-2 font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-100"
-                onClick={() => console.log("Adicionado ao carrinho:", productId)}
+                className="w-full gap-2 font-bold bg-zinc-800/50 hover:bg-zinc-800 text-zinc-100 h-14 border border-zinc-700/50 transition-all"
             >
-                <FaCartPlus /> Adicionar ao Carrinho
+                <FaCartPlus className="size-5" /> Adicionar ao Carrinho
             </Button>
         </div>
     )

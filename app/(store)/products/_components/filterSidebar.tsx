@@ -26,14 +26,22 @@ const FilterSideBar = () => {
     }
 
     const handlerApply = () => {
-        const params = new URLSearchParams(searchParams.toString())
-        if (minPrice) params.set('minPrice', minPrice.toString())
-        if (maxPrice) params.set('maxPrice', maxPrice.toString())
-        if (inStock) {params.set('inStock', String(inStock))} else {params.delete('inStock')}
-        if (onSale) {params.set('onSale', String(onSale))} else {params.delete('onSale')}
-        if (selectedRatings.length > 0) {params.set('selectedRatings', selectedRatings.join(','))} else {params.delete('selectedRatings')}
-        router.push(`?${params.toString()}`, {scroll: false})
-    }
+    const params = new URLSearchParams(searchParams.toString());
+
+    // Função auxiliar interna para não repetir código
+    const setOrDelete = (key: string, value: string | number | boolean, condition: boolean) => {
+        if (condition) params.set(key, String(value));
+        else params.delete(key);
+    };
+
+    setOrDelete('minPrice', minPrice, minPrice > 0);
+    setOrDelete('maxPrice', maxPrice, maxPrice > 0);
+    setOrDelete('inStock', inStock, inStock === true);
+    setOrDelete('onSale', onSale, onSale === true);
+    setOrDelete('selectedRatings', selectedRatings.join(','), selectedRatings.length > 0);
+
+    router.push(`?${params.toString()}`, { scroll: false });
+};
     const handlerResetAll = () => {
         setMinPrice(0)
         setMaxPrice(0)

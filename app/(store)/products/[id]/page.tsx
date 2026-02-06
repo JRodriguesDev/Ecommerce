@@ -1,15 +1,22 @@
-import {ProductDetails, ProductSkeleton} from './_components/productDetails'
+import { ProductDetails, ProductSkeleton } from './_components/productDetails'
 import { Suspense } from 'react'
 
-const Product = async ({params}: {params: Promise<{id: string}>}) => {
+interface PageProps {
+  params: Promise<{ id: string }>
+}
 
-    return  (
-        <div>
-            <Suspense fallback={<ProductSkeleton/>}>
-                <ProductDetails params={params}/>
+const ProductPage = async ({ params }: PageProps) => {
+    
+    return (
+        <main className="min-h-screen bg-zinc-950 text-zinc-100">
+            {/* O Suspense isola o fetch do produto. 
+                O restante do layout (Header/Footer) já estará visível para o usuário. 
+            */}
+            <Suspense fallback={<ProductSkeleton />}>
+                <ProductDetails params={params} />
             </Suspense>
-        </div>
+        </main>
     )
 }
 
-export default Product
+export default ProductPage

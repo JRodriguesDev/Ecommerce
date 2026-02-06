@@ -1,28 +1,44 @@
 import FilterSideBar from "./_components/filterSidebar"
 import { Suspense } from "react"
-import {ProductListSkeleton, ProductList} from './_components/products'
-import {ParamsFilter} from '@/types/params'
+import { ProductListSkeleton, ProductList } from './_components/products'
+import { ParamsFilter } from '@/types/params'
 
-const ProductsPage = ({
-    searchParams
-}: {
-    searchParams : Promise<ParamsFilter>
-}) => {
+// Faxina: Tipagem completa seguindo os padrões do Next.js 15
+interface PageProps {
+    searchParams: Promise<ParamsFilter>
+}
+
+const ProductsPage = async ({ searchParams }: PageProps) => {
+    // Aguardamos os params para garantir que a key do Suspense seja reativa
+    const params = await searchParams
+    
+    // Faxina: Criamos uma chave única baseada nos filtros atuais.
+    // Isso "reseta" o Suspense e mostra o skeleton toda vez que o filtro muda.
+    const searchKey = JSON.stringify(params)
 
     return (
-        <div className="max-w-[1400px] mx-auto px-6 py-10">
+        <div className="max-w-[1400px] mx-auto px-6 py-10 min-h-screen bg-zinc-950 selection:bg-blue-500/30">
+            {/* SEO: Título invisível para acessibilidade e buscadores */}
+            <h1 className="sr-only">Nossa Lista de Produtos</h1>
+
             <div className="flex flex-col md:grid md:grid-cols-4 gap-10">
-                {/* 30% - Sidebar (Client Component) */}
+                
+                {/* Sidebar - Sticky: Fica fixa enquanto o usuário rola a lista longa */}
                 <aside className="md:col-span-1">
-                    <Suspense fallback={<div className="w-full h-80 bg-zinc-900/50 animate-pulse rounded-xl" />}>
-                        <FilterSideBar />
-                    </Suspense>
+                    <div className="sticky top-28 transition-all duration-300"> 
+                        <Suspense fallback={
+                            <div className="w-full h-[600px] bg-zinc-900/30 animate-pulse rounded-2xl border border-zinc-800/50" />
+                        }>
+                            <FilterSideBar />
+                        </Suspense>
+                    </div>
                 </aside>
 
-                {/* 70% - Products Area */}
+                {/* Área de Conteúdo Principal */}
                 <main className="md:col-span-3">
-                    <Suspense fallback={<ProductListSkeleton/>}>
-                        <ProductList searchParams={searchParams}/>
+                    {/* Faxina: O Suspense com key é o segredo da fluidez no Next 15 */}
+                    <Suspense key={searchKey} fallback={<ProductListSkeleton />}>
+                        <ProductList searchParams={searchParams} />
                     </Suspense>
                 </main>
             </div>
