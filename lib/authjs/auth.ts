@@ -1,9 +1,11 @@
 import nextAuth from 'next-auth'
-import Google from 'next-auth/providers/google'
+
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import prisma from '../prisma/index'
+import Google from './providers/google'
 import Credentials from './providers/credentials'
-import {myCallback} from './callbacks/myCallback'
+import {myCallback} from './configs/myCallback'
+import {myEvents} from './configs/myEvents'
 
 export const {handlers, signIn, signOut, auth} = nextAuth({
     adapter: PrismaAdapter(prisma),
@@ -16,9 +18,5 @@ export const {handlers, signIn, signOut, auth} = nextAuth({
         Google
     ],
     callbacks: myCallback,
-    events: {
-        async signIn({user, account}) {
-            console.log(`User: ${user.email} loggin from ${account?.provider}`)
-        }
-    }
+    events: myEvents
 })

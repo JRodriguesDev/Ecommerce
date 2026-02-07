@@ -16,6 +16,7 @@ const myCredentials = Credentials({
             id: result.id,
             email: result.email,
             name: result.name,
+            image: result.image
         }
     }   
 })

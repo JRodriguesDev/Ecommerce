@@ -25,8 +25,9 @@ export const Avatar = ({ images }: AvatarProps) => {
                     <div className="size-20 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center overflow-hidden ring-4 ring-zinc-950 shadow-2xl transition-transform duration-300 group-hover:scale-105">
                         {images.main ? (
                             <Image 
-                                src={images.main} 
+                                src={images.main}
                                 alt="Profile" 
+                                fill
                                 className="size-full object-cover transition-transform duration-700 group-hover:scale-110" 
                             />
                         ) : (
