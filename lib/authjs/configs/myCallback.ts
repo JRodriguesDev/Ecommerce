@@ -1,5 +1,5 @@
 import { NextAuthConfig } from "next-auth";
-import {getMainImage} from '@/services/DAL/auth'
+import {getMainImage, imageSwith} from '@/services/DAL/auth'
 
 export const myCallback: NextAuthConfig['callbacks'] = {
     async jwt({token, user, trigger, session}) {
@@ -8,7 +8,8 @@ export const myCallback: NextAuthConfig['callbacks'] = {
                 const mainImage = await getMainImage(user.id!)
                 token.picture = mainImage || user.image
             }
-            if (trigger === 'update' && session?.image) {
+            if (trigger === 'update' && session.image) {
+                await imageSwith(token.id as string, session.image)
                 token.picture = session.image
             }
             return token

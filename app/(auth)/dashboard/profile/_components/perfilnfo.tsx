@@ -43,11 +43,6 @@ const PerfilInfo = () => {
                         {getInitials(session?.user?.name)}
                     </AvatarFallback>
                 </Avatar>
-
-                {/* Botão de Trocar Foto */}
-                <button className="absolute bottom-0 right-0 p-2.5 bg-blue-600 rounded-full border-4 border-zinc-950 text-white shadow-xl hover:bg-blue-500 hover:scale-110 transition-all z-20 cursor-pointer">
-                    <LuCamera className="size-4" />
-                </button>
             </div>
 
             <div className="text-center md:text-left space-y-1">

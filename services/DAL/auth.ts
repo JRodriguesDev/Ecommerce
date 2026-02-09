@@ -30,6 +30,14 @@ export const imageRegister = async (userId: string, provider: string, imageURL: 
     }
 }
 
+export const imageSwith = async (userId: string, imageUrl: string) => {
+    if (!userId) return null
+    await prisma.user.update({
+        where: {id: userId},
+        data: {mainImage: imageUrl}
+    })
+}
+
 export const userRegister = async (data: Pick<User, 'name' | 'email' | 'password'>) => {
     await prisma.user.create({
         data: {
@@ -62,5 +70,18 @@ export const updateImage = async (userId: string, data: {discordImage: string} |
     await prisma.user.update({
         where: {id: userId},
         data: {...data}
+    })
+}
+
+export const unlikedProvider = async (userId: string, provider: string) => {
+    const providerImage = provider == 'google' ?  {googleImage: null} : {discordImage: null} 
+    await prisma.$transaction(async (prisma) => {
+        await prisma.account.deleteMany({
+            where: {userId: userId, provider: provider}
+        })
+        await prisma.user.update({
+            where: {id: userId},
+            data: {mainImage: '', ...providerImage}
+        })
     })
 }

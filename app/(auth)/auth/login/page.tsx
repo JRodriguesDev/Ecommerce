@@ -6,7 +6,7 @@ import Form from 'next/form';
 
 // 2. Auth & Icons (Third-party)
 import { signIn } from 'next-auth/react';
-import { FaGoogle } from "react-icons/fa";
+import { FaGoogle, FaDiscord } from "react-icons/fa";
 
 // 3. UI Components (Shadcn / Design System)
 import { Button } from "@/components/ui/button";
@@ -93,7 +93,10 @@ const Login = () => {
                     )}
                 </Button>
                 <Button variant="outline" type='button' className="w-full flex flex-row gap-2 cursor-pointer" onClick={() => signIn('google', {redirectTo: '/shop'})}>
-                <FaGoogle/> Login with Google
+                    <FaGoogle/> Login with Google
+                </Button>
+                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('discord', {redirectTo: '/shop'})}>
+                    <FaDiscord/> Login with Discord
                 </Button>
             </CardFooter>
         </Card>

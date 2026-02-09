@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import {
   Dialog,
   DialogContent,
@@ -11,24 +12,21 @@ import {
 import { FaGoogle, FaDiscord } from "react-icons/fa"
 import { LuCamera, LuCheck } from "react-icons/lu"
 import { cn } from "@/lib/utils"
+import {useSession} from 'next-auth/react'
 
 interface Props {
   children: React.ReactNode
   images: { main: string | null; google: string | null; discord: string | null }
 }
 
-export function ImageSourceSelector({ children, images }: Props) {
+export const ImageSourceSelector = ({ children, images }: Props) => {
   const [open, setOpen] = useState(false)
-  const [isPending, setIsPending] = useState(false) // Para loading futuro
+  const {update} = useSession()
+  const router = useRouter()
 
-  const handleSelect = async (type: 'google' | 'discord') => {
-    setIsPending(true)
-    console.log("Chamando Server Action para trocar para:", type)
-    
-    // Simulação de delay de rede
-    await new Promise(resolve => setTimeout(resolve, 800))
-    
-    setIsPending(false)
+  const handleSelect = async (url: string) => {
+    await update({image: url})
+    router.refresh()
     setOpen(false)
   }
 
@@ -55,7 +53,7 @@ export function ImageSourceSelector({ children, images }: Props) {
               image={images.google}
               icon={<FaGoogle size={10} className="text-blue-500" />}
               isActive={images.main === images.google}
-              onClick={() => handleSelect('google')}
+              onClick={() => handleSelect(images.google!, 'google')}
               accentColor="hover:border-blue-500/40 hover:bg-blue-500/5"
             />
           )}
@@ -68,7 +66,7 @@ export function ImageSourceSelector({ children, images }: Props) {
               image={images.discord}
               icon={<FaDiscord size={10} className="text-[#5865F2]" />}
               isActive={images.main === images.discord}
-              onClick={() => handleSelect('discord')}
+              onClick={() => handleSelect(images.discord!, 'discord')}
               accentColor="hover:border-[#5865F2]/40 hover:bg-[#5865F2]/5"
             />
           )}
@@ -90,7 +88,7 @@ export function ImageSourceSelector({ children, images }: Props) {
 }
 
 // SUB-COMPONENTE PARA LIMPEZA DO CÓDIGO
-function SourceOption({ label, sublabel, image, icon, isActive, onClick, accentColor }: any) {
+const SourceOption = ({ label, sublabel, image, icon, isActive, onClick, accentColor }: any) => {
   return (
     <button
       onClick={onClick}

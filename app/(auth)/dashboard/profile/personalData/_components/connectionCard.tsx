@@ -1,6 +1,11 @@
+'use client'
+
 import { Card } from "@/components/ui/card"
 import { FaGoogle, FaDiscord } from "react-icons/fa";
 import { cn } from "@/lib/utils";
+import {signIn, useSession} from 'next-auth/react'
+import { useRouter } from "next/navigation";
+import {unliked} from '../actions'
 
 const SUPPORTED_PROVIDERS = [
     {
@@ -18,6 +23,7 @@ const SUPPORTED_PROVIDERS = [
 ]
 
 export const ConnectionCard = ({ connectedProviders }: { connectedProviders: string[] }) => {
+
     return (
         <Card className="bg-zinc-900/20 border-zinc-800/50 backdrop-blur-sm divide-y divide-zinc-800/50 overflow-hidden shadow-xl">
             {SUPPORTED_PROVIDERS.map((provider) => {
@@ -60,17 +66,34 @@ export const ConnectionCard = ({ connectedProviders }: { connectedProviders: str
                         </div>
 
                         {/* BOTÃO DE AÇÃO */}
-                        <button className={cn(
-                            "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all active:scale-95",
-                            isConnected 
-                                ? 'bg-zinc-900 text-zinc-500 hover:text-red-500 hover:bg-red-500/10 border border-zinc-800' 
-                                : 'bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-600/10'
-                        )}>
-                            {isConnected ? 'Desvincular' : 'Conectar Agora'}
-                        </button>
+                        <ActionButton isConnected={isConnected} provider={provider.id}/>
                     </div>
                 );
             })}
         </Card>
+    )
+}
+
+const ActionButton = ({isConnected, provider}: {isConnected: boolean, provider: string}) => {
+    const {data: session, update} = useSession()
+    const router = useRouter()
+    const handlerUnlink = async (provider: string) => {
+        await update({image: '#'})
+        await unliked(session!.user!.id!, provider)
+        router.refresh()
+    }
+    return (
+        <>
+            {isConnected ? (
+                <button onClick={() => handlerUnlink(provider)} className={"px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 bg-zinc-900 text-zinc-500 hover:text-red-500 hover:bg-red-500/10 border border-zinc-800"}>
+                Desvincular
+            </button>
+            ) : (
+                <button onClick={() => signIn(provider)} className={
+                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-600/10"}>
+                Conectar Agora
+            </button>
+            )}
+        </>
     )
 }

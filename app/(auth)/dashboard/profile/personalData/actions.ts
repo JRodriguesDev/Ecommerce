@@ -1,6 +1,7 @@
 'use server'
 
 import { getProfile } from '@/services/DAL/user'
+import {unlikedProvider} from '@/services/DAL/auth'
 
 export const profile = async () => {
     try {
@@ -15,4 +16,8 @@ export const profile = async () => {
         // Retornamos null para que a UI trate como "não encontrado" ou "desconectado"
         return null
     }
+}
+
+export const unliked = async (userId: string, provider: string) => {
+    await unlikedProvider(userId, provider)
 }
