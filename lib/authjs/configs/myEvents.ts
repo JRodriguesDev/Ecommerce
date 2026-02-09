@@ -9,10 +9,7 @@ export const myEvents: NextAuthConfig['events'] = {
                     if (googleUrl) await updateImage(user.id!, {googleImage: googleUrl})
                     break
                 case 'discord':
-                    const discordAvatar = profile.avatar 
-                        ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
-                        : `https://cdn.discordapp.com/embed/avatars/${Number(profile.discriminator) % 5}.png`;
-                    const discordUrl = discordAvatar
+                    const discordUrl = profile.picture || profile.image
                     if (discordUrl) await updateImage(user.id!, {discordImage: discordUrl})
             }
         }
