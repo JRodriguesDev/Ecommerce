@@ -39,6 +39,12 @@ const DashboardSidebar = () => {
                         label="Favoritos" 
                         active={pathName === "/dashboard/favorites"} 
                     />
+                    <SidebarItem 
+                        href="/profile/subscriptions" 
+                        icon={<LuGem />} 
+                        label="Assinaturas" 
+                        active={pathName === "/profile/subscriptions"} 
+                    />
                 </nav>
             </div>
 
@@ -57,12 +63,6 @@ const DashboardSidebar = () => {
                         label="Minha Loja" 
                         active={pathName === "/profile/sales"} 
                     />
-                    <SidebarItem 
-                        href="/profile/subscriptions" 
-                        icon={<LuGem />} 
-                        label="Assinaturas" 
-                        active={pathName === "/profile/subscriptions"} 
-                    />
                 </nav>
             </div>
 
@@ -76,12 +76,6 @@ const DashboardSidebar = () => {
                     icon={<LuCreditCard />} 
                     label="Carteira" 
                     active={pathName === "/profile/wallet"} 
-                />
-                <SidebarItem 
-                    href="/profile/security" 
-                    icon={<LuShieldCheck />} 
-                    label="Segurança" 
-                    active={pathName === "/profile/security"} 
                 />
                 <SidebarItem 
                     href="/profile/settings" 

@@ -36,7 +36,7 @@ const Profile = async () => {
                     />
 
                     <ProfileMenuCard 
-                        href="/dashboard/security"
+                        href="/dashboard/profile/security"
                         icon={<LuShieldCheck />}
                         title="Segurança"
                         description="Gerencie sua senha e autenticação de dois fatores."

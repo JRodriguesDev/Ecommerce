@@ -71,16 +71,6 @@ export const ImageSourceSelector = ({ children, images }: Props) => {
             />
           )}
 
-          {/* FUTURA OPÇÃO DE UPLOAD */}
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-zinc-900/10 border border-dashed border-zinc-800/50 opacity-40 mt-2">
-            <div className="size-12 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800">
-              <LuCamera className="text-zinc-600" size={18} />
-            </div>
-            <div className="text-left flex-1">
-              <p className="text-xs font-bold text-zinc-600 uppercase">Upload Personalizado</p>
-              <p className="text-[10px] text-zinc-700 font-bold uppercase tracking-tighter">Disponível em breve</p>
-            </div>
-          </div>
         </div>
       </DialogContent>
     </Dialog>

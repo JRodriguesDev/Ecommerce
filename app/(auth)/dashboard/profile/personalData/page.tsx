@@ -38,7 +38,7 @@ const PersonalData = async () => {
                     <Card className="bg-zinc-900/20 border-zinc-800/50 backdrop-blur-sm divide-y divide-zinc-800/50 overflow-hidden shadow-2xl">
                         
                         {/* FOTO DE PERFIL - Wrapper interativo */}
-                        <div className="p-6 flex items-center justify-between group cursor-pointer hover:bg-zinc-800/10 transition-colors">
+                        <div className="p-6 flex items-center group cursor-pointer hover:bg-zinc-800/10 transition-colors">
                             <div className="flex items-center gap-6">
                                 <ImageSourceSelector images={userProfile.images}>
                                     <div className="relative group/avatar">
@@ -48,12 +48,8 @@ const PersonalData = async () => {
                                         </div>
                                     </div>
                                 </ImageSourceSelector>
-                                <div>
-                                    <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-1">Foto de Perfil</p>
-                                    <p className="text-xs text-zinc-600">Visível em todos os serviços.</p>
-                                </div>
+
                             </div>
-                            <LuChevronRight className="text-zinc-700 group-hover:text-zinc-400 group-hover:translate-x-1 transition-all" />
                         </div>
 
                         {/* NOME */}
