@@ -5,11 +5,16 @@ import prisma from '../prisma/index'
 import Google from './providers/google'
 import Discord from './providers/discord'
 import Credentials from './providers/credentials'
+import Resend from './providers/magicLinks'
 import {myCallback} from './configs/myCallback'
 import {myEvents} from './configs/myEvents'
 
 export const {handlers, signIn, signOut, auth} = nextAuth({
     adapter: PrismaAdapter(prisma),
+    debug: true,
+    pages: {
+        verifyRequest: '/auth/verifyRequest'
+    },
     session: {
         strategy: 'jwt',
         maxAge: 24 * 60 * 60
@@ -17,7 +22,8 @@ export const {handlers, signIn, signOut, auth} = nextAuth({
     providers: [
         Credentials,
         Google,
-        Discord
+        Discord,
+        Resend
     ],
     callbacks: myCallback,
     events: myEvents

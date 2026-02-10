@@ -9,7 +9,6 @@ const discord = Discord({
             ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
             : `https://cdn.discordapp.com/embed/avatars/${Number(profile.discriminator) % 5}.png`;
         return {
-            name: profile.global_name ?? profile.username,
             email: profile.email,
             image: discordAvatar,
             

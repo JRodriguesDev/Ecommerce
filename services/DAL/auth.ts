@@ -85,3 +85,10 @@ export const unlikedProvider = async (userId: string, provider: string) => {
         })
     })
 }
+
+export const nameRegister = async (userId: string, name: string) => {
+    await prisma.user.update({
+        where: {id: userId},
+        data: {name: name}
+    })
+}

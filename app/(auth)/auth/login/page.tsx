@@ -7,6 +7,7 @@ import Form from 'next/form';
 // 2. Auth & Icons (Third-party)
 import { signIn } from 'next-auth/react';
 import { FaGoogle, FaDiscord } from "react-icons/fa";
+import { LuWand } from "react-icons/lu"
 
 // 3. UI Components (Shadcn / Design System)
 import { Button } from "@/components/ui/button";
@@ -98,6 +99,16 @@ const Login = () => {
                 <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('discord', {redirectTo: '/shop'})}>
                     <FaDiscord/> Login with Discord
                 </Button>
+                <Link href="/auth/magicLink" className="w-full">
+                <Button 
+                    variant="outline" 
+                    type="button" 
+                    className="w-full cursor-pointer flex flex-row gap-2"
+                >
+                    <LuWand size={18} />
+                    Login with Magic Links
+                </Button>
+                </Link> 
             </CardFooter>
         </Card>
     );

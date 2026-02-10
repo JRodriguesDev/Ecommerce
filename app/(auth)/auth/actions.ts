@@ -4,15 +4,15 @@
 import { redirect } from 'next/navigation'
 
 // 2. Auth & Security
-import { signIn } from '@/lib/authjs/auth'
+import { signIn, auth } from '@/lib/authjs/auth'
 import { AuthError } from 'next-auth'
 
 // 3. Database & Services
 import { Prisma } from '@/lib/prisma/index'
-import { userRegister } from '@/services/DAL/auth'
+import { userRegister, nameRegister } from '@/services/DAL/auth'
 
 // 4. Validation, Types & Schemas
-import { loginSchema, registerSchema } from './schema'
+import { loginSchema, registerSchema, registerNameSchema } from './schema'
 import { FormState } from './types'
 
 export const loginForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
@@ -30,7 +30,7 @@ export const loginForm = async (prevState: FormState, form: FormData): Promise<F
         }
         return { success: false, error: 'Something went wrong with authentication.' }
     }
-    redirect('/shop')
+    redirect('/auth/completeRegistration')
 }
 
 export const registerForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
@@ -49,6 +49,21 @@ export const registerForm = async (prevState: FormState, form: FormData): Promis
             if (err.code === 'P2002') return {success: false, error: 'This email is already registered.'}
         }
         return { success: false, error: 'Registration failed. Please try again.' }
+    }
+    redirect('/auth/completeRegistration')
+}
+
+export const registerName = async (prevState: FormState, form: FormData): Promise<FormState> => {
+    const session = await auth()
+    const validatedFields = registerNameSchema.safeParse({name: form.get('name')})
+    console.log(validatedFields)
+    if (!validatedFields.success) return {success: false, error: 'Invalid field. Please check your name'}
+    const {name} = validatedFields.data
+    if (!session?.user?.id) return { success: false, error: "Session Error" }
+    try {
+        await nameRegister(session.user.id, name)
+    } catch (err) {
+        return { success: false, error: ' Name registration failed. Please try again.'}
     }
     redirect('/shop')
 }
