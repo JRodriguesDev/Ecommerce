@@ -1,7 +1,18 @@
 import { NextAuthConfig } from "next-auth";
 import {getMainImage, imageSwith} from '@/services/DAL/auth'
+import {auth} from '../auth'
 
 export const myCallback: NextAuthConfig['callbacks'] = {
+    async signIn({account, profile}) {
+        const session = await auth()
+        if (session && (account?.type == 'oauth' || account?.type == 'oidc')) {
+            const newEmail = profile?.email
+            const currentEmail = session.user?.email
+            if (newEmail !== currentEmail) return `/auth/errorLinking?error=EmailMismatch`
+        }
+        return true
+    },
+
     async jwt({token, user, trigger, session}) {
             if (user) {
                 token.id = user.id

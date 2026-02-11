@@ -17,7 +17,7 @@ const MagicLink = () => {
         // Chamada oficial para o Auth.js passando o e-mail manualmente
         await signIn("resend", { 
             email, 
-            callbackUrl: "/shop" // Ajuste para sua rota principal
+            callbackUrl: '/auth/completeRegistration' // Ajuste para sua rota principal
         })
 
         // O Auth.js redireciona automaticamente para a página de "Verify Request" 

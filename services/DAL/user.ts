@@ -41,3 +41,11 @@ export const getPerfil = async (userId: string) => {
     })
     return {name: user?.name, email: user?.email, image: user?.mainImage}
 }
+
+export const securityInfo = async (userId: string) => {
+    const data = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {twoFactorEnabled: true, password: true}
+    })
+    return {twoFactor: data?.twoFactorEnabled, password: data?.password ? true : false}
+}

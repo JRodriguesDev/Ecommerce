@@ -1,12 +1,21 @@
-import { LuLock, LuShieldCheck, LuChevronRight, LuFingerprint, LuSmartphone } from "react-icons/lu"
+import { LuLock, LuChevronRight, LuFingerprint, LuSmartphone } from "react-icons/lu"
 import { Card } from "@/components/ui/card"
+import { getSecurityInfomatios } from './actions'
+import { auth } from '@/lib/authjs/auth'
 
-const Security = () => {
-    // --- LÓGICA EM VARIÁVEIS (Simulando o que viria do Profile) ---
-    const hasPassword = false; // Mude para true para testar o estado com senha
-    const isTwoFactorEnabled = false; // Mude para true para ver o estado ativo
-    const lastPasswordChange = "15 de Janeiro, 2026";
-    // -------------------------------------------------------------
+const Security = async () => {
+    const session = await auth()
+    
+    // 1. Busca os dados reais da sua action
+    const data = await getSecurityInfomatios(session!.user!.id!)
+    
+    // 2. Extraímos os dados da resposta da action
+    const hasPassword = data?.password ?? false;
+    const isTwoFactorEnabled = data?.twoFactor ?? false;
+    
+    // Caso você precise formatar a data de mudança de senha no futuro, 
+    // pode vir do campo updatedAt do Prisma. Por enquanto usaremos um placeholder:
+    const lastPasswordChange = "Recentemente";
 
     return (
         <div className="max-w-4xl mx-auto space-y-10 pb-20 px-4 pt-4">
@@ -34,10 +43,10 @@ const Security = () => {
                             label="Senha da Conta" 
                             value={hasPassword ? "••••••••••••" : "Senha não definida"}
                             description={hasPassword 
-                                ? `Alterada em ${lastPasswordChange}` 
+                                ? `Proteção ativa. Sua última alteração foi: ${lastPasswordChange}` 
                                 : "Você acessa via provedor social. Defina uma senha para login direto."
                             }
-                            icon={<LuLock size={20} />} 
+                            icon={<LuLock size={20} className={hasPassword ? "text-blue-500" : ""} />} 
                             actionLabel={hasPassword ? "ALTERAR" : "DEFINIR"}
                         />
 
@@ -58,23 +67,14 @@ const Security = () => {
                         <SecurityItem 
                             label="Autenticação de Dois Fatores (2FA)" 
                             value={isTwoFactorEnabled ? "Ativado" : "Desativado"}
-                            description="Gere códigos de segurança via aplicativo para proteger sua conta."
-                            icon={<LuSmartphone size={20} className={isTwoFactorEnabled ? "text-green-500" : ""} />} 
+                            description="Adicione uma camada extra de segurança exigindo um código no login."
+                            icon={<LuSmartphone size={20} className={isTwoFactorEnabled ? "text-emerald-500" : ""} />} 
                             actionLabel={isTwoFactorEnabled ? "GERENCIAR" : "ATIVAR"}
-                        />
-
-                        {/* MAGIC LINKS / PASSKEYS (Sugestão de UX futura) */}
-                        <SecurityItem 
-                            label="Chaves de Acesso (Passkeys)" 
-                            value="Não configurado"
-                            description="Use biometria ou reconhecimento facial para entrar rapidamente."
-                            icon={<LuFingerprint size={20} />} 
-                            actionLabel="CONFIGURAR"
                         />
                     </Card>
                 </section>
 
-                {/* NOTA DE RODAPÉ SOBRE SESSÕES */}
+                {/* NOTA DE RODAPÉ */}
                 <p className="text-[10px] text-zinc-600 px-1 italic">
                     * Alterar sua senha ou desativar o 2FA pode encerrar suas sessões ativas em outros dispositivos por segurança.
                 </p>
@@ -83,7 +83,7 @@ const Security = () => {
     )
 }
 
-// Sub-componente de item de segurança (Baseado no seu DataItem)
+// Sub-componente mantendo seu estilo visual consistente
 const SecurityItem = ({ label, value, description, icon, actionLabel }: { 
     label: string, 
     value: string, 
@@ -93,21 +93,21 @@ const SecurityItem = ({ label, value, description, icon, actionLabel }: {
 }) => (
     <div className="p-6 flex items-center justify-between hover:bg-zinc-800/20 transition-all cursor-pointer group">
         <div className="flex items-center gap-5">
-            {/* Ícone com o seu estilo de border/bg */}
             <div className="p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg text-zinc-600 group-hover:text-blue-500 group-hover:border-blue-500/20 transition-all">
                 {icon}
             </div>
             
             <div className="space-y-0.5">
                 <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">{label}</p>
-                <p className="text-sm font-bold text-zinc-200 group-hover:text-white transition-colors">{value}</p>
+                <p className="text-sm font-bold text-zinc-200 group-hover:text-white transition-colors">
+                    {value}
+                </p>
                 <p className="text-[11px] text-zinc-500 font-medium leading-tight max-w-[280px] md:max-w-md italic">
                     {description}
                 </p>
             </div>
         </div>
 
-        {/* Lado Direito: Botão de Ação e Chevron */}
         <div className="flex items-center gap-3">
             <span className="text-[10px] font-bold text-zinc-700 opacity-0 group-hover:opacity-100 transition-opacity">
                 {actionLabel}

@@ -11,7 +11,6 @@ import {myEvents} from './configs/myEvents'
 
 export const {handlers, signIn, signOut, auth} = nextAuth({
     adapter: PrismaAdapter(prisma),
-    debug: true,
     pages: {
         verifyRequest: '/auth/verifyRequest'
     },
