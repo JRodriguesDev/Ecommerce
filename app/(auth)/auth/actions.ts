@@ -30,7 +30,7 @@ export const loginForm = async (prevState: FormState, form: FormData): Promise<F
         }
         return { success: false, error: 'Something went wrong with authentication.' }
     }
-    redirect('/auth/completeRegistration')
+    redirect('/shop')
 }
 
 export const registerForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
@@ -50,7 +50,7 @@ export const registerForm = async (prevState: FormState, form: FormData): Promis
         }
         return { success: false, error: 'Registration failed. Please try again.' }
     }
-    redirect('/auth/completeRegistration')
+    redirect('/shop')
 }
 
 export const registerName = async (prevState: FormState, form: FormData): Promise<FormState> => {

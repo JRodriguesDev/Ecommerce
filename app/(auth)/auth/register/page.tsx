@@ -106,10 +106,10 @@ const Register = () => {
                         'Register'
                     )}
                 </Button>
-                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('google', {redirectTo: '/shop'})}>
+                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('google', {redirectTo: '/auth/completeRegistration'})}>
                 <FaGoogle/> Login with Google
                 </Button>
-                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('discord', {redirectTo: '/shop'})}>
+                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('discord', {redirectTo: '/auth/completeRegistration'})}>
                 <FaDiscord/> Login with Discord
                 </Button>
                 <Link href="/auth/magicLink" className="w-full">

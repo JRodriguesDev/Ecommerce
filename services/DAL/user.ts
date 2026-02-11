@@ -2,6 +2,7 @@ import 'server-only'
 
 import prisma from '@/lib/prisma'
 import {verifySession} from './auth'
+import { email } from 'zod'
 
 
 export const getProfile = async () => {
@@ -31,4 +32,12 @@ export const getProfile = async () => {
         console.log('Failed to fetch user')
     return null
     }
+}
+
+export const getPerfil = async (userId: string) => {
+    const user = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {name: true, email: true, mainImage: true}
+    })
+    return {name: user?.name, email: user?.email, image: user?.mainImage}
 }

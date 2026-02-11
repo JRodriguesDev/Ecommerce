@@ -8,16 +8,19 @@ import {
     LuFileText
 } from "react-icons/lu"
 import { Card, CardContent } from "@/components/ui/card"
-import PerfilInfo from './_components/perfilnfo'
-import { cn } from '@/lib/utils'
+import {PerfilInfo, PerfilInfoSkeleton} from './_components/perfilnfo'
 
-const Profile = async () => {
+import { Suspense } from 'react'
+
+const Profile = () => {
     return (
         /* ml-20 garante que o conteúdo não fique por baixo da sidebar retraída */
         <div className="max-w-6xl mx-auto space-y-10 pb-20 px-6 pt-8">
             
             {/* 1. HEADER DE IDENTIFICAÇÃO */}
-            <PerfilInfo />
+            <Suspense fallback={<PerfilInfoSkeleton/>}>
+                <PerfilInfo />
+            </Suspense>
 
             <div className="space-y-6">
                 <div className="flex flex-col gap-1">
