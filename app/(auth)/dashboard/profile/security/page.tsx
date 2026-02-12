@@ -15,7 +15,6 @@ const Security = async () => {
     
     // Caso você precise formatar a data de mudança de senha no futuro, 
     // pode vir do campo updatedAt do Prisma. Por enquanto usaremos um placeholder:
-    const lastPasswordChange = "Recentemente";
 
     return (
         <div className="max-w-4xl mx-auto space-y-10 pb-20 px-4 pt-4">
@@ -43,7 +42,7 @@ const Security = async () => {
                             label="Senha da Conta" 
                             value={hasPassword ? "••••••••••••" : "Senha não definida"}
                             description={hasPassword 
-                                ? `Proteção ativa. Sua última alteração foi: ${lastPasswordChange}` 
+                                ? '' 
                                 : "Você acessa via provedor social. Defina uma senha para login direto."
                             }
                             icon={<LuLock size={20} className={hasPassword ? "text-blue-500" : ""} />} 

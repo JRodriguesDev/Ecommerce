@@ -9,10 +9,10 @@ import { AuthError } from 'next-auth'
 
 // 3. Database & Services
 import { Prisma } from '@/lib/prisma/index'
-import { userRegister, nameRegister } from '@/services/DAL/auth'
+import { userRegister } from '@/services/DAL/auth'
 
 // 4. Validation, Types & Schemas
-import { loginSchema, registerSchema, registerNameSchema } from './schema'
+import { loginSchema, registerSchema } from './schema'
 import { FormState } from './types'
 
 export const loginForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
@@ -53,17 +53,3 @@ export const registerForm = async (prevState: FormState, form: FormData): Promis
     redirect('/shop')
 }
 
-export const registerName = async (prevState: FormState, form: FormData): Promise<FormState> => {
-    const session = await auth()
-    const validatedFields = registerNameSchema.safeParse({name: form.get('name')})
-    console.log(validatedFields)
-    if (!validatedFields.success) return {success: false, error: 'Invalid field. Please check your name'}
-    const {name} = validatedFields.data
-    if (!session?.user?.id) return { success: false, error: "Session Error" }
-    try {
-        await nameRegister(session.user.id, name)
-    } catch (err) {
-        return { success: false, error: ' Name registration failed. Please try again.'}
-    }
-    redirect('/shop')
-}

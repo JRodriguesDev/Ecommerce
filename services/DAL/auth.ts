@@ -86,9 +86,17 @@ export const unlikedProvider = async (userId: string, provider: string) => {
     })
 }
 
-export const nameRegister = async (userId: string, name: string) => {
+export const completeRegister = async (userId: string, name: string, password: string) => {
     await prisma.user.update({
         where: {id: userId},
-        data: {name: name}
+        data: {name: name, password}
     })
+}
+
+export const verifyProfile = async (userId: string) => {
+    const user = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {name: true, password: true}
+    })
+    return {name: user!.name ? true : false, password: user?.password ? true : false}
 }

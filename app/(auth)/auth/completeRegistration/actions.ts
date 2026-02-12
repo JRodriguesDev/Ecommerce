@@ -1,0 +1,22 @@
+'use server'
+
+import {completeRegisterSchema} from '../schema'
+import {completeRegister} from '@/services/DAL/auth'
+import {auth} from '@/lib/authjs/auth'
+import {FormState} from '../types'
+import bcrypt from 'bcryptjs'
+
+export const completeRegistration = async (prevState: FormState, form: FormData): Promise<FormState> => {
+    const session = await auth()
+    if (!session?.user?.id) return { success: false, error: "Session Error" }
+    const validatedFields = completeRegisterSchema.safeParse({name: form.get('name'), password: form.get('password')})
+    if (!validatedFields.success) return {success: false, error: 'Invalid field. Please check your name or Password'}
+    validatedFields.data.password = await bcrypt.hash(validatedFields.data.password, 10)
+    const {name, password} = validatedFields.data
+    try {
+        await completeRegister(session.user.id, name, password)
+    } catch (err) {
+        return { success: false, error: ' Name registration failed. Please try again.'}
+    }
+    return {success: true}
+}

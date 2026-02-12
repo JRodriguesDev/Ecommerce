@@ -1,5 +1,5 @@
 import { NextAuthConfig } from "next-auth";
-import {getMainImage, imageSwith} from '@/services/DAL/auth'
+import {getMainImage, imageSwith, verifyProfile} from '@/services/DAL/auth'
 import {auth} from '../auth'
 
 export const myCallback: NextAuthConfig['callbacks'] = {
@@ -15,9 +15,14 @@ export const myCallback: NextAuthConfig['callbacks'] = {
 
     async jwt({token, user, trigger, session}) {
             if (user) {
+                const security = await verifyProfile(user.id!)
                 token.id = user.id
                 const mainImage = await getMainImage(user.id!)
                 token.picture = mainImage || user.image
+                token.needsProfile = !security.name || !security.password
+            }
+            if (trigger == 'update' && !session.needsProfile) {
+                token.needsProfile = session.needsProfile
             }
             if (trigger === 'update' && session.image) {
                 await imageSwith(token.id as string, session.image)
@@ -30,6 +35,7 @@ export const myCallback: NextAuthConfig['callbacks'] = {
         if (session.user && token.id) {
             session.user.id = token.id as string
             session.user.image = token.picture
+            session.user.needsProfile = token.needsProfile
         }
         return session
     }
