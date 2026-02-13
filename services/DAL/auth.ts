@@ -100,3 +100,23 @@ export const verifyProfile = async (userId: string) => {
     })
     return {name: user!.name ? true : false, password: user?.password ? true : false}
 }
+
+export const getVerifyLogin = async (email: string) => {
+    const data = await prisma.user.findUnique({
+        where: {email: email},
+        select: {password: true, twoFactorEnabled: true}
+    })
+    return  {password: data?.password, TwoFactor: data?.twoFactorEnabled}
+}
+
+export const setTwoFactor = async (email: string, token: string, secret: string) => {
+    const user = await prisma.user.update({
+        where: {email: email},
+        data: {
+            twoFactorSecret: secret,
+            twoFactorToken: token
+        },
+        select: {id: true}
+    })
+    return user.id
+}

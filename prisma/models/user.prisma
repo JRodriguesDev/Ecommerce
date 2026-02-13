@@ -11,6 +11,7 @@ model User {
     accounts  Account[]
     twoFactorEnabled Boolean @default(false)
     twoFactorSecret  String?
+    twoFactorToken String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
