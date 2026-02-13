@@ -49,3 +49,19 @@ export const securityInfo = async (userId: string) => {
     })
     return {twoFactor: data?.twoFactorEnabled, password: data?.password ? true : false}
 }
+
+export const security2FaToggle = async (userId: string, isTwoFactorEnabled: boolean) => {
+    await prisma.user.update({
+        where: {id: userId},
+        data: {
+            twoFactorEnabled: isTwoFactorEnabled
+        }
+    })
+}
+
+export const securityResetPassword = async (userId: string, newPassword: string) => {
+    await prisma.user.update({
+        where: {id: userId},
+        data: {password: newPassword}
+    })
+}
