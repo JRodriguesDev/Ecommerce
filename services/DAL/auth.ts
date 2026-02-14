@@ -50,12 +50,12 @@ export const userRegister = async (data: Pick<User, 'name' | 'email' | 'password
 export const userLogin = async (data: Pick<User, 'email' | 'password'>) => {
     const user = await prisma.user.findUnique({
         where: {email: data.email},
-        select: {id: true, name: true, email: true, password: true, image: true}
+        select: {id: true, name: true, email: true, password: true, mainImage: true}
     })
     if (!user || !user.password) throw new Error('User not found')
     const validated = await bcrypt.compare(data.password, user.password)
     if (!validated) throw new Error('Password incorrect')
-    return {id: user.id, name: user.name, email: user.email, image: user.image}
+    return {id: user.id, name: user.name, email: user.email, image: user.mainImage}
 }
 
 export const getMainImage = async (userId: string) => {
@@ -119,4 +119,20 @@ export const setTwoFactor = async (email: string, token: string, secret: string)
         select: {id: true}
     })
     return user.id
+}
+
+export const verifyTwoFactor = async (userId: string) => {
+    const user = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {email: true, twoFactorToken: true}
+    })
+    return {token: user?.twoFactorToken, email: user?.email}
+}
+
+export const twoFactorLogin = async (email: string) => {
+    const user = await prisma.user.findUnique({
+        where: {email: email},
+        select: {id: true, name: true, email: true, password: true, mainImage: true}
+    })
+    return {id: user?.id, name: user?.name, email: user?.email, image: user?.mainImage}
 }

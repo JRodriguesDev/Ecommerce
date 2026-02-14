@@ -15,11 +15,11 @@ import { Prisma } from '@/lib/prisma/index'
 import { userRegister } from '@/services/DAL/auth'
 import {verifyLogin} from '@/services/DTO/auth'
 import {generateToken as jwtGenerate} from '@/lib/jwt/token'
+import {sendTwoFactorTokenEmail} from '@/lib/resend/twoFactor/sender'
 
 // 4. Validation, Types & Schemas
 import { loginSchema, registerSchema } from './schema'
 import { FormState } from './types'
-import TwoFactor from './twoFactor/page'
 
 export const loginForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
     const validatedFields = loginSchema.safeParse({
@@ -37,7 +37,8 @@ export const loginForm = async (prevState: FormState, form: FormData): Promise<F
             const cookieStore = await cookies()
             const jwt = await jwtGenerate({userId: userId})
             cookieStore.set({name: '2fa_login_email', value: jwt, httpOnly: true, secure: true, sameSite: 'strict', maxAge: 300, path: '/'})
-        } else {await signIn('credentials', {email, password, redirect: false})}
+            await sendTwoFactorTokenEmail(email, token)
+        } else {await signIn('credentials', {email, password, redirectTo: '/shop'})}
     } catch (err) {
         if (err instanceof AuthError) {
             return {success: false, error: 'Invalid email or password.'}
@@ -46,7 +47,6 @@ export const loginForm = async (prevState: FormState, form: FormData): Promise<F
         return { success: false, error: 'Something went wrong with authentication.' }
     }
     if (twoFactor) redirect('/auth/twoFactor')
-    redirect('/shop')
 }
 
 export const registerForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
