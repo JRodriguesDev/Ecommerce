@@ -38,7 +38,8 @@ export const loginForm = async (prevState: FormState, form: FormData): Promise<F
             const jwt = await jwtGenerate({userId: userId})
             cookieStore.set({name: '2fa_login_email', value: jwt, httpOnly: true, secure: true, sameSite: 'strict', maxAge: 300, path: '/'})
             await sendTwoFactorTokenEmail(email, token)
-        } else {await signIn('credentials', {email, password, redirectTo: '/shop'})}
+        } else {
+            await signIn('credentials', {email: email, password: password, redirect: false})}
     } catch (err) {
         if (err instanceof AuthError) {
             return {success: false, error: 'Invalid email or password.'}
@@ -47,6 +48,7 @@ export const loginForm = async (prevState: FormState, form: FormData): Promise<F
         return { success: false, error: 'Something went wrong with authentication.' }
     }
     if (twoFactor) redirect('/auth/twoFactor')
+    redirect('/shop')
 }
 
 export const registerForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
