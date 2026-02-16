@@ -17,24 +17,24 @@ const VerifyRequestPage = () => {
 
         <div className="space-y-2">
           <h1 className="text-2xl font-bold text-white tracking-tight">
-            Verifique seu e-mail
+            Check your email.
           </h1>
           <p className="text-zinc-400 text-sm leading-relaxed">
-            Enviamos um link de login seguro para o seu endereço de e-mail. 
-            Clique no botão contido na mensagem para acessar sua conta.
+            We&apos;ve sent a secure login link to your email address.
+            Click the button in the message to access your account.
           </p>
         </div>
 
         <div className="bg-zinc-900/50 p-4 rounded-xl border border-zinc-800/50">
           <p className="text-xs text-zinc-500">
-            Não recebeu? Verifique a pasta de **Spam** ou aguarde alguns minutos.
+            Didn&apos;t receive it? Check your **Spam** folder or wait a few minutes.
           </p>
         </div>
 
         <Link href="/auth/login" className="block w-full">
           <Button variant="ghost" className="w-full text-zinc-400 hover:text-white flex gap-2">
             <LuArrowLeft size={16} />
-            Voltar para o login
+            Back to login
           </Button>
         </Link>
       </div>

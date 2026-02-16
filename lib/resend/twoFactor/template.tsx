@@ -17,12 +17,13 @@ interface TwoFactorEmailProps {
 export const TwoFactorEmail = ({ token }: TwoFactorEmailProps) => (
   <Html>
     <Head />
-    <Preview>Seu código de verificação de dois fatores</Preview>
+    <Preview>Your two-factor verification code</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Segurança 2FA</Heading>
+        <Heading style={h1}>2FA Security</Heading>
         <Text style={text}>
-          Alguém tentou entrar na sua conta. Se foi você, use o código de verificação abaixo para completar o acesso:
+          An identity verification request has been made for your account.
+          If you are attempting to perform this operation, please use the code below to confirm your identity and proceed:
         </Text>
         <Section style={codeContainer}>
           <Text style={codeText}>{token}</Text>

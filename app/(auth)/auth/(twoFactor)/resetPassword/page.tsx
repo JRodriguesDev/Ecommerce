@@ -18,27 +18,21 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import {FormState} from '../../types'
+
+
+const prevState: FormState = {success: false, error: null}
 
 const NewPassword = () => {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     
-    const [state, formAction, pending] = useActionState(async (prevState: any, formData: FormData) => {
-        const password = formData.get('password') as string;
-        const confirm = formData.get('confirmPassword') as string;
-
-        if (password !== confirm) {
-            return { success: false, error: "Passwords do not match." };
-        }
-
-        return await updatePasswordAction(password);
-    }, { success: false, error: null });
-
+    const [state, formAction, pending] = useActionState(updatePasswordAction, prevState)
     // Monitora o sucesso para redirecionar
     useEffect(() => {
         if (state?.success) {
             // Redireciona com um parâmetro opcional para exibir um alerta de sucesso no Login
-            router.push('/auth/login?reset=success');
+            router.push('/auth/login');
         }
     }, [state?.success, router]);
 
@@ -57,7 +51,7 @@ const NewPassword = () => {
                 <CardContent>
                     <Form action={formAction} className="space-y-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="password" size="sm" className="text-zinc-400">New Password</Label>
+                            <Label htmlFor="password" className="text-zinc-400">New Password</Label>
                             <div className="relative">
                                 <LuLock className="absolute left-3 top-3 text-zinc-600" size={18} />
                                 <Input
@@ -79,7 +73,7 @@ const NewPassword = () => {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="confirmPassword" size="sm" className="text-zinc-400">Confirm Password</Label>
+                            <Label htmlFor="confirmPassword" className="text-zinc-400">Confirm Password</Label>
                             <div className="relative">
                                 <LuLock className="absolute left-3 top-3 text-zinc-600" size={18} />
                                 <Input

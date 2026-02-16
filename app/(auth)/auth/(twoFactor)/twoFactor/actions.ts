@@ -10,7 +10,7 @@ export const verify2Fa = async (code: string) => {
         const cookie2Factor = cookieStore.get('2fa_login_email')?.value
 
         if (!cookie2Factor) {
-            return { success: false, error: 'Sessão expirada. Por favor, faça login novamente.' }
+            return { success: false, error: 'Session expired. Please try again.' }
         }
 
         // Decodifica o JWT para pegar o userId
@@ -21,7 +21,7 @@ export const verify2Fa = async (code: string) => {
         const tokenData = await verifyTwoFactor(userId)
 
         if (!tokenData || code !== tokenData.token) {
-            return { success: false, error: 'Código incorreto. Tente novamente.' }
+            return { success: false, error: 'Incorrect code. Please try again.' }
         }
 
         // --- SUCESSO ---
@@ -33,7 +33,6 @@ export const verify2Fa = async (code: string) => {
         return { success: true, email: tokenData.email}
 
     } catch (err) {
-        console.error("Erro na verificação 2FA:", err)
         return { success: false, error: 'Ocorreu um erro interno. Tente mais tarde.' }
     }
 }

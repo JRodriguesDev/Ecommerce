@@ -15,3 +15,8 @@ export const completeRegisterSchema = z.object({
     name: z.string().min(3).trim(),
     password: z.string().min(8).trim()
 })
+
+export const ResetPasswordSchema = z.object({
+    password: z.string().min(8).trim(),
+    confirmPassword: z.string().min(8).trim()
+})

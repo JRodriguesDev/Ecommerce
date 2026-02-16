@@ -4,8 +4,18 @@ import { cookies } from "next/headers"
 import { verifyToken } from '@/lib/jwt/token'
 import { securityResetPassword } from '@/services/DAL/user'
 import bcrypt from 'bcryptjs'
+import {FormState} from '../../types'
+import {ResetPasswordSchema} from '../../schema'
 
-export const updatePasswordAction = async (password: string) => {
+export const updatePasswordAction = async (prevState: FormState, form: FormData): Promise<FormState> => {
+    const password = form.get('password') as string;
+    const confirmPassword = form.get('confirmPassword') as string;
+    const validatedFields = ResetPasswordSchema.safeParse({
+        password: password,
+        confirmPassword: confirmPassword
+    })
+    if (!validatedFields.success) return {success: false, error: 'Invalid fields. Please check your password.'}
+    if (password !== confirmPassword) return { success: false, error: "Passwords do not match." }
     try {
         const cookieStore = await cookies()
         const twoFactorCookie = cookieStore.get('2fa_reset')

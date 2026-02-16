@@ -4,7 +4,7 @@ import { useActionState, useState } from 'react';
 import Link from 'next/link';
 import Form from 'next/form';
 import { LuMail, LuArrowLeft, LuLoader, LuShieldCheck } from "react-icons/lu";
-import { resetPasswordAction, verifyCodeAction } from './actions'
+import { sendCodeAction, verifyCodeAction } from './actions'
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,24 +23,35 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp"
 import { useRouter } from 'next/navigation';
+import {FormState} from '../../types'
+
+
+const prevState: FormState = {success: false, error: null}
 
 const VerifyReset = () => {
     const router = useRouter()
-    const [state, formAction, pending] = useActionState(async (prevState: any, formData: FormData) => {
-        const email = formData.get('email') as string;
-        return await resetPasswordAction(email);
-    }, { success: false, error: null });
-
+    const [state, formAction, pending] = useActionState(sendCodeAction, prevState)
     const [otpCode, setOtpCode] = useState("");
     const [isLoading, setIsloading] = useState(false)
+    const [verifyState, setVerifyState] = useState<{sucess: boolean, err: string | undefined}>({sucess: false, err: ''})
 
     const handleVerifyOtp = async () => {
-        setIsloading(true)
-        const data = await verifyCodeAction(otpCode)
-        console.log(data)
-        if (data.success) router.push('/auth/resetPassword')
-        setIsloading(false)
-    };
+    setIsloading(true);
+    setVerifyState({ sucess: false, err: '' }); // Resetamos para o estado inicial
+
+    const data = await verifyCodeAction(otpCode);
+
+    if (!data.success) {
+        // Se deu erro, sucess é false e setamos o erro
+        setVerifyState({ sucess: false, err: data.error });
+        setOtpCode(''); // Limpa o campo se errar
+    } else {
+        // Se deu certo, vai para a próxima página
+        router.push('/auth/resetPassword');
+    }
+    
+    setIsloading(false);
+};
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 bg-zinc-950">
@@ -112,7 +123,11 @@ const VerifyReset = () => {
                                     <InputOTPSlot index={5} className="bg-zinc-950 border-zinc-800 text-white w-10 h-12" />
                                 </InputOTPGroup>
                             </InputOTP>
-
+                            {verifyState.err && (
+                                <div className="w-full text-center text-xs font-bold text-red-500 bg-red-500/10 p-2 rounded border border-red-500/20 animate-in fade-in slide-in-from-top-1">
+                                    ⚠️ {verifyState.err}
+                                </div>
+                            )}
                             <Button 
                                 onClick={handleVerifyOtp}
                                 disabled={otpCode.length < 6 || isLoading} // Adicionei o isLoading se você estiver usando
@@ -126,7 +141,7 @@ const VerifyReset = () => {
                                         <LuShieldCheck className="group-hover:scale-110 transition-transform" size={18} />
                                     </div>
                                 )}
-</Button>
+                            </Button>
                         </div>
                     )}
                 </CardContent>

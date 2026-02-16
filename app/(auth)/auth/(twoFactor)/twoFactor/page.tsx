@@ -13,12 +13,12 @@ import {
 } from "@/components/ui/input-otp"
 import { verify2Fa } from './actions'
 import {signIn} from 'next-auth/react'
+import {FormState} from '../../types'
 
 const TwoFactor = () => {
     const [code, setCode] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
-    const router = useRouter()
 
     const handleVerify = async () => {
         if (code.length < 6) return
@@ -31,7 +31,6 @@ const TwoFactor = () => {
 
             if (result.success) {
                 // Redireciona para a home ou dashboard
-                console.log(result)
                 await signIn('credentials', {email: result.email, is2FaVerified: result.success, redirectTo: '/shop'})
             } else {
                 setError(result.error || "Erro desconhecido")
@@ -53,10 +52,10 @@ const TwoFactor = () => {
                         <LuShieldCheck size={40} />
                     </div>
                     <h1 className="text-2xl font-black tracking-tighter text-zinc-100 uppercase italic pt-4">
-                        Segurança 2FA
+                        2FA Security
                     </h1>
                     <p className="text-zinc-500 text-sm font-medium max-w-[280px]">
-                        Digite o código enviado ao seu e-mail para continuar.
+                        Enter the code sent to your email to continue.
                     </p>
                 </div>
 

@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/card";
 
 // 4. Local Logic (Actions, Types, Config)
-import { registerForm } from '../actions';
+import { registerForm } from './actions';
 import { FormState } from '../types';
 
 
