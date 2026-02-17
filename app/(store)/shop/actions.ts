@@ -1,6 +1,6 @@
 'use server'
 
-import { getLowStockProducts, getProductsByCategory } from '@/services/DAL/shop'
+import { getLowStockProducts, getProductsByRating } from '@/services/DAL/shop'
 
 export const productsLowStock = async () => {
     try {
@@ -12,13 +12,11 @@ export const productsLowStock = async () => {
     }
 }
 
-export const productsByCategory = async (category: string) => {
-    if (!category) return []
-
+export const productsByCategory = async () => {
     try {
-        return await getProductsByCategory(category)
+        return await getProductsByRating()
     } catch (error) {
-        console.error(`Failed to fetch products for category ${category}:`, error)
+        console.error(`Failed to fetch products for rating:`, error)
         return []
     }
 }

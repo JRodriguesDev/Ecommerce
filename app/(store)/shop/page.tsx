@@ -9,7 +9,7 @@ const Shop = () => {
             {/* Seção: Categoria em Destaque */}
             {/* O Suspense aqui permite que uma seção carregue independente da outra */}
             <section className="py-8 md:py-12">
-                    <ByCategoryProducts category="electronics"/>
+                    <ByCategoryProducts />
             </section>
             
             {/* Divisor centralizado e sutil */}

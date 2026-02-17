@@ -3,24 +3,24 @@ import { productsLowStock, productsByCategory } from '../actions'
 import { Suspense } from "react"
 
 // Componente auxiliar para fazer o fetch e permitir o Suspense no pai
-const ByCategoryList = async ({ category }: { category: string }) => {
-    const products = await productsByCategory(category)
+const ByCategoryList = async () => {
+    const products = await productsByCategory()
     return <CarouselSection products={products} />
 }
 
-export const ByCategoryProducts = ({ category }: { category: string }) => {
+export const ByCategoryProducts = () => {
     return (
         <section className="mx-auto w-full max-w-[1400px] mt-16 px-6">
             <div className="flex flex-col mb-8">
                 <h2 className="text-zinc-100 text-2xl font-bold tracking-tight">
-                    Featured Category
+                    Best Rating
                 </h2>
-                <p className="text-zinc-500 text-sm">Explorar os melhores eletrônicos do mercado.</p>
+                <p className="text-zinc-500 text-sm">find Best Products.</p>
             </div>
             
             {/* Agora o Suspense funciona! Ele mostra o Skeleton enquanto ByCategoryList faz o await */}
             <Suspense fallback={<CarrouselSkeleton />}>
-                <ByCategoryList category={category} />
+                <ByCategoryList />
             </Suspense>
         </section>
     )

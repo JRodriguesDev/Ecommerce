@@ -9,6 +9,7 @@ export const getLowStockProducts = async () => {
     cacheTag('productsLowStock')
     const products = await prisma.product.findMany({
         where: {stock: {lt: 25}},
+        orderBy: {rating: 'desc'},
         take: 15,
         omit: {
             images: true,
@@ -20,11 +21,11 @@ export const getLowStockProducts = async () => {
     return products
 }
 
-export const getProductsByCategory = async (category: string) => {
+export const getProductsByRating = async () => {
     'use cache'
-    cacheTag(`products_${category}`)
+    cacheTag(`products_top_rated}`)
     const products = await prisma.product.findMany({
-        where: {category: {startsWith: category, mode: 'insensitive'}},
+        where: {rating: {gte: 4}},
         take: 15,
         omit: {
             images: true,
