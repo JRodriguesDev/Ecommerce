@@ -136,3 +136,13 @@ export const twoFactorLogin = async (email: string) => {
     })
     return {id: user?.id, name: user?.name, email: user?.email, image: user?.mainImage}
 }
+    
+export const getRoles = async (userId: string) => {
+    const roles = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {
+            role: {select: {role: {select: {name: true}}}}
+        }
+    })
+    return roles?.role.map((el) => el.role.name)
+}

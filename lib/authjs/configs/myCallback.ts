@@ -1,5 +1,5 @@
 import { NextAuthConfig } from "next-auth";
-import {getMainImage, imageSwith, verifyProfile} from '@/services/DAL/auth'
+import {getMainImage, imageSwith, verifyProfile, getRoles} from '@/services/DAL/auth'
 import {auth} from '../auth'
 
 export const myCallback: NextAuthConfig['callbacks'] = {
@@ -16,6 +16,9 @@ export const myCallback: NextAuthConfig['callbacks'] = {
     async jwt({token, user, trigger, session}) {
             if (user) {
                 const security = await verifyProfile(user.id!)
+                const roles = await getRoles(user.id!) ?? []
+                console.log(roles)
+                token.roles = roles
                 token.id = user.id
                 const mainImage = await getMainImage(user.id!)
                 token.picture = mainImage || user.image
