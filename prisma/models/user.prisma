@@ -8,6 +8,7 @@ model User {
     image String?
     googleImage String?
     discordImage String?
+    role UserRole[]
     accounts  Account[]
     twoFactorEnabled Boolean @default(false)
     twoFactorSecret  String?
