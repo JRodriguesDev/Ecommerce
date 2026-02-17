@@ -52,24 +52,6 @@ const DashboardSidebar = () => {
                 <Separator className="bg-zinc-800/50" />
             </div>
 
-            <div className="flex flex-col gap-1">
-                <h4 className="px-7 mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-600 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                    Vendas
-                </h4>
-                <nav className="flex flex-col gap-1 px-3">
-                    <SidebarItem 
-                        href="/profile/sales" 
-                        icon={<LuStore />} 
-                        label="Minha Loja" 
-                        active={pathName === "/profile/sales"} 
-                    />
-                </nav>
-            </div>
-
-            <div className="my-6 px-4">
-                <Separator className="bg-zinc-800/50" />
-            </div>
-
             <nav className="flex flex-col gap-1 px-3">
                 <SidebarItem 
                     href="/profile/wallet" 
