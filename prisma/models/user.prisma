@@ -10,6 +10,7 @@ model User {
     discordImage String?
     role UserRole[]
     accounts  Account[]
+    favorites Favorite[]
     twoFactorEnabled Boolean @default(false)
     twoFactorSecret  String?
     twoFactorToken String?

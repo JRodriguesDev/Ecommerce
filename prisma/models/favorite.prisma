@@ -1,0 +1,10 @@
+model Favorite {
+    id String @id @default(nanoid())
+    productId String
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    @@unique([userId, productId])
+    @@map("favorites")
+}

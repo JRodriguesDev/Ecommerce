@@ -9,6 +9,8 @@ import {
 
 import { Skeleton } from "@/components/ui/skeleton"
 import { notFound } from 'next/navigation'
+import {checkIsFAvoriteAction} from '../actions'
+import {auth} from '@/lib/authjs/auth'
 
 // Importe os novos componentes client
 import { Gallery, ActionButtons } from "./productInteractive" 
@@ -16,7 +18,8 @@ import { Gallery, ActionButtons } from "./productInteractive"
 export const ProductDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params
     const product = await getProduct(id) as Product
-
+    const session = await auth()
+    const isFavorite = session?.user ? await checkIsFAvoriteAction(session!.user!.id as string, product.id) : false
     // Faxina: Em vez de null, usamos notFound() para uma UX melhor
     if (!product) notFound()
 
@@ -72,7 +75,7 @@ export const ProductDetails = async ({ params }: { params: Promise<{ id: string 
 
                 {/* AÇÕES (CLIENT COMPONENT) */}
                 <div className="mt-auto">
-                    <ActionButtons productId={product.id} />
+                    <ActionButtons productId={product.id} isFavorite={isFavorite} />
                 </div>
             </div>
         </div>

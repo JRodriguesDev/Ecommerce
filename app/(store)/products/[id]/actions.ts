@@ -1,4 +1,9 @@
+'use server'
+
 import { getProductById } from '@/services/DAL/shop'
+import {toggleFavorite, isFavorite} from '@/services/DAL/favorite'
+import { redirect } from 'next/navigation'
+import {auth} from '@/lib/authjs/auth'
 
 export const getProduct = async (id: string) => {
     try {
@@ -21,4 +26,16 @@ export const getProduct = async (id: string) => {
         // Retornamos null para que o componente decida como reagir (ex: notFound())
         return null
     }
+}
+
+export const addFAvoriteAction = async (productId: string) => {
+    const session = await auth()
+    if (!session?.user?.id) redirect('/auth/login')
+    const data = await toggleFavorite(session.user.id, productId)
+    return data
+}
+
+export const checkIsFAvoriteAction = async (userId: string, productId: string) => {
+    const data = await isFavorite(userId, productId)
+    return data
 }

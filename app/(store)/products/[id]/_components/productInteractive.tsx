@@ -4,8 +4,9 @@ import { useState, useMemo } from "react"
 import Image from "next/image"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { FaBagShopping, FaHeart, FaCartPlus } from "react-icons/fa6"
+import { FaBagShopping, FaHeart, FaCartPlus, FaRegHeart  } from "react-icons/fa6"
 import { cn } from "@/lib/utils"
+import {addFAvoriteAction} from '../actions'
 
 interface GalleryProps {
     thumbnail: string
@@ -67,8 +68,13 @@ export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
     )
 }
 
-export const ActionButtons = ({ productId }: { productId: string }) => {
-    
+export const ActionButtons = ({ productId, isFavorite}: { productId: string, isFavorite: boolean }) => {
+    const [favorite, setFavorite] = useState(isFavorite)
+    const handlerFavorites = async () => {
+        const result = await addFAvoriteAction(productId)
+        setFavorite(result.action)
+    }
+
     return (
         <div className="flex flex-col gap-3 mt-4">
             <div className="flex gap-3">
@@ -80,11 +86,16 @@ export const ActionButtons = ({ productId }: { productId: string }) => {
                 </Button>
                 
                 <Button 
+                onClick={handlerFavorites}
                     size="lg" 
                     variant="outline" 
                     className="flex-1 border-zinc-700 hover:bg-zinc-800 text-zinc-300 h-14 transition-colors"
                 >
-                    <FaHeart className="size-5 hover:text-red-500 transition-colors" />
+                    {favorite ? (
+                        <FaHeart className="size-5 text-red-500" /> // Preenchido se for favorito
+                        ) : (
+                        <FaRegHeart className="size-5 text-zinc-300" /> // Só o contorno se não for
+                    )}
                 </Button>
             </div>
 
