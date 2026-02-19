@@ -1,10 +1,10 @@
 import { CarouselSection, CarrouselSkeleton } from "./carousel"
-import { productsLowStock, productsByCategory } from '../actions'
+import { productsLowStockAction, productsByCategoryAction } from '../actions'
 import { Suspense } from "react"
 
 // Componente auxiliar para fazer o fetch e permitir o Suspense no pai
 const ByCategoryList = async () => {
-    const products = await productsByCategory()
+    const products = await productsByCategoryAction()
     return <CarouselSection products={products} />
 }
 
@@ -28,7 +28,7 @@ export const ByCategoryProducts = () => {
 
 // Mesma lógica para o Low Stock
 const LowStockList = async () => {
-    const products = await productsLowStock()
+    const products = await productsLowStockAction()
     return <CarouselSection products={products} />
 }
 

@@ -19,7 +19,7 @@ import {sendTwoFactorTokenEmail} from '@/lib/resend/twoFactor/sender'
 import { loginSchema } from '../schema'
 import { FormState } from '../types'
 
-export const loginForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
+export const loginFormAction = async (prevState: FormState, form: FormData): Promise<FormState> => {
     const validatedFields = loginSchema.safeParse({
         email: form.get('email'),
         password: form.get('password')

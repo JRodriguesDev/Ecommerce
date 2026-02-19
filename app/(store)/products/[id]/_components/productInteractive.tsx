@@ -7,12 +7,7 @@ import { Button } from "@/components/ui/button"
 import { FaBagShopping, FaHeart, FaCartPlus, FaRegHeart  } from "react-icons/fa6"
 import { cn } from "@/lib/utils"
 import {addFAvoriteAction} from '../actions'
-
-interface GalleryProps {
-    thumbnail: string
-    images: string[]
-    title: string
-}
+import {GalleryProps} from '../types'
 
 export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
     const [activeImage, setActiveImage] = useState(thumbnail)

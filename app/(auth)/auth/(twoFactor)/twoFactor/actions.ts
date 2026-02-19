@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { verifyToken as verifyTokenJWT } from '@/lib/jwt/token'
 import { verifyTwoFactor } from '@/services/DAL/auth'
 
-export const verify2Fa = async (code: string) => {
+export const verify2FaAction = async (code: string) => {
     try {
         const cookieStore = await cookies()
         const cookie2Factor = cookieStore.get('2fa_login_email')?.value

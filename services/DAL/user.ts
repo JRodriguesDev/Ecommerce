@@ -65,3 +65,26 @@ export const securityResetPassword = async (userId: string, newPassword: string)
         data: {password: newPassword}
     })
 }
+
+export const imageSwith = async (userId: string, imageUrl: string) => {
+    if (!userId) return null
+    await prisma.user.update({
+        where: {id: userId},
+        data: {mainImage: imageUrl}
+    })
+}
+
+export const getMainImage = async (userId: string) => {
+    const image = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {mainImage: true}
+    })
+    return image?.mainImage
+}
+
+export const updateImage = async (userId: string, data: {discordImage: string} | {googleImage: string}) => {
+    await prisma.user.update({
+        where: {id: userId},
+        data: {...data}
+    })
+}

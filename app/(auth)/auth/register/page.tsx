@@ -26,14 +26,14 @@ import {
 } from "@/components/ui/card";
 
 // 4. Local Logic (Actions, Types, Config)
-import { registerForm } from './actions';
+import { registerFormAction } from './actions';
 import { FormState } from '../types';
 
 
 const prevState: FormState = {success: false, error: null} 
 
 const Register = () => {
-    const [state, formAction, pending] = useActionState(registerForm, prevState)
+    const [state, formAction, pending] = useActionState(registerFormAction, prevState)
 
     return (
         <Card className='w-full max-w-sm m-auto mt-15'>

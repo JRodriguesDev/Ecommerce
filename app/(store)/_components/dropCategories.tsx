@@ -1,4 +1,4 @@
-import { allCategories } from '../actions'
+import { allCategoriesAction } from '../actions'
 import Link from 'next/link';
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -27,7 +27,7 @@ export const CategoriesSkeleton = () => {
 }
 
 export const Categories = async () => {
-    const categories = await allCategories()
+    const categories = await allCategoriesAction()
 
     return (
         <div className="flex flex-col min-w-[240px]">

@@ -8,15 +8,10 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel"
 import { ProductCard } from './productCard'
-import { Product } from '@/types/product'
 import { Skeleton } from "@/components/ui/skeleton"
+import {CarouselProps} from  '../types'
 
 // Faxina na Tipagem: Definindo exatamente o que o Card consome
-export type ProductCarouselItem = Pick<Product, 'id' | 'title' | 'price' | 'thumbnail' | 'rating' | 'slug'> // Exemplo de campos
-
-interface CarouselProps {
-    products: ProductCarouselItem[]
-}
 
 export const CarouselSection = ({ products }: CarouselProps) => {
     // Se não houver produtos, evitamos renderizar o container vazio

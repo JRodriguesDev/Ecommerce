@@ -1,5 +1,5 @@
 import {Product} from '@/types/product'
-import {getProduct} from '../actions'
+import {getProductAction} from '../actions'
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { 
@@ -17,7 +17,7 @@ import { Gallery, ActionButtons } from "./productInteractive"
 
 export const ProductDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params
-    const product = await getProduct(id) as Product
+    const product = await getProductAction(id) as Product
     const session = await auth()
     const isFavorite = session?.user ? await checkIsFAvoriteAction(session!.user!.id as string, product.id) : false
     // Faxina: Em vez de null, usamos notFound() para uma UX melhor

@@ -1,10 +1,6 @@
 import { ProductDetails, ProductSkeleton } from './_components/productDetails'
 import { Suspense } from 'react'
-
-interface PageProps {
-  params: Promise<{ id: string }>
-}
-
+import {PageProps} from './types'
 const ProductPage = async ({ params }: PageProps) => {
     
     return (

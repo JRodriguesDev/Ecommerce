@@ -1,7 +1,7 @@
 import { LuMail, LuChevronRight } from "react-icons/lu"
 import { RiFileUserLine } from "react-icons/ri"
 import { Card } from "@/components/ui/card"
-import { profile } from './actions'
+import { profileAction } from './actions'
 import { ConnectionCard } from './_components/connectionCard'
 import { Avatar } from './_components/avatar'
 import { ImageSourceSelector } from './_components/imageSourceSelector'
@@ -9,7 +9,7 @@ import { notFound } from "next/navigation"
 
 const PersonalData = async () => {
     // Busca os dados do perfil
-    const userProfile = await profile() 
+    const userProfile = await profileAction() 
 
     // Faxina: Se não houver perfil (sessão expirada ou erro), redirecionamos
     if (!userProfile) return notFound()

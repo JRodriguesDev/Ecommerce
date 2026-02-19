@@ -1,15 +1,13 @@
-import { LuLock, LuChevronRight, LuFingerprint, LuSmartphone } from "react-icons/lu"
-import { Switch } from "@/components/ui/switch"
+import { LuLock, LuSmartphone } from "react-icons/lu"
 import {SecurityActionButton} from './_components/button'
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { getSecurityInfomatios } from './actions'
+import { getSecurityInfomatiosAction } from './actions'
 import { auth } from '@/lib/authjs/auth'
 
 const Security = async () => {
     const session = await auth()
     // 1. Busca os dados reais da sua action
-    const data = await getSecurityInfomatios(session!.user!.id!)
+    const data = await getSecurityInfomatiosAction(session!.user!.id!)
     
     // 2. Extraímos os dados da resposta da action
     const hasPassword = data?.password ?? false;

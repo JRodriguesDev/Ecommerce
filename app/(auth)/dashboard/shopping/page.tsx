@@ -1,4 +1,4 @@
-import { LuSearch, LuChevronRight, LuDownload, LuExternalLink, LuReceipt } from "react-icons/lu"
+import { LuSearch, LuChevronRight, LuExternalLink, LuReceipt } from "react-icons/lu"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 

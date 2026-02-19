@@ -30,14 +30,6 @@ export const imageRegister = async (userId: string, provider: string, imageURL: 
     }
 }
 
-export const imageSwith = async (userId: string, imageUrl: string) => {
-    if (!userId) return null
-    await prisma.user.update({
-        where: {id: userId},
-        data: {mainImage: imageUrl}
-    })
-}
-
 export const userRegister = async (data: Pick<User, 'name' | 'email' | 'password'>) => {
     await prisma.user.create({
         data: {
@@ -56,21 +48,6 @@ export const userLogin = async (data: Pick<User, 'email' | 'password'>) => {
     const validated = await bcrypt.compare(data.password, user.password)
     if (!validated) throw new Error('Password incorrect')
     return {id: user.id, name: user.name, email: user.email, image: user.mainImage}
-}
-
-export const getMainImage = async (userId: string) => {
-    const image = await prisma.user.findUnique({
-        where: {id: userId},
-        select: {mainImage: true}
-    })
-    return image?.mainImage
-}
-
-export const updateImage = async (userId: string, data: {discordImage: string} | {googleImage: string}) => {
-    await prisma.user.update({
-        where: {id: userId},
-        data: {...data}
-    })
 }
 
 export const unlikedProvider = async (userId: string, provider: string) => {

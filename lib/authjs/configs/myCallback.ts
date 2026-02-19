@@ -1,5 +1,6 @@
 import { NextAuthConfig } from "next-auth";
-import {getMainImage, imageSwith, verifyProfile, getRoles} from '@/services/DAL/auth'
+import {verifyProfile, getRoles} from '@/services/DAL/auth'
+import {getMainImage, imageSwith} from '@/services/DAL/user'
 import {auth} from '../auth'
 
 export const myCallback: NextAuthConfig['callbacks'] = {

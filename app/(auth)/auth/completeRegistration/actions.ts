@@ -6,7 +6,7 @@ import {auth} from '@/lib/authjs/auth'
 import {FormState} from '../types'
 import bcrypt from 'bcryptjs'
 
-export const completeRegistration = async (prevState: FormState, form: FormData): Promise<FormState> => {
+export const completeRegistrationAction = async (prevState: FormState, form: FormData): Promise<FormState> => {
     const session = await auth()
     if (!session?.user?.id) return { success: false, error: "Session Error" }
     const validatedFields = completeRegisterSchema.safeParse({name: form.get('name'), password: form.get('password')})

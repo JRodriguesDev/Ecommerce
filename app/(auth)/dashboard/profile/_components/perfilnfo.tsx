@@ -1,11 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Skeleton } from "@/components/ui/skeleton"
 import {auth} from '@/lib/authjs/auth'
-import {getPerfilInfo} from '../actions'
+import {getPerfilInfoAction} from '../actions'
 
 export const PerfilInfo = async () => {
     const session = await auth()
-    const perfil = await getPerfilInfo(session!.user!.id!)
+    const perfil = await getPerfilInfoAction(session!.user!.id!)
     // 2. Faxina: Pegar iniciais do nome de forma limpa
     const getInitials = (name?: string | null) => {
         if (!name) return "NX"

@@ -12,17 +12,8 @@ import {toggleFavoriteAction} from '../actions'
 import {useSession} from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
+import {FavoriteCardProps} from '../types'
 
-interface FavoriteCardProps {
-    id: string;
-    thumbnail: string;
-    rating: number;
-    slug: string;
-    title: string;
-    price: number;
-    stock: number;
-    onRemove?: (id: string) => void; // Para a função do botão de lixeira
-}
 
 export const FavoriteCard = ({ 
     id, 

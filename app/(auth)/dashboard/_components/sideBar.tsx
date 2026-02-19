@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation' // Adicionamos isso para evitar er
 import Link from 'next/link'
 import { 
     LuUser, LuPackage, LuSettings, LuCreditCard, 
-    LuShieldCheck, LuStore, LuGem, LuHeart, LuLogOut 
+    LuGem, LuHeart, LuLogOut 
 } from "react-icons/lu"
 import { Separator } from "@/components/ui/separator"
 import { signOut } from "next-auth/react"

@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { MdOutlineArrowForwardIos } from "react-icons/md"
 
 // Reaproveitando a tipagem que definimos no Carousel para consistência
-import { ProductCarouselItem } from "./carousel"
+import { ProductCarouselItem } from "../types"
 
 export const ProductCard = ({ el }: { el: ProductCarouselItem }) => {
     return (

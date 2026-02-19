@@ -4,16 +4,8 @@ import {
     LuCamera,
 } from "react-icons/lu"
 import { FaGoogle, FaDiscord } from "react-icons/fa"
-import { cn } from "@/lib/utils"
 import Image from "next/image";
-
-interface AvatarProps {
-    images: { 
-        main: string | null; 
-        google: string | null; 
-        discord: string | null; 
-    }
-}
+import {AvatarProps} from '../types'
 
 export const Avatar = ({ images }: AvatarProps) => {
     

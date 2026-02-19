@@ -5,7 +5,7 @@ import {toggleFavorite, isFavorite} from '@/services/DAL/favorite'
 import { redirect } from 'next/navigation'
 import {auth} from '@/lib/authjs/auth'
 
-export const getProduct = async (id: string) => {
+export const getProductAction = async (id: string) => {
     try {
         // Validação básica de entrada
         if (!id) return null

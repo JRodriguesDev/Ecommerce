@@ -10,14 +10,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { FaGoogle, FaDiscord } from "react-icons/fa"
-import { LuCamera, LuCheck } from "react-icons/lu"
+import { LuCheck } from "react-icons/lu"
 import { cn } from "@/lib/utils"
 import {useSession} from 'next-auth/react'
-
-interface Props {
-  children: React.ReactNode
-  images: { main: string | null; google: string | null; discord: string | null }
-}
+import {Props} from '../types'
 
 export const ImageSourceSelector = ({ children, images }: Props) => {
   const [open, setOpen] = useState(false)
@@ -53,7 +49,7 @@ export const ImageSourceSelector = ({ children, images }: Props) => {
               image={images.google}
               icon={<FaGoogle size={10} className="text-blue-500" />}
               isActive={images.main === images.google}
-              onClick={() => handleSelect(images.google!, 'google')}
+              onClick={() => handleSelect(images.google!)}
               accentColor="hover:border-blue-500/40 hover:bg-blue-500/5"
             />
           )}
@@ -66,7 +62,7 @@ export const ImageSourceSelector = ({ children, images }: Props) => {
               image={images.discord}
               icon={<FaDiscord size={10} className="text-[#5865F2]" />}
               isActive={images.main === images.discord}
-              onClick={() => handleSelect(images.discord!, 'discord')}
+              onClick={() => handleSelect(images.discord!)}
               accentColor="hover:border-[#5865F2]/40 hover:bg-[#5865F2]/5"
             />
           )}

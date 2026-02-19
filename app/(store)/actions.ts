@@ -1,6 +1,6 @@
 import {getCategories} from '@/services/DAL/shop'
 
-export const allCategories = async () => {
+export const allCategoriesAction = async () => {
     try {
         const categories = await getCategories()
         return categories ?? []

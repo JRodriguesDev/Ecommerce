@@ -1,5 +1,5 @@
 import { NextAuthConfig } from "next-auth";
-import {updateImage} from '@/services/DAL/auth'
+import {updateImage} from '@/services/DAL/user'
 
 export const myEvents: NextAuthConfig['events'] = {
     async linkAccount({user, profile, account}) {

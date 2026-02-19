@@ -4,16 +4,14 @@ import { useState } from "react"
 import { LuShieldCheck, LuLoader, LuCircleAlert } from "react-icons/lu"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { useRouter } from "next/navigation" // Importante para o redirect
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSeparator,
     InputOTPSlot,
 } from "@/components/ui/input-otp"
-import { verify2Fa } from './actions'
+import { verify2FaAction } from './actions'
 import {signIn} from 'next-auth/react'
-import {FormState} from '../../types'
 
 const TwoFactor = () => {
     const [code, setCode] = useState("")
@@ -27,7 +25,7 @@ const TwoFactor = () => {
         setError(null) // Reseta erros anteriores
 
         try {
-            const result = await verify2Fa(code)
+            const result = await verify2FaAction(code)
 
             if (result.success) {
                 // Redireciona para a home ou dashboard

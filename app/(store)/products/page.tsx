@@ -2,11 +2,7 @@ import FilterSideBar from "./_components/filterSidebar"
 import { Suspense } from "react"
 import { ProductListSkeleton, ProductList } from './_components/products'
 import { ParamsFilter } from '@/types/params'
-
-// Faxina: Tipagem completa seguindo os padrões do Next.js 15
-interface PageProps {
-    searchParams: Promise<ParamsFilter>
-}
+import {} from './'
 
 const ProductsPage = async ({ searchParams }: PageProps) => {
     // Aguardamos os params para garantir que a key do Suspense seja reativa

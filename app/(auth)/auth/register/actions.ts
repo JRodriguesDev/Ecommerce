@@ -14,7 +14,7 @@ import { userRegister } from '@/services/DAL/auth'
 import { registerSchema } from '../schema'
 import { FormState } from '../types'
 
-export const registerForm = async (prevState: FormState, form: FormData): Promise<FormState> => {
+export const registerFormAction = async (prevState: FormState, form: FormData): Promise<FormState> => {
     const validatedFields = registerSchema.safeParse({
         name: form.get('name'),
         email: form.get('email'),

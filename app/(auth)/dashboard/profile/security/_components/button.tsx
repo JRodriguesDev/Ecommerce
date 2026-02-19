@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { LuChevronRight, LuLoader, LuLock } from "react-icons/lu"
+import { LuChevronRight, LuLoader } from "react-icons/lu"
 import { useRouter } from "next/navigation"
-import { swith2Fa, resetPassword } from '../actions' // Adicione sua action de senha
+import { swith2FaAction, resetPasswordAction } from '../actions' // Adicione sua action de senha
 import {
   Dialog,
   DialogContent,
@@ -13,13 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-
-interface Props {
-    label: string
-    type: "PASSWORD" | "2FA"
-    userId: string
-    isTwoFactorEnabled?: boolean
-}
+import {Props} from '../types'
 
 export const SecurityActionButton = ({ label, type, userId, isTwoFactorEnabled }: Props) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -29,14 +23,14 @@ export const SecurityActionButton = ({ label, type, userId, isTwoFactorEnabled }
 
     const handle2FA = async () => {
         setIsLoading(true)
-        await swith2Fa(userId, !isTwoFactorEnabled)
+        await swith2FaAction(userId, !isTwoFactorEnabled)
         router.refresh()
         setIsLoading(false)
     }
 
     const handlePasswordUpdate = async () => {
         setIsLoading(true)
-        await resetPassword(userId, newPassword) 
+        await resetPasswordAction(userId, newPassword) 
         setOpen(false) // Fecha o modal
         setNewPassword("") // Limpa o input
         router.refresh()

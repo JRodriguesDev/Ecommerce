@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import Form from 'next/form'
 import { LuCircleCheck, LuLoader, LuUser, LuTriangleAlert, LuLock } from "react-icons/lu"
 import { FormState } from '../types';
-import { completeRegistration } from './actions' // Lembre-se de atualizar a action para receber o password!
+import { completeRegistrationAction } from './actions' // Lembre-se de atualizar a action para receber o password!
 import {useSession} from 'next-auth/react'
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation"
 const prevState: FormState = { success: false, error: null }
 
 export const CompleteRegistration = () => {
-    const [state, formAction, pending] = useActionState(completeRegistration, prevState)
+    const [state, formAction, pending] = useActionState(completeRegistrationAction, prevState)
     const {update} = useSession()
     const router = useRouter()
     useEffect(() => {

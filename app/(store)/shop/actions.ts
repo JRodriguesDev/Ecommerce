@@ -2,7 +2,7 @@
 
 import { getLowStockProducts, getProductsByRating } from '@/services/DAL/shop'
 
-export const productsLowStock = async () => {
+export const productsLowStockAction = async () => {
     try {
         const products = await getLowStockProducts()
         return products ?? [] // Garante que sempre retorne um array, mesmo que nulo
@@ -12,7 +12,7 @@ export const productsLowStock = async () => {
     }
 }
 
-export const productsByCategory = async () => {
+export const productsByCategoryAction = async () => {
     try {
         return await getProductsByRating()
     } catch (error) {

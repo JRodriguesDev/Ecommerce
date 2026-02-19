@@ -25,13 +25,13 @@ import {
 } from "@/components/ui/card";
 
 // 4. Business Logic & Types (Local)
-import { loginForm } from './actions';
+import { loginFormAction } from './actions';
 import { FormState } from '../types';
 
 const prevState: FormState = {success: false, error: null}
 
 const Login = () => {
-    const [state, formAction, pending] = useActionState(loginForm, prevState)
+    const [state, formAction, pending] = useActionState(loginFormAction, prevState)
 
     return (
         <Card className='w-full max-w-sm m-auto mt-25'>

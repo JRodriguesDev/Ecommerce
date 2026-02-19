@@ -3,7 +3,7 @@
 import { getProfile } from '@/services/DAL/user'
 import {unlikedProvider} from '@/services/DAL/auth'
 
-export const profile = async () => {
+export const profileAction = async () => {
     try {
         // A DAL já garante que o usuário está autenticado e retorna os dados limpos
         const data = await getProfile()
@@ -18,6 +18,6 @@ export const profile = async () => {
     }
 }
 
-export const unliked = async (userId: string, provider: string) => {
+export const unlikedAction = async (userId: string, provider: string) => {
     await unlikedProvider(userId, provider)
 }

@@ -5,7 +5,7 @@ import { FaGoogle, FaDiscord } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import {signIn, useSession} from 'next-auth/react'
 import { useRouter } from "next/navigation";
-import {unliked} from '../actions'
+import {unlikedAction} from '../actions'
 
 const SUPPORTED_PROVIDERS = [
     {
@@ -79,7 +79,7 @@ const ActionButton = ({isConnected, provider}: {isConnected: boolean, provider: 
     const router = useRouter()
     const handlerUnlink = async (provider: string) => {
         await update({image: '#'})
-        await unliked(session!.user!.id!, provider)
+        await unlikedAction(session!.user!.id!, provider)
         router.refresh()
     }
     return (
