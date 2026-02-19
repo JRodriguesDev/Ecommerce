@@ -6,6 +6,7 @@ import {
     LuUser, LuPackage, LuSettings, LuCreditCard, 
     LuGem, LuHeart, LuLogOut 
 } from "react-icons/lu"
+import { GrCart } from "react-icons/gr";
 import { Separator } from "@/components/ui/separator"
 import { signOut } from "next-auth/react"
 
@@ -32,6 +33,12 @@ const DashboardSidebar = () => {
                         icon={<LuPackage />} 
                         label="Compras" 
                         active={pathName === "/dashboard/shopping"} 
+                    />
+                    <SidebarItem 
+                        href="/dashboard/cart" 
+                        icon={<GrCart />} 
+                        label="Carrinho" 
+                        active={pathName === "/dashboard/cart"} 
                     />
                     <SidebarItem 
                         href="/dashboard/favorites" 

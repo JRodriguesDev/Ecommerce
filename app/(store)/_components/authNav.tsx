@@ -42,7 +42,7 @@ const AuthNav = () => {
                         <span className="hidden lg:inline text-sm font-medium">Favorites</span>
                     </Link>
 
-                    <Link href="/cart" className="flex items-center gap-2 px-3 py-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 transition-all group">
+                    <Link href="/dashboard/cart" className="flex items-center gap-2 px-3 py-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 transition-all group">
                         <FaShoppingCart className="group-hover:scale-110 transition-transform" size={18}/> 
                         <span className="hidden lg:inline text-sm font-medium">Cart</span>
                     </Link>
