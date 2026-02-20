@@ -1,7 +1,11 @@
 import { NextAuthConfig } from "next-auth";
 import {updateImage} from '@/services/DAL/user'
+import {userCartCreate} from '@/services/DAL/auth'
 
 export const myEvents: NextAuthConfig['events'] = {
+    async createUser({user}) {
+        await userCartCreate(user.id!)
+    },
     async linkAccount({user, profile, account}) {
             switch (account.provider) {
                 case 'google':

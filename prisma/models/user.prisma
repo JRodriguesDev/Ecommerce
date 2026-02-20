@@ -11,6 +11,7 @@ model User {
     role UserRole[]
     accounts  Account[]
     favorites Favorite[]
+    cart Cart?
     twoFactorEnabled Boolean @default(false)
     twoFactorSecret  String?
     twoFactorToken String?

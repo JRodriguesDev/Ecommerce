@@ -1,0 +1,22 @@
+model Cart {
+    id String @id @default(uuid())
+    items CartItem[]
+    
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @unique
+
+
+@@map("carts")
+}
+
+model CartItem {
+    id String @id @default(nanoid())
+    quantity Int @default(1)
+    productId String
+
+    cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    cartId String
+
+    @@unique([cartId, productId])
+    @@map("carts_items")
+}

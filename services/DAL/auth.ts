@@ -31,10 +31,22 @@ export const imageRegister = async (userId: string, provider: string, imageURL: 
 }
 
 export const userRegister = async (data: Pick<User, 'name' | 'email' | 'password'>) => {
-    await prisma.user.create({
+    await prisma.$transaction(async (prisma) => {
+        const newUser = await prisma.user.create({
+            data: {
+                ...data,
+                password: await bcrypt.hash(data.password, 10)
+            },
+            select: {id: true}
+        })
+        await userCartCreate(newUser.id)
+    })
+}
+
+export const userCartCreate = async (userId: string) => {
+    await prisma.cart.create({
         data: {
-            ...data,
-            password: await bcrypt.hash(data.password, 10)
+            user: {connect: {id: userId}}
         }
     })
 }
