@@ -6,8 +6,9 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { FaBagShopping, FaHeart, FaCartPlus, FaRegHeart  } from "react-icons/fa6"
 import { cn } from "@/lib/utils"
-import {addFAvoriteAction} from '../actions'
+import {toggleFavoriteAction, toggleCartAction} from '../actions'
 import {GalleryProps} from '../types'
+import { useOptimistic, useTransition } from "react"
 
 export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
     const [activeImage, setActiveImage] = useState(thumbnail)
@@ -63,43 +64,66 @@ export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
     )
 }
 
-export const ActionButtons = ({ productId, isFavorite}: { productId: string, isFavorite: boolean }) => {
-    const [favorite, setFavorite] = useState(isFavorite)
-    const handlerFavorites = async () => {
-        const result = await addFAvoriteAction(productId)
-        setFavorite(result.action)
-    }
+export const ActionButtons = ({ productId, isFavorite, isCart }: { productId: string, isFavorite: boolean, isCart: boolean }) => {
+  const [isPending, startTransition] = useTransition()
 
-    return (
-        <div className="flex flex-col gap-3 mt-4">
-            <div className="flex gap-3">
-                <Button 
-                    size="lg" 
-                    className="flex-[3] bg-blue-600 hover:bg-blue-700 text-white font-bold gap-2 text-md h-14 shadow-lg shadow-blue-900/20 transition-all active:scale-95"
-                >
-                    <FaBagShopping className="size-5" /> Comprar Agora
-                </Button>
-                
-                <Button 
-                onClick={handlerFavorites}
-                    size="lg" 
-                    variant="outline" 
-                    className="flex-1 border-zinc-700 hover:bg-zinc-800 text-zinc-300 h-14 transition-colors"
-                >
-                    {favorite ? (
-                        <FaHeart className="size-5 text-red-500" /> // Preenchido se for favorito
-                        ) : (
-                        <FaRegHeart className="size-5 text-zinc-300" /> // Só o contorno se não for
-                    )}
-                </Button>
-            </div>
+  // Definindo como o estado deve se comportar na "previsão"
+  const [optimisticCart, setOptimisticCart] = useOptimistic(isCart, (state) => !state)
+  const [optimisticFavorite, setOptimisticFavorite] = useOptimistic(isFavorite, (state) => !state)
 
-            <Button 
-                variant="secondary" 
-                className="w-full gap-2 font-bold bg-zinc-800/50 hover:bg-zinc-800 text-zinc-100 h-14 border border-zinc-700/50 transition-all"
-            >
-                <FaCartPlus className="size-5" /> Adicionar ao Carrinho
-            </Button>
-        </div>
-    )
+  const handleAction = (type: 'cart' | 'favorite') => {
+    startTransition(async () => {
+      try {
+        if (type === 'cart') {
+          setOptimisticCart(!optimisticCart) // Atualiza UI na hora
+          await toggleCartAction(productId)
+        } else {
+          setOptimisticFavorite(!optimisticFavorite) // Atualiza UI na hora
+          await toggleFavoriteAction(productId)
+        }
+      } catch (error) {
+        // Se der erro, o useOptimistic volta pro valor original da prop automaticamente
+        // Mas aqui você pode disparar um Toast de erro (ex: toast.error("Falha ao salvar"))
+        console.error("Erro na ação:", error)
+      }
+    })
+  }
+
+  return (
+    <div className="flex flex-col gap-3 mt-4">
+      <div className="flex gap-3">
+        <Button 
+          size="lg" 
+          className="flex-[3] bg-blue-600 hover:bg-blue-700 text-white font-bold gap-2 h-14 active:scale-95"
+          disabled={isPending}
+        >
+          <FaBagShopping className="size-5" /> Comprar Agora
+        </Button>
+        
+        <Button 
+          onClick={() => handleAction('favorite')}
+          disabled={isPending} // Impede cliques múltiplos enquanto processa
+          size="lg" 
+          variant="outline" 
+          className="flex-1 border-zinc-700 hover:bg-zinc-800 text-zinc-300 h-14"
+        >
+          {optimisticFavorite ? (
+            <FaHeart className="size-5 text-red-500" />
+          ) : (
+            <FaRegHeart className="size-5 text-zinc-300" />
+          )}
+        </Button>
+      </div>
+
+      <Button 
+        onClick={() => handleAction('cart')}
+        disabled={isPending} // Bloqueia o botão enquanto a Action roda
+        variant="secondary" 
+        className="w-full gap-2 font-bold bg-zinc-800/50 hover:bg-zinc-800 text-zinc-100 h-14 border border-zinc-700/50 transition-all"
+      >
+        <FaCartPlus className="size-5" /> 
+        {optimisticCart ? "Remover do Carrinho" : "Adicionar ao Carrinho"}
+      </Button>
+    </div>
+  )
 }
