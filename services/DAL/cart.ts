@@ -113,3 +113,17 @@ export const updateProductQuantity = async (userId: string, productId: string, n
         })
     })
 }
+
+export const cartCount = async (userId: string) => {
+    const cartItems = await prisma.cart.findUnique({
+        where: {userId: userId},
+        select: {items: {
+            select: {quantity: true}
+        }}
+    })
+    if (!cartItems || !cartItems.items) return 0
+    const count = cartItems?.items.reduce((acc, item) => {
+        return acc + item.quantity
+    }, 0)
+    return count
+}

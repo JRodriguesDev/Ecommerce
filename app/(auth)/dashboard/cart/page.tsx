@@ -18,7 +18,6 @@ const Cart = () => {
                     <h1 className="text-2xl font-black tracking-tighter text-zinc-100 uppercase italic flex items-center gap-2">
                         Carrinho <LuShoppingBag className="size-5 text-zinc-600" />
                     </h1>
-                    <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">3 itens selecionados</p>
                 </div>
             </div>
 

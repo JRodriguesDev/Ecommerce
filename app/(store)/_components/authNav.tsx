@@ -2,6 +2,8 @@
 // 1. Next.js & Auth
 import Link from "next/link"
 import { signOut, useSession } from "next-auth/react"
+import { useEffect } from "react"
+import {useCartStore} from '@/lib/zustand/cartHook'
 
 // 2. Icons
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa"
@@ -20,7 +22,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 const AuthNav = () => {
-    const { status, data: session } = useSession()
+    const { status, data: session} = useSession()
+    const cartStore = useCartStore()
+    useEffect(() => {
+        cartStore.setInitialCount(session?.user?.cartCount)
+    }, [status])
 
     // 1. Tratamento de Loading para evitar Layout Shift
     if (status === 'loading') {
@@ -42,9 +48,27 @@ const AuthNav = () => {
                         <span className="hidden lg:inline text-sm font-medium">Favorites</span>
                     </Link>
 
-                    <Link href="/dashboard/cart" className="flex items-center gap-2 px-3 py-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 transition-all group">
-                        <FaShoppingCart className="group-hover:scale-110 transition-transform" size={18}/> 
-                        <span className="hidden lg:inline text-sm font-medium">Cart</span>
+                    <Link 
+                    href="/dashboard/cart" 
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 transition-all group relative"
+                    >
+                    {/* Container do Ícone + Badge */}
+                    <div className="relative">
+                        <FaShoppingCart 
+                        className="group-hover:scale-110 transition-transform" 
+                        size={20}
+                        />
+                        
+                        {/* Bolinha de Notificação (Badge) */}
+                        {cartStore.count > 0 && (
+                        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-black animate-in zoom-in duration-300">
+                            {cartStore.count}
+                        </span>
+                        )}
+                    </div>
+
+                    {/* Texto do Link */}
+                    <span className="hidden lg:inline text-sm font-medium">Cart</span>
                     </Link>
 
                     <DropdownMenu>

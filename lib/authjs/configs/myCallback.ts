@@ -1,6 +1,7 @@
 import { NextAuthConfig } from "next-auth";
 import {verifyProfile, getRoles} from '@/services/DAL/auth'
 import {getMainImage, imageSwith} from '@/services/DAL/user'
+import {cartCount} from '@/services/DAL/cart'
 import {auth} from '../auth'
 
 export const myCallback: NextAuthConfig['callbacks'] = {
@@ -18,9 +19,10 @@ export const myCallback: NextAuthConfig['callbacks'] = {
             if (user) {
                 const security = await verifyProfile(user.id!)
                 const roles = await getRoles(user.id!) ?? []
-                console.log(roles)
+                const count = await cartCount(user.id!)
                 token.roles = roles
                 token.id = user.id
+                token.cartCount = count
                 const mainImage = await getMainImage(user.id!)
                 token.picture = mainImage || user.image
                 token.needsProfile = !security.name || !security.password
@@ -32,6 +34,10 @@ export const myCallback: NextAuthConfig['callbacks'] = {
                 await imageSwith(token.id as string, session.image)
                 token.picture = session.image
             }
+            if (trigger === 'update' && session.countUpdate) {
+                const count = await cartCount(token.id as string)
+                token.cartCount = count
+            }
             return token
         },
 
@@ -40,6 +46,7 @@ export const myCallback: NextAuthConfig['callbacks'] = {
             session.user.id = token.id as string
             session.user.image = token.picture
             session.user.needsProfile = token.needsProfile
+            session.user.cartCount = token.cartCount
         }
         return session
     }

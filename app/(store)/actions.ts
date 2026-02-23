@@ -1,4 +1,5 @@
 import {getCategories} from '@/services/DAL/shop'
+import {auth} from '@/lib/authjs/auth'
 
 export const allCategoriesAction = async () => {
     try {
@@ -12,4 +13,10 @@ export const allCategoriesAction = async () => {
         // em vez de derrubar o site todo
         return []
     }
+}
+
+export const getCartCount = async () => {
+    const session = await auth()
+    if (!session?.user?.id) return null
+
 }

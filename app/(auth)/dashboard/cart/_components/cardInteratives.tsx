@@ -5,6 +5,7 @@ import { LuPlus, LuMinus, LuTrash2, LuLoader } from "react-icons/lu"
 import { useDebouncedCallback } from 'use-debounce'
 import { updateCartQuantityAction, removeCartProductAction } from '../actions'
 import { useRouter } from "next/navigation"
+import {useSession} from 'next-auth/react'
 
 interface QuantityProps {
   productId: string
@@ -13,6 +14,7 @@ interface QuantityProps {
 }
 
 export const QuantityControls = ({ productId, initialQuantity, stock }: QuantityProps) => {
+  const {update} = useSession()
   // 1. Estado local simples para resposta visual instantânea
   const [quantity, setQuantity] = useState(initialQuantity)
 
@@ -20,6 +22,7 @@ export const QuantityControls = ({ productId, initialQuantity, stock }: Quantity
   // depois que você parar de clicar por 500ms
   const debouncedUpdate = useDebouncedCallback(async (value: number) => {
     await updateCartQuantityAction(productId, value)
+    await update({countUpdate: true})
   }, 500)
 
   const handleUpdate = (newQty: number) => {

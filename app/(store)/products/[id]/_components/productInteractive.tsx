@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import {toggleFavoriteAction, toggleCartAction} from '../actions'
 import {GalleryProps} from '../types'
 import { useOptimistic, useTransition } from "react"
+import {useSession} from 'next-auth/react'
 
 export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
     const [activeImage, setActiveImage] = useState(thumbnail)
@@ -66,6 +67,7 @@ export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
 
 export const ActionButtons = ({ productId, isFavorite, isCart }: { productId: string, isFavorite: boolean, isCart: boolean }) => {
   const [isPending, startTransition] = useTransition()
+  const {update} = useSession()
 
   // Definindo como o estado deve se comportar na "previsão"
   const [optimisticCart, setOptimisticCart] = useOptimistic(isCart, (state) => !state)
@@ -77,6 +79,7 @@ export const ActionButtons = ({ productId, isFavorite, isCart }: { productId: st
         if (type === 'cart') {
           setOptimisticCart(!optimisticCart) // Atualiza UI na hora
           await toggleCartAction(productId)
+          await update({countUpdate: true})
         } else {
           setOptimisticFavorite(!optimisticFavorite) // Atualiza UI na hora
           await toggleFavoriteAction(productId)
