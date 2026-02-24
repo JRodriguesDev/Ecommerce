@@ -30,20 +30,23 @@ export const imageRegister = async (userId: string, provider: string, imageURL: 
     }
 }
 
-export const userRegister = async (data: Pick<User, 'name' | 'email' | 'password'>) => {
-    await prisma.$transaction(async (prisma) => {
+export const userRegister = async (data: Pick<User, 'name' | 'email' | 'password'>, customerId: string) => {
+    const user = await prisma.$transaction(async (prisma) => {
         const newUser = await prisma.user.create({
             data: {
                 ...data,
+                customerId: customerId,
                 password: await bcrypt.hash(data.password, 10)
             },
             select: {id: true}
         })
-        await userCartCreate(newUser.id)
+        return newUser
     })
+    await userCartCreate(user.id)
 }
 
 export const userCartCreate = async (userId: string) => {
+    console.log(userId)
     await prisma.cart.create({
         data: {
             user: {connect: {id: userId}}
@@ -75,10 +78,10 @@ export const unlikedProvider = async (userId: string, provider: string) => {
     })
 }
 
-export const completeRegister = async (userId: string, name: string, password: string) => {
+export const completeRegister = async (userId: string, name: string, password: string, customerId: string) => {
     await prisma.user.update({
         where: {id: userId},
-        data: {name: name, password}
+        data: {name: name, password, customerId: customerId}
     })
 }
 

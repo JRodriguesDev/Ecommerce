@@ -7,8 +7,8 @@ import prisma from '../index'
     try {
         console.log('🌱 Starting seed...')
         await roleSeed()
-        await adminSeed()
         await productsSeed()
+        await adminSeed()
         console.log('✅ All seeds completed successfully!')
     } catch (err) {
         console.error('❌ Error during seed:', err)

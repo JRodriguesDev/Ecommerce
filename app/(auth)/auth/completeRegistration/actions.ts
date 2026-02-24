@@ -2,6 +2,7 @@
 
 import {completeRegisterSchema} from '../schema'
 import {completeRegister} from '@/services/DAL/auth'
+import {createCustomer} from '@/services/stripe/customer'
 import {auth} from '@/lib/authjs/auth'
 import {FormState} from '../types'
 import bcrypt from 'bcryptjs'
@@ -14,7 +15,9 @@ export const completeRegistrationAction = async (prevState: FormState, form: For
     validatedFields.data.password = await bcrypt.hash(validatedFields.data.password, 10)
     const {name, password} = validatedFields.data
     try {
-        await completeRegister(session.user.id, name, password)
+        
+        const customerId = await createCustomer(name, session.user.email!)
+        await completeRegister(session.user.id, name, password, customerId)
     } catch (err) {
         return { success: false, error: ' Name registration failed. Please try again.'}
     }

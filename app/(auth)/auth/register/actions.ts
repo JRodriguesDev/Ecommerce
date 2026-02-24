@@ -9,6 +9,7 @@ import { signIn } from '@/lib/authjs/auth'
 // 3. Database & Services
 import { Prisma } from '@/lib/prisma/index'
 import { userRegister } from '@/services/DAL/auth'
+import {createCustomer} from '@/services/stripe/customer'
 
 // 4. Validation, Types & Schemas
 import { registerSchema } from '../schema'
@@ -23,7 +24,8 @@ export const registerFormAction = async (prevState: FormState, form: FormData): 
     if (!validatedFields.success) return {success: false, error: 'Invalid fields. Please check your name, email and password.'}
     const {email, password} = validatedFields.data
     try {
-        await userRegister(validatedFields.data)
+        const customerId = await createCustomer(validatedFields.data.name, validatedFields.data.email)
+        await userRegister(validatedFields.data, customerId)
         await signIn('credentials', {email, password, redirect: false})
     } catch (err) {
         if (err instanceof Prisma.PrismaClientKnownRequestError) {
