@@ -1,5 +1,4 @@
 services:
-
   app:
     container_name: next
     build: 
@@ -27,6 +26,14 @@ services:
       - postgres-volume:/var/lib/postgresql/dat
     ports:
       - "5432:5432"
+  stripe:
+    container_name: stripe_cli
+    image: stripe/stripe-cli:latest
+    env_file:
+      - ../.env.local
+    command: listen --forward-to host.docker.internal:3000/api/stripe/webhook
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 networks:
   api:
     driver: bridge
