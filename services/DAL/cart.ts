@@ -1,6 +1,7 @@
 import 'server-only'
 
 import prisma from '@/lib/prisma/index'
+import {Product} from '@/types/product'
 
 export const toggleCartItem = async (userId: string, productId: string) => {
     const result = await prisma.$transaction(async (tx) => {
@@ -76,7 +77,8 @@ export const getCartProducts = async (userId: string) => {
                 price: true,
                 rating: true,
                 slug: true,
-                stock: true
+                stock: true,
+                description: true
             }
         })
 
@@ -89,7 +91,7 @@ export const getCartProducts = async (userId: string) => {
                 ...productDetails, // Título, preço, etc.
                 quantity: cartItem.quantity // A quantidade real do banco
             }
-        })
+        }).filter((item): item is NonNullable<typeof item> => item !== undefined) as Product[];
 
         return mergedItems
     })

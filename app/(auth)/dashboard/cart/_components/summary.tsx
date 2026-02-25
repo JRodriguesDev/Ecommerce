@@ -1,6 +1,7 @@
 import { LuArrowRight } from "react-icons/lu"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import Link from 'next/link'
 
 interface SummaryProps {
     items: {
@@ -67,13 +68,15 @@ export const Summary = ({ items }: SummaryProps) => {
                         </div>
                     </div>
 
-                    <Button 
-                        disabled={items.length === 0}
-                        className="w-full bg-zinc-100 hover:bg-white text-black font-black py-6 rounded-xl uppercase tracking-widest text-[9px] gap-2 transition-all disabled:opacity-50 active:scale-[0.98]"
-                    >
-                        Finalizar Compra
-                        <LuArrowRight className="size-4" />
-                    </Button>
+                    <Link href="/checkout/cart/current" className={items.length === 0 ? "pointer-events-none" : ""}>
+                        <Button 
+                            disabled={items.length === 0}
+                            className="w-full bg-zinc-100 hover:bg-white text-black font-black py-6 rounded-xl uppercase tracking-widest text-[9px] gap-2 transition-all disabled:opacity-50 active:scale-[0.98]"
+                        >
+                            Finalizar Compra
+                            <LuArrowRight className="size-4" />
+                        </Button>
+                    </Link>
                 </div>
             </Card>
         </aside>

@@ -5,6 +5,7 @@ export const proxy = async (req: NextRequest) => {
     const {nextUrl} = req
     const isDashboard = nextUrl.pathname.startsWith('/dashboard')
     const isAuth = nextUrl.pathname.startsWith('/auth')
+    const isCheckout = nextUrl.pathname.startsWith('/checkout')
     const publicRoute = nextUrl.pathname.startsWith('/')
     const session = await auth()
     const needsProfile = session?.user?.needsProfile ?? false
@@ -15,7 +16,7 @@ export const proxy = async (req: NextRequest) => {
     // REGRA 2: Proteção do Dashboard
     // Se não está logado e tenta acessar o dashboard, vai para o login
     if (!session && isDashboard && !isAuth) return NextResponse.redirect(new URL('/auth/login', req.nextUrl))
-    //if (session && isAuth && !needsProfile) return NextResponse.redirect(new URL('/shop', req.nextUrl))
+    if (!session && isCheckout && !isAuth) return NextResponse.redirect(new URL('/auth/login', req.nextUrl))
 }
 
 export const config = {

@@ -10,6 +10,7 @@ import {toggleFavoriteAction, toggleCartAction} from '../actions'
 import {GalleryProps} from '../types'
 import { useOptimistic, useTransition } from "react"
 import {useSession} from 'next-auth/react'
+import { useRouter } from "next/navigation"
 
 export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
     const [activeImage, setActiveImage] = useState(thumbnail)
@@ -68,21 +69,33 @@ export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
 export const ActionButtons = ({ productId, isFavorite, isCart }: { productId: string, isFavorite: boolean, isCart: boolean }) => {
   const [isPending, startTransition] = useTransition()
   const {update} = useSession()
+  const router = useRouter()
 
   // Definindo como o estado deve se comportar na "previsão"
   const [optimisticCart, setOptimisticCart] = useOptimistic(isCart, (state) => !state)
   const [optimisticFavorite, setOptimisticFavorite] = useOptimistic(isFavorite, (state) => !state)
 
-  const handleAction = (type: 'cart' | 'favorite') => {
+  const handleAction = (type: 'cart' | 'favorite' | 'buy') => {
     startTransition(async () => {
       try {
-        if (type === 'cart') {
-          setOptimisticCart(!optimisticCart) // Atualiza UI na hora
-          await toggleCartAction(productId)
-          await update({countUpdate: true})
-        } else {
-          setOptimisticFavorite(!optimisticFavorite) // Atualiza UI na hora
-          await toggleFavoriteAction(productId)
+
+        switch (type) {
+          case 'cart':
+            setOptimisticCart(!optimisticCart) // Atualiza UI na hora
+            await toggleCartAction(productId)
+            await update({countUpdate: true})
+            break
+          case 'favorite':
+            setOptimisticFavorite(!optimisticFavorite) // Atualiza UI na hora
+            await toggleFavoriteAction(productId)
+            break
+          case 'buy':
+            if (!isCart) {
+              await toggleCartAction(productId)
+              await update({countUpdate: true})
+            }
+            router.push('/checkout/cart/current')
+            break
         }
       } catch (error) {
         // Se der erro, o useOptimistic volta pro valor original da prop automaticamente
@@ -96,6 +109,7 @@ export const ActionButtons = ({ productId, isFavorite, isCart }: { productId: st
     <div className="flex flex-col gap-3 mt-4">
       <div className="flex gap-3">
         <Button 
+          onClick={() => handleAction('buy')}
           size="lg" 
           className="flex-[3] bg-blue-600 hover:bg-blue-700 text-white font-bold gap-2 h-14 active:scale-95"
           disabled={isPending}
