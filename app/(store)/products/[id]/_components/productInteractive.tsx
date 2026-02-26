@@ -94,7 +94,7 @@ export const ActionButtons = ({ productId, isFavorite, isCart }: { productId: st
               await toggleCartAction(productId)
               await update({countUpdate: true})
             }
-            router.push('/checkout/cart/current')
+            router.push('/checkout/cart')
             break
         }
       } catch (error) {

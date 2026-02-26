@@ -1,4 +1,4 @@
-import {cartProductsAction} from './actions'
+import {cartProductsAction, createCheckoutAction} from './actions'
 import { redirect } from 'next/navigation'
 import {CartCheckout} from './_components/cartCheckout'
 
@@ -11,8 +11,8 @@ const CheckoutPage = async ({params}: {params: Promise<{type: string}>}) => {
             if (!products || products.length === 0) redirect('/shop')
             const stockIssues = products.filter(p => p.stock! < p.quantity!)
             if (stockIssues.length > 0) redirect('/dashboard/cart');
-            return <CartCheckout data={products}/>
-            break
+            const clientSecret = await createCheckoutAction(products, type)
+            return <CartCheckout client={clientSecret}/>
     }
 }
 

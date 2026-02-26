@@ -14,9 +14,7 @@ export const cartProductsAction = async () => {
     return products
 }
 
-export const createCheckoutIntentProductAction = async (products: Product[]) => {
+export const createCheckoutAction = async (products: Product[], type: string) => {
     const stripeData = productsModeDTO(products)
-    const session = await createSession(stripeData)
-    console.log(session)
-    return session
+    return await createSession(stripeData, type)
 }

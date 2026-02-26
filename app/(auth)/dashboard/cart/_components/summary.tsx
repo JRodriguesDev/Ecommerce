@@ -68,7 +68,7 @@ export const Summary = ({ items }: SummaryProps) => {
                         </div>
                     </div>
 
-                    <Link href="/checkout/cart/current" className={items.length === 0 ? "pointer-events-none" : ""}>
+                    <Link href="/checkout/cart" className={items.length === 0 ? "pointer-events-none" : ""}>
                         <Button 
                             disabled={items.length === 0}
                             className="w-full bg-zinc-100 hover:bg-white text-black font-black py-6 rounded-xl uppercase tracking-widest text-[9px] gap-2 transition-all disabled:opacity-50 active:scale-[0.98]"

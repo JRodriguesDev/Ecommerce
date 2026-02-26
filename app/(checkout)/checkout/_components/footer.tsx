@@ -1,7 +1,6 @@
 import Link from 'next/link'
 
 export const Footer = () => {
-    const currentYear = new Date().getFullYear();
 
     return (
         <footer className='w-full py-8 border-t border-zinc-900 bg-zinc-950'>
@@ -10,7 +9,7 @@ export const Footer = () => {
                 {/* Lado Esquerdo: Copyright e Status */}
                 <div className='flex flex-col gap-2 items-center md:items-start'>
                     <p className='text-[10px] uppercase tracking-widest text-zinc-600 font-semibold'>
-                        © {currentYear} Seu Ecommerce Inc.
+                        © Seu Ecommerce Inc.
                     </p>
                     <div className='flex items-center gap-2'>
                         <div className='size-1.5 rounded-full bg-emerald-500 animate-pulse' />

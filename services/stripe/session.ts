@@ -5,12 +5,22 @@ import type {Stripe} from 'stripe'
 
 type stripeLineItems = Stripe.Checkout.SessionCreateParams.LineItem 
 
-export const createSession = async (data: stripeLineItems[]) => {
+export const createSession = async (data: stripeLineItems[], type: string) => {
     const session = await stripe.checkout.sessions.create({
-        ui_mode: 'custom',
+        ui_mode: 'embedded',
         mode: 'payment',
         line_items: data,
-        return_url: 'http://localhost:3000/checkout/cart/{CHECKOUT_SESSION_ID}'
+        return_url: `http://localhost:3000/checkout/${type}/{CHECKOUT_SESSION_ID}`
     })
-    return {clientSecret: session.client_secret}
+    return session.client_secret!
+}
+
+export const retrieveSession = async (sessionId: string) => {
+    const session = await stripe.checkout.sessions.retrieve(
+        sessionId,
+        {
+            expand: ['line_items', 'payment_intent']
+        }
+    )
+    return session
 }
