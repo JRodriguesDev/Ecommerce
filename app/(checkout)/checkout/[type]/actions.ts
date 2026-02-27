@@ -15,6 +15,10 @@ export const cartProductsAction = async () => {
 }
 
 export const createCheckoutAction = async (products: Product[], type: string) => {
+    const session = await auth()
+    if (!session?.user?.id) redirect('/auth/login')
+    const customerId = session!.user.customerId
+    console.log(customerId)
     const stripeData = productsModeDTO(products)
-    return await createSession(stripeData, type)
+    return await createSession(stripeData, customerId, type)
 }

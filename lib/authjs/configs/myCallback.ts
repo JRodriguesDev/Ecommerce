@@ -1,5 +1,5 @@
 import { NextAuthConfig } from "next-auth";
-import {verifyProfile, getRoles} from '@/services/DAL/auth'
+import {verifyProfile, getRoles, getCustomerId} from '@/services/DAL/auth'
 import {getMainImage, imageSwith} from '@/services/DAL/user'
 import {cartCount} from '@/services/DAL/cart'
 import {auth} from '../auth'
@@ -20,6 +20,8 @@ export const myCallback: NextAuthConfig['callbacks'] = {
                 const security = await verifyProfile(user.id!)
                 const roles = await getRoles(user.id!) ?? []
                 const count = await cartCount(user.id!)
+                const customerId = await getCustomerId(user.id!)
+                token.customerId = customerId
                 token.roles = roles
                 token.id = user.id
                 token.cartCount = count
@@ -45,6 +47,7 @@ export const myCallback: NextAuthConfig['callbacks'] = {
         if (session.user && token.id) {
             session.user.id = token.id as string
             session.user.image = token.picture
+            session.user.customerId = token.customerId
             session.user.needsProfile = token.needsProfile
             session.user.cartCount = token.cartCount
         }

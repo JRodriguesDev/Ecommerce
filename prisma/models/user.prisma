@@ -9,6 +9,7 @@ model User {
     image String?
     googleImage String?
     discordImage String?
+    order Order[]
     role UserRole[]
     accounts  Account[]
     favorites Favorite[]

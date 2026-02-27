@@ -37,10 +37,10 @@ const DashboardSidebar = () => {
                         active={pathName === "/dashboard/profile"} 
                     />
                     <SidebarItem 
-                        href="/dashboard/shopping" 
+                        href="/dashboard/orders" 
                         icon={<LuPackage />} 
                         label="Compras" 
-                        active={pathName === "/dashboard/shopping"} 
+                        active={pathName === "/dashboard/orders"} 
                     />
                     <SidebarItem 
                         href="/dashboard/cart" 

@@ -1,0 +1,15 @@
+model Order {
+    id String @id @default(nanoid()) 
+
+    totalAmount Int
+    stripeSessionId String @unique
+    status String
+    products Json[]
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    createdAt DateTime @default(now())
+
+    @@map("orders")
+}

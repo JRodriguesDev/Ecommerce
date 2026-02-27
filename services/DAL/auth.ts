@@ -138,3 +138,11 @@ export const getRoles = async (userId: string) => {
     })
     return roles?.role.map((el) => el.role.name)
 }
+
+export const getCustomerId = async (userId: string) => {
+    const id = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {customerId: true}
+    })
+    return id?.customerId
+}
