@@ -21,6 +21,7 @@ export const CompleteRegistration = () => {
         if (state.success) {
             (async () => {
                 await update({needsProfile: false})
+                await update({customer: true})
                 router.push('/shop')
                 router.refresh() // Garante que o servidor perceba a mudança
             })()

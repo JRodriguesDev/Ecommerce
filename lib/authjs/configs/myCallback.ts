@@ -29,6 +29,9 @@ export const myCallback: NextAuthConfig['callbacks'] = {
                 token.picture = mainImage || user.image
                 token.needsProfile = !security.name || !security.password
             }
+            if (trigger == 'update' && !session.customer) {
+                token.customerId = await getCustomerId(token.id!)
+            }
             if (trigger == 'update' && !session.needsProfile) {
                 token.needsProfile = session.needsProfile
             }
@@ -50,6 +53,7 @@ export const myCallback: NextAuthConfig['callbacks'] = {
             session.user.customerId = token.customerId
             session.user.needsProfile = token.needsProfile
             session.user.cartCount = token.cartCount
+            console.log(session)
         }
         return session
     }

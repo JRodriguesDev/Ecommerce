@@ -42,3 +42,18 @@ export const processOrder = async (userId: string, session: typeSession, data: P
         })
     })
 }
+
+export const getOrder = async (userId: string) => {
+    const orders = await prisma.order.findMany({
+        where: {userId: userId},
+        select: {
+            id: true,
+            status: true,
+            stripeSessionId: true,
+            totalAmount: true,
+            products: true,
+            createdAt: true
+        }
+    })
+    return orders
+}
