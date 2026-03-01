@@ -46,10 +46,10 @@ const Profile = () => {
                     />
 
                     <ProfileMenuCard 
-                        href="/dashboard/wallet"
+                        href="/dashboard/profile/wallet"
                         icon={<LuCreditCard />}
-                        title="Faturas e Carteira"
-                        description="Veja seu saldo, histórico financeiro e métodos de pagamento."
+                        title="Carteira"
+                        description="Veja seus métodos de pagamento."
                     />
 
                     <ProfileMenuCard 
