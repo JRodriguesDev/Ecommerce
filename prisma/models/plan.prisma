@@ -1,0 +1,11 @@
+model Plan {
+  id          String   @id @default(nanoid())
+  name        String   // Ex: "Logística Pro"
+  description String?  // Uma frase curta de impacto
+  price       Int      // Recomendado usar Int (centavos) para bater com a Stripe (ex: 1990)
+  icon String
+  // Guardamos as features como um Array de Strings para facilitar o .map() no React
+  features    String[] 
+
+  @@map("plans")
+}

@@ -18,27 +18,38 @@ export const productsModeDTO = (
                 description: product.description,
                 images: [product.thumbnail],
             },
-            // Mantemos o preço original do produto aqui
             unit_amount: product.price 
         },
         quantity: product.quantity
     }))
 
-    // 2. Criamos o item de "Taxa de Processamento Seguro"
-    // Simulando: R$ 2,50 fixos + 3% sobre o valor total (opcional)
+    // 2. Item de Entrega (Frete Fixo)
+    const shippingItem: stripeLineItems = {
+        price_data: {
+            currency: 'brl',
+            product_data: {
+                name: 'Entrega Expressa',
+                description: 'Envio via transportadora com seguro e rastreio.',
+                // Opcional: Você pode colocar uma imagem de um caminhão de entrega aqui
+            },
+            unit_amount: 1500, // R$ 15,00 - Valor fixo de entrega
+        },
+        quantity: 1,
+    }
+
+    // 3. Taxa de Processamento Seguro
     const serviceFeeItem: stripeLineItems = {
         price_data: {
             currency: 'brl',
             product_data: {
                 name: 'Processamento Seguro',
                 description: 'Criptografia de ponta a ponta e proteção ao comprador.',
-                // Você pode até colocar um ícone de escudo aqui se tiver a URL
             },
-            unit_amount: 490, // R$ 4,90 - Valor fixo profissional
+            unit_amount: 490, // R$ 4,90
         },
         quantity: 1,
     }
 
-    // Retorna a lista de produtos com a taxa injetada no final
-    return [...lineItems, serviceFeeItem]
+    // Retorna a lista completa: Produtos + Frete + Taxa
+    return [...lineItems, shippingItem, serviceFeeItem]
 }

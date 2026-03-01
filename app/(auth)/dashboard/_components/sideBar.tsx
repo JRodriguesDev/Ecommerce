@@ -34,7 +34,7 @@ const DashboardSidebar = () => {
                         href="/dashboard/profile" 
                         icon={<LuUser />} 
                         label="Dados Pessoais" 
-                        active={pathName === "/dashboard/profile"} 
+                        active={pathName.startsWith("/dashboard/profile")} 
                     />
                     <SidebarItem 
                         href="/dashboard/orders" 
@@ -63,25 +63,6 @@ const DashboardSidebar = () => {
                     />
                 </nav>
             </div>
-
-            <div className="my-6 px-4">
-                <Separator className="bg-zinc-800/50" />
-            </div>
-
-            <nav className="flex flex-col gap-1 px-3">
-                <SidebarItem 
-                    href="/profile/wallet" 
-                    icon={<LuCreditCard />} 
-                    label="Carteira" 
-                    active={pathName === "/profile/wallet"} 
-                />
-                <SidebarItem 
-                    href="/profile/settings" 
-                    icon={<LuSettings />} 
-                    label="Ajustes" 
-                    active={pathName === "/profile/settings"} 
-                />
-            </nav>
 
             <div className="mt-auto px-3">
                 <button className="flex items-center gap-4 w-full px-4 py-3 text-red-500/70 hover:text-red-500 hover:bg-red-500/5 rounded-xl transition-all overflow-hidden">

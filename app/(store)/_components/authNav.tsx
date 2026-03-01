@@ -5,11 +5,14 @@ import { signOut, useSession } from "next-auth/react"
 import { useEffect } from "react"
 import {useCartStore} from '@/lib/zustand/cartHook'
 
+
 // 2. Icons
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa"
 import { TiStarFullOutline } from "react-icons/ti"
+import { LuCrown, LuZap } from "react-icons/lu"
 
 // 3. UI Components (Shadcn)
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -43,6 +46,20 @@ const AuthNav = () => {
             {status === 'authenticated' ? (
                 <>
                     {/* Favoritos e Carrinho - Use Link para melhor SEO/Performance se forem páginas */}
+                    <Link href="/subscription" className="group relative">
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 hover:border-yellow-500/50 transition-all duration-300">
+                            <div className="size-5 rounded-full bg-yellow-500/10 flex items-center justify-center">
+                                <LuCrown className="size-3 text-yellow-500 group-hover:scale-110 transition-transform" />
+                            </div>
+                            <span className="text-[10px] font-black uppercase tracking-tighter text-zinc-400 group-hover:text-yellow-500 transition-colors">
+                                Upgrade
+                            </span>
+                            {/* Pequena Badge de Destaque */}
+                            <Badge className="absolute -top-2 -right-2 h-4 px-1 bg-yellow-500 text-black text-[8px] font-black border-none animate-pulse">
+                                VIP
+                            </Badge>
+                        </div>
+                    </Link>
                     <Link href="/dashboard/favorites" className="flex items-center gap-2 px-3 py-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 transition-all group">
                         <TiStarFullOutline className="text-yellow-500 group-hover:scale-110 transition-transform" size={20}/> 
                         <span className="hidden lg:inline text-sm font-medium">Favorites</span>

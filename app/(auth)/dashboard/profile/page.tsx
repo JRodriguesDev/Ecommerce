@@ -55,15 +55,8 @@ const Profile = () => {
                     <ProfileMenuCard 
                         href="/dashboard/shopping"
                         icon={<LuHistory />}
-                        title="Meus Pedidos"
-                        description="Acompanhe suas compras e histórico de pedidos realizados."
-                    />
-
-                    <ProfileMenuCard 
-                        href="/dashboard/docs"
-                        icon={<LuFileText />}
-                        title="Documentos"
-                        description="Acesse notas fiscais e termos de uso aceitos na plataforma."
+                        title="Faturas"
+                        description="Acompanhe seu histórico de faturas"
                     />
                 </div>
             </div>
