@@ -4,8 +4,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle2, ArrowRight, ShoppingBag, Mail } from 'lucide-react'
 
-const Return = async ({ params }: { params: Promise<{ id: string }> }) => {
-    const { id: sessionId } = await params
+const Return = async ({ params }: { params: Promise<{ type: string, id: string }> }) => {
+    const { type, id: sessionId } = await params
     
     if (!sessionId) throw new Error('Sessão inválida')
 
@@ -16,7 +16,7 @@ const Return = async ({ params }: { params: Promise<{ id: string }> }) => {
     if (status === 'open') redirect('/dashboard/cart')
 
     if (status === 'complete') {
-        await processPurchaseAction(session)
+        await processPurchaseAction(session, type)
         return (
             <>
             <SuccessNotification/>
@@ -54,13 +54,6 @@ const Return = async ({ params }: { params: Promise<{ id: string }> }) => {
 
                     {/* Ações de Retorno */}
                     <div className="grid grid-cols-1 gap-3">
-                        <Link 
-                            href="/dashboard/orders"
-                            className="flex items-center justify-center gap-2 w-full py-3 bg-zinc-100 hover:bg-white text-zinc-950 font-semibold rounded-xl transition-all"
-                        >
-                            Ver Meus Pedidos
-                            <ArrowRight className="size-4" />
-                        </Link>
                         
                         <Link 
                             href="/shop"

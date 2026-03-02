@@ -88,3 +88,19 @@ export const updateImage = async (userId: string, data: {discordImage: string} |
         data: {...data}
     })
 }
+
+export const userPlan = async (userId: string) => {
+    const plan = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {
+            plan: {select: {
+                id: true,
+                name: true,
+                price: true,
+                description: true,
+                features: true,
+            }}
+        }
+    })
+    return plan!.plan
+}

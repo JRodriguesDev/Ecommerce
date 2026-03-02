@@ -29,7 +29,7 @@ export const planSeed = async () => {
             id: "plan_elite",
             name: "Elite VIP",
             price: 4990, // R$ 49,90
-            description: "O máximo de economia com descontos agressivos.",
+            description: "O máximo de economia com descontos.",
             features: [
                 "Tudo do Logística Pro", 
                 "15% OFF em todo o catálogo", 

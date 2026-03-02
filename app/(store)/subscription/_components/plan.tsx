@@ -3,6 +3,7 @@ import { LuCheck } from "react-icons/lu"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import {allPlansAction} from '../actions'
+import Link from "next/link"
 
 // Tipagem baseada no que vem do Prisma
 interface PlanProps {
@@ -82,15 +83,17 @@ const PlanCard = ({ plan }: PlanProps) => {
             </CardContent>
 
             <CardFooter className="pb-8">
-                <button className={`w-full h-12 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all ${
-                    isPro 
-                    ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20' 
-                    : isElite
-                    ? 'bg-yellow-500 hover:bg-yellow-400 text-black'
-                    : 'bg-zinc-900 hover:bg-zinc-800 text-zinc-400'
-                }`}>
-                    {plan.price === 0 ? "Plano Atual" : "Fazer Upgrade"}
-                </button>
+                <Link href={`/checkout/subscription?plan=${plan.id}`}>
+                    <button className={`w-full h-12 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all ${
+                        isPro 
+                        ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20' 
+                        : isElite
+                        ? 'bg-yellow-500 hover:bg-yellow-400 text-black'
+                        : 'bg-zinc-900 hover:bg-zinc-800 text-zinc-400'
+                    }`}>
+                        {plan.price === 0 ? "Plano Atual" : "Fazer Upgrade"}
+                    </button>
+                </Link>
             </CardFooter>
         </Card>
     )

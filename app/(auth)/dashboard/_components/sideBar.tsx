@@ -56,10 +56,10 @@ const DashboardSidebar = () => {
                         active={pathName === "/dashboard/favorites"} 
                     />
                     <SidebarItem 
-                        href="/profile/subscriptions" 
+                        href="/dashboard/subscriptions" 
                         icon={<LuGem />} 
                         label="Assinaturas" 
-                        active={pathName === "/profile/subscriptions"} 
+                        active={pathName === "/dashboard/subscriptions"} 
                     />
                 </nav>
             </div>

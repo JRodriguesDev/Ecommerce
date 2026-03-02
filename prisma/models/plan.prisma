@@ -6,6 +6,7 @@ model Plan {
   icon String
   // Guardamos as features como um Array de Strings para facilitar o .map() no React
   features    String[] 
+  users User[]
 
   @@map("plans")
 }

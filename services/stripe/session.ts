@@ -26,3 +26,15 @@ export const retrieveSession = async (sessionId: string) => {
     )
     return session
 }
+
+export const createSubscriptionSession = async (data: stripeLineItems[], customerId: string, type: string) => {
+    const session = await stripe.checkout.sessions.create({
+        customer: customerId,
+        ui_mode: 'embedded',
+        mode: 'subscription',
+        line_items: data,
+        saved_payment_method_options: {payment_method_save: 'enabled'},
+        return_url: `http://localhost:3000/checkout/${type}/{CHECKOUT_SESSION_ID}`
+    })
+    return session.client_secret!
+}

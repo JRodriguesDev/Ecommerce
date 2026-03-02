@@ -53,3 +53,22 @@ export const productsModeDTO = (
     // Retorna a lista completa: Produtos + Frete + Taxa
     return [...lineItems, shippingItem, serviceFeeItem]
 }
+
+export const subscriptionDTO = (data: {id: string, name: string, price: number, description: string}): stripeLineItems[] => {
+    const lineItems: stripeLineItems = {
+        metadata: {plandId: data.id},
+        price_data: {
+            currency: 'brl',
+            product_data: {
+                name: data.name,
+                description: data.description,
+            },
+            recurring: {
+                interval: 'month'
+            },
+            unit_amount: data.price
+        },
+        quantity: 1
+    } 
+    return [lineItems]
+}

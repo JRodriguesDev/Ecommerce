@@ -13,6 +13,9 @@ model User {
     role UserRole[]
     accounts  Account[]
     favorites Favorite[]
+    stripeSubscriptionId String? @unique
+    plan Plan? @relation(fields: [planId], references: [id], onDelete: SetNull)
+    planId String?
     cart Cart?
     twoFactorEnabled Boolean @default(false)
     twoFactorSecret  String?
