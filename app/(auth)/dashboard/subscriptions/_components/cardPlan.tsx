@@ -4,9 +4,14 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import {planAction} from '../actions'
+import Link from "next/link"
 
 export const Plan = async () => {
     const userPlan = await planAction()
+    
+    if (!userPlan || !userPlan.id) {
+        return <EmptyPlan />
+    }
 
     return (
         <>
@@ -15,7 +20,7 @@ export const Plan = async () => {
     )
 }
 
-const CardPlan = ({plan}: {plan: {id: string, name: string, description: string, price: number, features: []}}) => {
+const CardPlan = ({plan}: {plan: {id: string, name: string, description: string, price: number, features: [], nextBillingDate: Date}}) => {
     
     return (
                             <Card className="md:col-span-2 bg-zinc-950 border-zinc-800 overflow-hidden relative">
@@ -62,13 +67,46 @@ const CardPlan = ({plan}: {plan: {id: string, name: string, description: string,
         
                                 <CardFooter className="bg-zinc-900/30 border-t border-zinc-800/50 py-4 flex justify-between items-center">
                                     <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-tight">
-                                        Próxima cobrança em: <span className="text-zinc-300">{'000'}</span>
+                                        Próxima cobrança em: <span className="text-zinc-300">{plan.nextBillingDate.toLocaleDateString('pt-BR')}</span>
                                     </p>
                                     <Button variant="ghost" className="text-xs font-bold text-blue-500 hover:text-blue-400 hover:bg-transparent">
                                         Ver Notas Fiscais
                                     </Button>
                                 </CardFooter>
                             </Card>
+    )
+}
+
+export const EmptyPlan = () => {
+    return (
+        /* Adicionei md:col-span-2 para alinhar com o tamanho do seu card original */
+        <div className="md:col-span-2 flex flex-col items-center justify-center min-h-[450px] w-full border-2 border-dashed border-zinc-800/50 rounded-[2rem] bg-zinc-900/10 backdrop-blur-sm px-4 text-center">
+            
+            <div className="relative mb-6">
+                <div className="absolute inset-0 bg-blue-500/10 blur-3xl rounded-full" />
+                <div className="relative bg-zinc-900 border border-zinc-800 p-6 rounded-2xl shadow-2xl">
+                    <LuCrown className="size-10 text-zinc-700" />
+                </div>
+            </div>
+
+            <div className="space-y-2 max-w-sm"> {/* Aumentei de max-w-xs para max-w-sm para o texto espalhar mais */}
+                <h2 className="text-zinc-100 font-black uppercase italic text-2xl tracking-tighter">
+                    Nenhum Plano Ativo
+                </h2>
+                <p className="text-zinc-500 text-sm font-medium leading-relaxed">
+                    Você ainda não possui uma assinatura ativa. Escolha um plano para desbloquear recursos exclusivos e elevar sua experiência para o próximo nível.
+                </p>
+            </div>
+
+            <Button 
+                asChild
+                className="mt-10 bg-zinc-100 text-black hover:bg-white transition-all gap-2 px-12 h-14 rounded-xl font-bold uppercase text-[10px] tracking-widest shadow-xl shadow-white/5"
+            >
+                <Link href="/subscription">
+                    Explorar Nossos Planos
+                </Link>
+            </Button>
+        </div>
     )
 }
 

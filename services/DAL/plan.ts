@@ -34,6 +34,7 @@ export const getPlan = async (planId: string) => {
             name: true, 
             price: true,
             description: true, 
+            
         }
     })
     return plan
@@ -55,11 +56,13 @@ export const userCheckPlan = async (userId: string) => {
 type typeSession = Stripe.Checkout.Session
 
 export const processPlan = async (userId: string, session: typeSession) => {
+    const subscription = session.subscription as Stripe.Subscription;
     await prisma.user.update({
       where: { id: userId },
       data: {
         planId: session.line_items!.data[0].metadata!.plandId, // Vincula ao ID do plano que criamos na Seed
-        stripeSubscriptionId: session.subscription as string, // "Controle remoto" da assinatura
+        stripeSubscriptionId: subscription.id as string, // "Controle remoto" da assinatura
+        nextBillingDate: new Date(subscription.items.data[0].current_period_end * 1000)
       }
     });
 }

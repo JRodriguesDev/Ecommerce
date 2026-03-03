@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Suspense } from "react"
 import {CardPlanSkeleton, Plan} from './_components/cardPlan'
+import {CancelButton} from './_components/cardInteractive'
+import Link from "next/link"
 
 const Subscriptions = () => {
 
@@ -35,18 +37,14 @@ const Subscriptions = () => {
                                 <CardTitle className="text-sm font-bold uppercase tracking-widest">Ações</CardTitle>
                             </CardHeader>
                             <CardContent className="p-6 pt-0 space-y-3">
-                                <Button className="w-full justify-start gap-2 bg-zinc-100 text-black hover:bg-zinc-200 font-bold text-xs uppercase italic">
-                                    <LuCircleArrowUp className="size-4" />
-                                    Fazer Upgrade
-                                </Button>
-                                <Button variant="outline" className="w-full justify-start gap-2 border-zinc-800 text-zinc-400 hover:bg-zinc-900 font-bold text-xs uppercase">
-                                    Trocar Cartão
-                                </Button>
-                                <div className="pt-4 mt-4 border-t border-zinc-900">
-                                    <Button variant="ghost" className="w-full justify-start gap-2 text-red-500/70 hover:text-red-500 hover:bg-red-500/5 font-bold text-xs uppercase">
-                                        <LuCircleX className="size-4" />
-                                        Cancelar Plano
+                                <Link href='/subscription'>
+                                    <Button className="w-full justify-start gap-2 bg-zinc-100 text-black hover:bg-zinc-200 font-bold text-xs uppercase italic">
+                                        <LuCircleArrowUp className="size-4" />
+                                        Fazer Upgrade
                                     </Button>
+                                </Link>
+                                <div className="pt-4 mt-4 border-t border-zinc-900">
+                                    <CancelButton/>
                                 </div>
                             </CardContent>
                         </Card>
@@ -54,7 +52,7 @@ const Subscriptions = () => {
                         <div className="p-4 bg-yellow-500/5 border border-yellow-500/10 rounded-xl flex gap-3">
                             <LuTriangleAlert className="text-yellow-500 shrink-0" size={18} />
                             <p className="text-[10px] text-yellow-500/80 font-medium leading-tight">
-                                Atenção: Ao cancelar seu plano, você perderá o acesso aos benefícios VIP imediatamente ao final do ciclo.
+                                Atenção: Ao cancelar seu plano, você perderá o acesso aos benefícios VIP imediatamente.
                             </p>
                         </div>
                     </div>

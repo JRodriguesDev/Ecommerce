@@ -53,7 +53,6 @@ export const myCallback: NextAuthConfig['callbacks'] = {
             session.user.customerId = token.customerId
             session.user.needsProfile = token.needsProfile
             session.user.cartCount = token.cartCount
-            console.log(session)
         }
         return session
     }

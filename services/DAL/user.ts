@@ -93,14 +93,45 @@ export const userPlan = async (userId: string) => {
     const plan = await prisma.user.findUnique({
         where: {id: userId},
         select: {
+            nextBillingDate: true,
             plan: {select: {
                 id: true,
                 name: true,
                 price: true,
                 description: true,
                 features: true,
+                
             }}
         }
     })
-    return plan!.plan
+    return { nextBillingDate: plan?.nextBillingDate, ...plan?.plan}
+}
+
+export const userSubcription = async (userId: string) => {
+    const id = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {stripeSubscriptionId: true}
+    })
+    return id?.stripeSubscriptionId
+}
+
+export const cancelPlan = async (userId: string) => {
+    await prisma.user.update({
+        where: {id: userId},
+        data: {
+            planId: null,
+            stripeSubscriptionId: null,
+            nextBillingDate: null
+        }
+    })
+}
+
+export const subscriptionId = async (userId: string) => {
+    const id = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {
+            stripeSubscriptionId: true
+        }  
+    })
+    return id?.stripeSubscriptionId
 }

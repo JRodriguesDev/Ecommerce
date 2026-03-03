@@ -27,7 +27,8 @@ export const retrieveSession = async (sessionId: string) => {
     return session
 }
 
-export const createSubscriptionSession = async (data: stripeLineItems[], customerId: string, type: string) => {
+export const createSubscriptionSession = async (data: stripeLineItems[], customerId: string, type: string, hasPlan: string) => {
+    if (hasPlan) await stripe.subscriptions.cancel(hasPlan)
     const session = await stripe.checkout.sessions.create({
         customer: customerId,
         ui_mode: 'embedded',
@@ -37,4 +38,12 @@ export const createSubscriptionSession = async (data: stripeLineItems[], custome
         return_url: `http://localhost:3000/checkout/${type}/{CHECKOUT_SESSION_ID}`
     })
     return session.client_secret!
+}
+
+export const retrieveSubscriptionSession = async (sessionId: string) => {
+    const session = await stripe.checkout.sessions.retrieve(
+        sessionId,
+        {expand: ['subscription', 'line_items']}
+    )
+    return session
 }

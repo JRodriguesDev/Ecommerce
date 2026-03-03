@@ -2,7 +2,7 @@ import { retrieveCheckoutSessionAction, processPurchaseAction } from './actions'
 import {SuccessNotification} from './_components/successNotification'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { CheckCircle2, ArrowRight, ShoppingBag, Mail } from 'lucide-react'
+import { CheckCircle2, ShoppingBag, Mail } from 'lucide-react'
 
 const Return = async ({ params }: { params: Promise<{ type: string, id: string }> }) => {
     const { type, id: sessionId } = await params
@@ -16,7 +16,7 @@ const Return = async ({ params }: { params: Promise<{ type: string, id: string }
     if (status === 'open') redirect('/dashboard/cart')
 
     if (status === 'complete') {
-        await processPurchaseAction(session, type)
+        await processPurchaseAction(sessionId, type)
         return (
             <>
             <SuccessNotification/>

@@ -15,6 +15,7 @@ model User {
     favorites Favorite[]
     stripeSubscriptionId String? @unique
     plan Plan? @relation(fields: [planId], references: [id], onDelete: SetNull)
+    nextBillingDate DateTime?
     planId String?
     cart Cart?
     twoFactorEnabled Boolean @default(false)

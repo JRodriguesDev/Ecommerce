@@ -7,6 +7,7 @@ import {productsModeDTO, subscriptionDTO} from '@/services/DTO/stripe'
 import { redirect } from 'next/navigation'
 import {Product} from '@/types/product'
 import {userCheckPlan, getPlan} from '@/services/DAL/plan'
+import {userSubcription} from '@/services/DAL/user'
 
 export const cartProductsAction = async () => {
     const session = await auth()
@@ -28,7 +29,6 @@ export const planCheckAction = async (planId: string) =>{
     if (!session?.user?.id) redirect('/auth/login')
     const userPlan = await userCheckPlan(session!.user.id)
     if (planId == userPlan) redirect('/subscription')
-
 }
 
 export const createCheckoutSubscriptionAction = async (planId: string, type: string) => {
@@ -36,6 +36,7 @@ export const createCheckoutSubscriptionAction = async (planId: string, type: str
     if (!session?.user?.id) redirect('/auth/login')
     const plan = await getPlan(planId)
     const subscription = subscriptionDTO(plan)
-    return await createSubscriptionSession(subscription, session!.user!.customerId, type)
+    const subscriptionId = await userSubcription(session!.user!.id)
+    return await createSubscriptionSession(subscription, session!.user!.customerId, type, subscriptionId)
 }
 
