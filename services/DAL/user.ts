@@ -100,7 +100,7 @@ export const userPlan = async (userId: string) => {
                 price: true,
                 description: true,
                 features: true,
-                
+                tier: true
             }}
         }
     })

@@ -4,6 +4,7 @@ model Plan {
   description String?  // Uma frase curta de impacto
   price       Int      // Recomendado usar Int (centavos) para bater com a Stripe (ex: 1990)
   icon String
+  tier Int @default(0)
   // Guardamos as features como um Array de Strings para facilitar o .map() no React
   features    String[] 
   users User[]

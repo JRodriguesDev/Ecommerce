@@ -23,7 +23,7 @@ export const productsSeed = async () => {
             title: el.title,
             category: el.category,
             description: el.description,
-            price: Math.round(el.price * 100),
+            price: Math.min(Math.round(el.price * 100), 2000000000),
             stock: Math.floor(Math.random() * (100 - 10 + 1)) + 10,
             images: []
         } satisfies Omit<Product, 'id'>))
@@ -34,7 +34,7 @@ export const productsSeed = async () => {
             title: el.title,
             category: el.category,
             description: el.description,
-            price: Math.round(el.price * 100),
+            price: Math.min(Math.round(el.price * 100), 2000000000),
             stock: el.stock,
             images: el.images,
         } satisfies Omit<Product, 'id'>))
@@ -45,7 +45,7 @@ export const productsSeed = async () => {
             title: el.title,
             category: el.category.slug,
             description: el.description,
-            price: Math.round(el.price * 100),
+            price: Math.min(Math.round(el.price * 100), 2000000000),
             stock: Math.floor(Math.random() * (100 - 10 + 1)) + 10,
             images: el.images
         } satisfies Omit<Product, 'id'>))

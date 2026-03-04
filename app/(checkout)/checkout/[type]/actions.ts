@@ -7,7 +7,7 @@ import {productsModeDTO, subscriptionDTO} from '@/services/DTO/stripe'
 import { redirect } from 'next/navigation'
 import {Product} from '@/types/product'
 import {userCheckPlan, getPlan} from '@/services/DAL/plan'
-import {userSubcription} from '@/services/DAL/user'
+import {userSubcription, userPlan} from '@/services/DAL/user'
 
 export const cartProductsAction = async () => {
     const session = await auth()
@@ -20,7 +20,8 @@ export const createCheckoutAction = async (products: Product[], type: string) =>
     const session = await auth()
     if (!session?.user?.id) redirect('/auth/login')
     const customerId = session!.user.customerId
-    const stripeData = productsModeDTO(products)
+    const plan = await userPlan(session.user.id)
+    const stripeData = productsModeDTO(products, plan.tier!)
     return await createSession(stripeData, customerId, type)
 }
 

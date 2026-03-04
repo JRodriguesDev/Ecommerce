@@ -5,39 +5,50 @@ import type { Stripe } from 'stripe'
 type stripeLineItems = Stripe.Checkout.SessionCreateParams.LineItem
 
 export const productsModeDTO = (
-    data: Pick<Product, 'id' | 'title' | 'price' | 'quantity' | 'description' | 'rating' | 'stock' | 'slug' | 'thumbnail'>[]
+    data: Pick<Product, 'id' | 'title' | 'price' | 'quantity' | 'description' | 'rating' | 'stock' | 'slug' | 'thumbnail'>[], 
+    planTier: number // Recebendo o Tier como parâmetro
 ): stripeLineItems[] => {
     
-    // 1. Mapeia os produtos originais
-    const lineItems = data.map((product) => ({
-        price_data: {
-            currency: 'brl',
-            product_data: {
-                metadata: { id: product.id },
-                name: product.title,
-                description: product.description,
-                images: [product.thumbnail],
-            },
-            unit_amount: product.price 
-        },
-        quantity: product.quantity
-    }))
+    // 1. Mapeia os produtos aplicando Desconto de 15% se for Tier 2
+    const lineItems = data.map((product) => {
+        // Lógica de Desconto Tier 2: Preço original * 0.85 (15% OFF)
+        const finalPrice = planTier >= 2 
+            ? Math.round(product.price * 0.85) 
+            : product.price;
 
-    // 2. Item de Entrega (Frete Fixo)
+        return {
+            price_data: {
+                currency: 'brl',
+                product_data: {
+                    metadata: { id: product.id },
+                    name: planTier >= 2 ? `${product.title} (15% OFF)` : product.title,
+                    description: product.description,
+                    images: [product.thumbnail],
+                },
+                unit_amount: finalPrice 
+            },
+            quantity: product.quantity
+        }
+    })
+
+    // 2. Lógica de Entrega (Tier 1 ou superior ganha Frete Grátis)
+    const shippingFee = planTier >= 1 ? 0 : 1500; // R$ 0,00 ou R$ 15,00
+
     const shippingItem: stripeLineItems = {
         price_data: {
             currency: 'brl',
             product_data: {
-                name: 'Entrega Expressa',
-                description: 'Envio via transportadora com seguro e rastreio.',
-                // Opcional: Você pode colocar uma imagem de um caminhão de entrega aqui
+                name: planTier >= 1 ? 'Entrega Grátis (Membro Pro/Elite)' : 'Entrega Expressa',
+                description: planTier >= 1 
+                    ? 'Benefício exclusivo do seu plano ativo.' 
+                    : 'Envio via transportadora com seguro e rastreio.',
             },
-            unit_amount: 1500, // R$ 15,00 - Valor fixo de entrega
+            unit_amount: shippingFee,
         },
         quantity: 1,
     }
 
-    // 3. Taxa de Processamento Seguro
+    // 3. Taxa de Processamento Seguro (Mantida igual para todos)
     const serviceFeeItem: stripeLineItems = {
         price_data: {
             currency: 'brl',
@@ -50,7 +61,7 @@ export const productsModeDTO = (
         quantity: 1,
     }
 
-    // Retorna a lista completa: Produtos + Frete + Taxa
+    // Retorna a lista completa: Produtos (com ou sem desconto) + Frete (grátis ou pago) + Taxa
     return [...lineItems, shippingItem, serviceFeeItem]
 }
 

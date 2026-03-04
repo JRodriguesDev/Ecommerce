@@ -9,6 +9,7 @@ export const planSeed = async () => {
             description: "O básico para começar sua jornada.",
             features: ["Acesso à loja completa", "Histórico de pedidos", "Suporte via e-mail"],
             status: true,
+            tier: 0,
             icon: "LuStar", // Nome do ícone para o IconRenderer
         },
         {
@@ -22,6 +23,7 @@ export const planSeed = async () => {
                 "Rastreamento em Tempo Real",
                 "Suporte VIP 24/7"
             ],
+            tier: 1,
             status: true,
             icon: "LuTruck",
         },
@@ -36,12 +38,15 @@ export const planSeed = async () => {
                 "Acesso antecipado a Drops",
                 "Brinde exclusivo mensal"
             ],
+            tier: 2,
             status: true,
             icon: "LuCrown",
         }
     ]
 
     console.log("🌱 Iniciar seed de planos...")
+    const existingPlan = await prisma.plan.count()
+    if (existingPlan > 0) return console.log('✅ Plans already exist. Skipping seed.')
 
     for (const plan of plans) {
         await prisma.plan.upsert({
@@ -53,6 +58,7 @@ export const planSeed = async () => {
                 description: plan.description,// Se seu campo for String no Prisma
                 features: plan.features, // Se seu campo for String[] (Postgres/Mongo)
                 icon: plan.icon,
+                tier: plan.tier
             }
         })
     }
