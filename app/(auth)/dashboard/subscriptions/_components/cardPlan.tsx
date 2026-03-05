@@ -1,10 +1,11 @@
-import { LuCrown } from "react-icons/lu"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import {planAction} from '../actions'
+import { LuCrown, LuCreditCard, LuMail } from "react-icons/lu";
 import Link from "next/link"
+import {ToggleChargeButton} from './cardInteractive'
 
 export const Plan = async () => {
     const userPlan = await planAction()
@@ -19,62 +20,91 @@ export const Plan = async () => {
         </>
     )
 }
+// ... outros imports (Button, Card, etc)
 
-const CardPlan = ({plan}: {plan: {id: string, name: string, description: string, price: number, features: [], nextBillingDate: Date}}) => {
-    
+const CardPlan = ({ plan }: { 
+    plan: { 
+        id: string, 
+        name: string, 
+        description: string, 
+        price: number, 
+        features: string[], 
+        nextBillingDate: Date, 
+        billingMethod: string 
+    } 
+}) => {
+    const isAuto = plan.billingMethod === 'charge_automatically';
+
     return (
-                            <Card className="md:col-span-2 bg-zinc-950 border-zinc-800 overflow-hidden relative">
-                                {/* Efeito de brilho sutil no topo para planos pagos */}
-                                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-                                
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
-                                    <div className="space-y-1">
-                                        <CardTitle className="text-xl font-bold flex items-center gap-2">
-                                            {plan.name}
-                                            <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20 hover:bg-blue-500/10">
-                                                Ativo
-                                            </Badge>
-                                        </CardTitle>
-                                        <CardDescription className="text-zinc-500">
-                                            {plan.description}
-                                        </CardDescription>
-                                    </div>
-                                    <div className="p-3 bg-zinc-900 rounded-xl border border-zinc-800 text-blue-500">
-                                        <LuCrown size={24} />
-                                    </div>
-                                </CardHeader>
-        
-                                <CardContent className="space-y-6">
-                                    <div className="flex items-baseline gap-1">
-                                        <span className="text-4xl font-black italic text-zinc-100">
-                                            {(plan.price / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                                        </span>
-                                        <span className="text-zinc-600 text-xs font-bold uppercase tracking-widest">/ mês</span>
-                                    </div>
-        
-                                    <div className="pt-4 border-t border-zinc-900">
-                                        <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">O que seu plano inclui:</p>
-                                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                            {plan.features.map(f => (
-                                                <li key={f} className="text-xs text-zinc-400 flex items-center gap-2">
-                                                    <div className="size-1.5 rounded-full bg-blue-500" />
-                                                    {f}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </CardContent>
-        
-                                <CardFooter className="bg-zinc-900/30 border-t border-zinc-800/50 py-4 flex justify-between items-center">
-                                    <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-tight">
-                                        Próxima cobrança em: <span className="text-zinc-300">{plan.nextBillingDate.toLocaleDateString('pt-BR')}</span>
-                                    </p>
-                                    <Button variant="ghost" className="text-xs font-bold text-blue-500 hover:text-blue-400 hover:bg-transparent">
-                                        Ver Notas Fiscais
-                                    </Button>
-                                </CardFooter>
-                            </Card>
-    )
+        <Card className="md:col-span-2 bg-zinc-950 border-zinc-800 overflow-hidden relative">
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
+                <div className="space-y-1">
+                    <CardTitle className="text-xl font-bold flex items-center gap-2">
+                        {plan.name}
+                        <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">
+                            Ativo
+                        </Badge>
+                    </CardTitle>
+                    <CardDescription className="text-zinc-500">
+                        {plan.description}
+                    </CardDescription>
+                </div>
+                <div className="p-3 bg-zinc-900 rounded-xl border border-zinc-800 text-blue-500">
+                    <LuCrown size={24} />
+                </div>
+            </CardHeader>
+
+            <CardContent className="space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                    <div className="flex items-baseline gap-1">
+                        <span className="text-4xl font-black italic text-zinc-100">
+                            {(plan.price / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                        </span>
+                        <span className="text-zinc-600 text-xs font-bold uppercase tracking-widest">/ mês</span>
+                    </div>
+
+                    {/* SEÇÃO DE MÉTODO DE PAGAMENTO */}
+                    <div className={`flex items-center gap-3 p-3 rounded-lg border ${isAuto ? 'border-emerald-500/10 bg-emerald-500/5' : 'border-amber-500/10 bg-amber-500/5'}`}>
+                        <div className={isAuto ? 'text-emerald-500' : 'text-amber-500'}>
+                            {isAuto ? <LuCreditCard size={20} /> : <LuMail size={20} />}
+                        </div>
+                        <div className="flex flex-col">
+                            <p className="text-[10px] font-bold uppercase tracking-tight text-zinc-300">
+                                {isAuto ? 'Cobrança Automática' : 'Fatura Manual'}
+                            </p>
+                            <p className="text-[11px] text-zinc-500 leading-tight">
+                                {isAuto ? 'Cobrado no cartão salvo' : 'Pagamento manual'}
+                            </p>
+                        </div>
+                        <ToggleChargeButton/>
+                    </div>
+                </div>
+
+                <div className="pt-4 border-t border-zinc-900">
+                    <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">O que seu plano inclui:</p>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {plan.features.map(f => (
+                            <li key={f} className="text-xs text-zinc-400 flex items-center gap-2">
+                                <div className="size-1.5 rounded-full bg-blue-500" />
+                                {f}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </CardContent>
+
+            <CardFooter className="bg-zinc-900/30 border-t border-zinc-800/50 py-4 flex justify-between items-center">
+                <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-tight">
+                    Próxima cobrança em: <span className="text-zinc-300">{plan.nextBillingDate.toLocaleDateString('pt-BR')}</span>
+                </p>
+                <Button variant="ghost" className="text-xs font-bold text-blue-500 hover:text-blue-400 hover:bg-transparent">
+                    Ver Notas Fiscais
+                </Button>
+            </CardFooter>
+        </Card>
+    );
 }
 
 export const EmptyPlan = () => {

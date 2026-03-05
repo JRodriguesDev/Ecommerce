@@ -62,7 +62,8 @@ export const processPlan = async (userId: string, session: typeSession) => {
       data: {
         planId: session.line_items!.data[0].metadata!.plandId, // Vincula ao ID do plano que criamos na Seed
         stripeSubscriptionId: subscription.id as string, // "Controle remoto" da assinatura
-        nextBillingDate: new Date(subscription.items.data[0].current_period_end * 1000)
+        nextBillingDate: new Date(subscription.items.data[0].current_period_end * 1000),
+        billingMethod: subscription.collection_method
       }
     });
 }

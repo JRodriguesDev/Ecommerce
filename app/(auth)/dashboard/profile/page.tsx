@@ -53,7 +53,7 @@ const Profile = () => {
                     />
 
                     <ProfileMenuCard 
-                        href="/dashboard/shopping"
+                        href="/dashboard/profile/invoice"
                         icon={<LuHistory />}
                         title="Faturas"
                         description="Acompanhe seu histórico de faturas"

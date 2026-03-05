@@ -2,8 +2,8 @@
 
 import { useTransition } from "react"
 import { Button } from "@/components/ui/button"
-import { LuCircleX, LuLoader } from "react-icons/lu" // Adicionei um ícone de loader
-import { cancelPlanAction } from '../actions'
+import { LuCircleX, LuLoader, LuRefreshCw } from "react-icons/lu" // Adicionei um ícone de loader
+import { cancelPlanAction, toggleChargeAction } from '../actions'
 import { useRouter } from "next/navigation"
 
 export const CancelButton = () => {
@@ -31,6 +31,37 @@ export const CancelButton = () => {
             )}
             
             {isPending ? "Cancelando..." : "Cancelar Plano"}
+        </Button>
+    )
+}
+
+export const ToggleChargeButton = () => {
+    const router = useRouter()
+    const [isPending, startTransition] = useTransition()
+
+    const handleToggle = () => {
+        startTransition(async () => {
+            await toggleChargeAction()
+            router.refresh()
+        })
+    }
+
+    return (
+        <Button 
+            onClick={handleToggle}
+            // 1. Desabilita o botão enquanto carrega
+            disabled={isPending}
+            variant="ghost" 
+            size="icon" 
+            // 2. Muda a opacidade se estiver pendente
+            className="h-8 w-8 text-zinc-600 hover:text-white hover:bg-zinc-800 ml-2 disabled:opacity-50"
+            title="Alterar método"
+        >
+            {/* 3. Adiciona a classe animate-spin condicionalmente */}
+            <LuRefreshCw 
+                size={14} 
+                className={isPending ? "animate-spin" : ""} 
+            />
         </Button>
     )
 }

@@ -2,7 +2,7 @@ import {cartProductsAction, createCheckoutAction, planCheckAction, createCheckou
 import { redirect } from 'next/navigation'
 import {CartCheckout} from './_components/cartCheckout'
 
-const CheckoutPage = async ({params, searchParams}: {params: Promise<{type: string}>, searchParams: Promise<{plan: string}>}) => {
+const CheckoutPage = async ({params, searchParams}: {params: Promise<{type: string}>, searchParams: Promise<{plan?: string, invoice?: string}>}) => {
     const {type} = await params
     let clientSecret = ''
 
@@ -19,7 +19,7 @@ const CheckoutPage = async ({params, searchParams}: {params: Promise<{type: stri
             await planCheckAction(planId)
             clientSecret = await createCheckoutSubscriptionAction(planId, type)
             return <CartCheckout client={clientSecret}/>
-    }   
+    }       
 }
 
 export default CheckoutPage

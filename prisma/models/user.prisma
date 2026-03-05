@@ -16,6 +16,7 @@ model User {
     stripeSubscriptionId String? @unique
     plan Plan? @relation(fields: [planId], references: [id], onDelete: SetNull)
     nextBillingDate DateTime?
+    billingMethod String?
     planId String?
     cart Cart?
     twoFactorEnabled Boolean @default(false)
