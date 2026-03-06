@@ -30,7 +30,7 @@ import { registerFormAction } from './actions';
 import { FormState } from '../types';
 
 
-const prevState: FormState = {success: false, error: null} 
+const prevState: FormState = { success: false, error: null }
 
 const Register = () => {
     const [state, formAction, pending] = useActionState(registerFormAction, prevState)
@@ -65,27 +65,18 @@ const Register = () => {
                             <Input
                                 id='email'
                                 name='email'
-                                type="email"
+                                type="text"
                                 placeholder="email@example.com"
                                 required
                                 disabled={pending}
                             />
                         </div>
                         <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">Password</Label>
-                                    <a
-                                        href="#"
-                                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                    >
-                                        Forgot your password?
-                                    </a>
-                            </div>
                             <Input id='password' name='password' type="password" required disabled={pending} />
                             {state?.error && (
-                                <div 
-                                    role="alert" 
-                                    aria-live="polite" 
+                                <div
+                                    role="alert"
+                                    aria-live="polite"
                                     className="p-3 text-sm font-medium border rounded-lg bg-destructive/10 border-destructive/20 text-destructive flex items-center gap-2 animate-in fade-in slide-in-from-top-1"
                                 >
                                     <span>⚠️</span>
@@ -100,28 +91,28 @@ const Register = () => {
                 <Button disabled={pending} form='formRegister' type="submit" className="w-full cursor-pointer">
                     {pending ? (
                         <>
-                            <Spinner className='size-5'/> Processing
+                            <Spinner className='size-5' /> Processing
                         </>
                     ) : (
                         'Register'
                     )}
                 </Button>
-                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('google', {redirectTo: '/shop'})}>
-                <FaGoogle/> Login with Google
+                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('google', { redirectTo: '/shop' })}>
+                    <FaGoogle /> Login with Google
                 </Button>
-                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('discord', {redirectTo: '/shop'})}>
-                <FaDiscord/> Login with Discord
+                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('discord', { redirectTo: '/shop' })}>
+                    <FaDiscord /> Login with Discord
                 </Button>
                 <Link href="/auth/magicLink" className="w-full">
-                <Button 
-                    variant="outline" 
-                    type="button" 
-                    className="w-full cursor-pointer flex flex-row gap-2"
-                >
-                    <LuWand size={18} />
-                    Login with Magic Links
-                </Button>
-                </Link> 
+                    <Button
+                        variant="outline"
+                        type="button"
+                        className="w-full cursor-pointer flex flex-row gap-2"
+                    >
+                        <LuWand size={18} />
+                        Login with Magic Links
+                    </Button>
+                </Link>
             </CardFooter>
         </Card>
     );

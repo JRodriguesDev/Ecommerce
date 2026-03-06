@@ -1,10 +1,11 @@
 import { NextAuthConfig } from "next-auth";
 import {updateImage} from '@/services/DAL/user'
-import {userCartCreate} from '@/services/DAL/auth'
+import {userCartCreateDB, userTwoFactorCreateDB} from '@/services/DAL/auth'
 
 export const myEvents: NextAuthConfig['events'] = {
     async createUser({user}) {
-        await userCartCreate(user.id!)
+        await userTwoFactorCreateDB(user.id!)
+        await userCartCreateDB(user.id!)
     },
     async linkAccount({user, profile, account}) {
             switch (account.provider) {

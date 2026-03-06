@@ -1,10 +1,11 @@
 import 'server-only'
 import bcrypt from 'bcryptjs'
-import {getVerifyLogin} from '../DAL/auth'
+import { getVerifyLoginDB } from '../DAL/auth'
 
 export const verifyLogin = async (email: string, password: string) => {
-    const data = await getVerifyLogin(email)
+    const data = await getVerifyLoginDB(email)
+    if (!data) throw new Error('User not found')
     const validated = await bcrypt.compare(password, data.password as string)
-    if (!validated) if (!validated) throw new Error('Password incorrect')
-    if (data.TwoFactor) return {twoFactor: true}
-}
+    if (!validated) throw new Error('Password incorrect')
+    return data.twoFactor ? true : false
+}   

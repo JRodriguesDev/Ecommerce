@@ -19,9 +19,7 @@ model User {
     billingMethod String?
     planId String?
     cart Cart?
-    twoFactorEnabled Boolean @default(false)
-    twoFactorSecret  String?
-    twoFactorToken String?
+    twoFactor TwoFactor?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

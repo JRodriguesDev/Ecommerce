@@ -1,11 +1,17 @@
-'use client'
+"use client";
 
-import { useActionState, useState, useEffect } from 'react'; // Adicionado useEffect
-import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // Importado useRouter
-import Form from 'next/form';
-import { LuLock, LuEye, LuEyeOff, LuLoader, LuCircleCheck } from "react-icons/lu";
-import { updatePasswordAction } from './actions';
+import { useActionState, useState, useEffect } from "react"; // Adicionado useEffect
+import Link from "next/link";
+import { useRouter } from "next/navigation"; // Importado useRouter
+import Form from "next/form";
+import {
+    LuLock,
+    LuEye,
+    LuEyeOff,
+    LuLoader,
+    LuCircleCheck,
+} from "react-icons/lu";
+import { updatePasswordAction } from "./actions";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,21 +24,23 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import {FormState} from '../../types'
+import { FormState } from "../../types";
 
-
-const prevState: FormState = {success: false, error: null}
+const prevState: FormState = { success: false, error: null };
 
 const NewPassword = () => {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
-    
-    const [state, formAction, pending] = useActionState(updatePasswordAction, prevState)
+
+    const [state, formAction, pending] = useActionState(
+        updatePasswordAction,
+        prevState,
+    );
     // Monitora o sucesso para redirecionar
     useEffect(() => {
         if (state?.success) {
             // Redireciona com um parâmetro opcional para exibir um alerta de sucesso no Login
-            router.push('/auth/login');
+            router.push("/auth/login");
         }
     }, [state?.success, router]);
 
@@ -51,9 +59,14 @@ const NewPassword = () => {
                 <CardContent>
                     <Form action={formAction} className="space-y-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="password" className="text-zinc-400">New Password</Label>
+                            <Label htmlFor="password" className="text-zinc-400">
+                                New Password
+                            </Label>
                             <div className="relative">
-                                <LuLock className="absolute left-3 top-3 text-zinc-600" size={18} />
+                                <LuLock
+                                    className="absolute left-3 top-3 text-zinc-600"
+                                    size={18}
+                                />
                                 <Input
                                     id="password"
                                     name="password"
@@ -73,9 +86,14 @@ const NewPassword = () => {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="confirmPassword" className="text-zinc-400">Confirm Password</Label>
+                            <Label htmlFor="confirmPassword" className="text-zinc-400">
+                                Confirm Password
+                            </Label>
                             <div className="relative">
-                                <LuLock className="absolute left-3 top-3 text-zinc-600" size={18} />
+                                <LuLock
+                                    className="absolute left-3 top-3 text-zinc-600"
+                                    size={18}
+                                />
                                 <Input
                                     id="confirmPassword"
                                     name="confirmPassword"
@@ -93,16 +111,16 @@ const NewPassword = () => {
                             </div>
                         )}
 
-                        <Button 
-                            type="submit" 
-                            disabled={pending || state?.success} 
+                        <Button
+                            type="submit"
+                            disabled={pending || state?.success}
                             className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest py-6 shadow-[0_0_20px_rgba(16,185,129,0.2)]"
                         >
                             {pending ? (
                                 <LuLoader className="animate-spin" size={20} />
                             ) : (
                                 <div className="flex items-center gap-2">
-                                    <span>{state?.success ? 'Success!' : 'Update Password'}</span>
+                                    <span>{state?.success ? "Success!" : "Update Password"}</span>
                                     <LuCircleCheck size={18} />
                                 </div>
                             )}
@@ -111,13 +129,16 @@ const NewPassword = () => {
                 </CardContent>
 
                 <CardFooter className="flex justify-center border-t border-zinc-800/50 mt-4 pt-6">
-                    <Link href="/auth/login" className="text-sm text-zinc-500 hover:text-emerald-500 transition-colors">
+                    <Link
+                        href="/auth/login"
+                        className="text-sm text-zinc-500 hover:text-emerald-500 transition-colors"
+                    >
                         Cancel and return to Login
                     </Link>
                 </CardFooter>
             </Card>
         </div>
     );
-}
+};
 
 export default NewPassword;

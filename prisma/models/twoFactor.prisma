@@ -1,0 +1,11 @@
+model TwoFactor {
+    id String @id @default(nanoid())
+    twoFactorEnabled Boolean @default(false)
+    twoFactorSecret  String?
+    twoFactorToken String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @unique
+
+    @@map("twoFactorConfirmations")
+}

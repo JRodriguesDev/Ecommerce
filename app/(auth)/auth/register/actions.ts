@@ -5,11 +5,12 @@ import { redirect } from 'next/navigation'
 
 // 2. Auth & Security
 import { signIn } from '@/lib/authjs/auth'
+import { AuthError } from 'next-auth'
 
 // 3. Database & Services
 import { Prisma } from '@/lib/prisma/index'
-import { userRegister } from '@/services/DAL/auth'
-import {createCustomer} from '@/services/stripe/customer'
+import { userRegisterDB } from '@/services/DAL/auth'
+import { createCustomer } from '@/services/stripe/customer'
 
 // 4. Validation, Types & Schemas
 import { registerSchema } from '../schema'
@@ -21,16 +22,21 @@ export const registerFormAction = async (prevState: FormState, form: FormData): 
         email: form.get('email'),
         password: form.get('password')
     })
-    if (!validatedFields.success) return {success: false, error: 'Invalid fields. Please check your name, email and password.'}
-    const {email, password} = validatedFields.data
+    if (!validatedFields.success) {
+        const fieldsErros = validatedFields.error.flatten().fieldErrors
+        const errorMessage = fieldsErros.name?.[0] || fieldsErros.email?.[0] || fieldsErros.password?.[0]
+        return { success: false, error: errorMessage }
+    }
+    const { name, email, password } = validatedFields.data
     try {
-        const customerId = await createCustomer(validatedFields.data.name, validatedFields.data.email)
-        await userRegister(validatedFields.data, customerId)
-        await signIn('credentials', {email, password, redirect: false})
+        const customerId = await createCustomer(name, email)
+        await userRegisterDB(name, email, password, customerId)
+        await signIn('credentials', { email, password, redirect: false })
     } catch (err) {
         if (err instanceof Prisma.PrismaClientKnownRequestError) {
-            if (err.code === 'P2002') return {success: false, error: 'This email is already registered.'}
+            if (err.code === 'P2002') return { success: false, error: 'This email is already registered.' }
         }
+        if (err instanceof AuthError) return { success: false, error: 'Invalid email or password.' }
         return { success: false, error: 'Registration failed. Please try again.' }
     }
     redirect('/shop')

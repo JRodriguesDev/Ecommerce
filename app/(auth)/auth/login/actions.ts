@@ -7,13 +7,13 @@ import { cookies } from 'next/headers'
 // 2. Auth & Security
 import { signIn } from '@/lib/authjs/auth'
 import { AuthError } from 'next-auth'
-import {generateToken} from '@/lib/otplib/twoFactor'
-import {setTwoFactor} from '@/services/DAL/auth'
+import { generateToken } from '@/lib/otplib/twoFactor'
+import { setTwoFactorDB } from '@/services/DAL/auth'
 
 // 3. Database & Services
-import {verifyLogin} from '@/services/DTO/auth'
-import {generateToken as jwtGenerate} from '@/lib/jwt/token'
-import {sendTwoFactorTokenEmail} from '@/lib/resend/twoFactor/sender'
+import { verifyLogin } from '@/services/DTO/auth'
+import { jwtGenerateToken } from '@/lib/jwt/token'
+import { sendTwoFactorTokenEmail } from '@/lib/resend/twoFactor/sender'
 
 // 4. Validation, Types & Schemas
 import { loginSchema } from '../schema'
@@ -24,26 +24,31 @@ export const loginFormAction = async (prevState: FormState, form: FormData): Pro
         email: form.get('email'),
         password: form.get('password')
     })
-    if (!validatedFields.success) return {success: false, error: 'Invalid fields. Please check your email and password.'}
-    const {email, password} = validatedFields.data
-    let twoFactor
+    if (!validatedFields.success) {
+        const fieldsErros = validatedFields.error.flatten().fieldErrors
+        const errorMessage = fieldsErros.email?.[0] || fieldsErros.password?.[0]
+        return { success: false, error: errorMessage }
+    }
+    const { email, password } = validatedFields.data
+    let twoFactor: boolean = false
     try {
         twoFactor = await verifyLogin(email, password)
         if (twoFactor) {
-            const {token, secret} = await generateToken()
-            const userId = await setTwoFactor(email, token, secret)
+            const { token, secret } = await generateToken()
+            const userId = await setTwoFactorDB(email, token, secret)
             const cookieStore = await cookies()
-            const jwt = await jwtGenerate({userId: userId})
-            cookieStore.set({name: '2fa_login_email', value: jwt, httpOnly: true, secure: true, sameSite: 'strict', maxAge: 300, path: '/'})
+            const jwt = await jwtGenerateToken({ userId: userId })
+            cookieStore.set({ name: '2fa_login_email', value: jwt, httpOnly: true, secure: true, sameSite: 'strict', maxAge: 300, path: '/' })
             await sendTwoFactorTokenEmail(email, token)
         } else {
-            await signIn('credentials', {email: email, password: password, redirect: false})}
+            await signIn('credentials', { email: email, password: password, redirect: false })
+        }
     } catch (err) {
-        if (err instanceof AuthError) {
+        if (err instanceof Error && (err.message === 'User not found' || err.message === 'Password incorrect')) {
             return {success: false, error: 'Invalid email or password.'}
         }
-        console.log(err)
-        return { success: false, error: 'Something went wrong with authentication.' }
+        if (err instanceof AuthError) return { success: false, error: 'Invalid email or password.' }
+        return { success: false, error: 'Something went wrong.' }
     }
     if (twoFactor) redirect('/auth/twoFactor')
     redirect('/shop')

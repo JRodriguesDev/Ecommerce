@@ -28,7 +28,7 @@ import {
 import { loginFormAction } from './actions';
 import { FormState } from '../types';
 
-const prevState: FormState = {success: false, error: null}
+const prevState: FormState = { success: false, error: null }
 
 const Login = () => {
     const [state, formAction, pending] = useActionState(loginFormAction, prevState)
@@ -52,7 +52,7 @@ const Login = () => {
                             <Input
                                 id='email'
                                 name='email'
-                                type="email"
+                                type="text"
                                 placeholder="email@example.com"
                                 required
                                 disabled={pending}
@@ -61,18 +61,18 @@ const Login = () => {
                         <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
-                                    <Link
-                                        href="/auth/verifyReset"
-                                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                    >
-                                        Forgot your password?
-                                    </Link>
+                                <Link
+                                    href="/auth/verifyReset"
+                                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                                >
+                                    Forgot your password?
+                                </Link>
                             </div>
-                            <Input id='password' name='password' type="password" required  disabled={pending}/>
+                            <Input id='password' name='password' type="password" required disabled={pending} />
                             {state?.error && (
-                                <div 
-                                    role="alert" 
-                                    aria-live="polite" 
+                                <div
+                                    role="alert"
+                                    aria-live="polite"
                                     className="p-3 text-sm font-medium border rounded-lg bg-destructive/10 border-destructive/20 text-destructive flex items-center gap-2 animate-in fade-in slide-in-from-top-1"
                                 >
                                     <span>⚠️</span>
@@ -84,31 +84,31 @@ const Login = () => {
                 </Form>
             </CardContent>
             <CardFooter className='flex-col gap-2 cursor-pointer'>
-                <Button disabled={pending} form='formLogin' type="submit" className="w-full">
+                <Button disabled={pending} form='formLogin' type="submit" className="w-full cursor-pointer">
                     {pending ? (
                         <>
-                            <Spinner className='size-5'/> Processing
+                            <Spinner className='size-5' /> Processing
                         </>
                     ) : (
                         'Login'
                     )}
                 </Button>
-                <Button variant="outline" type='button' className="w-full flex flex-row gap-2 cursor-pointer" onClick={() => signIn('google', {redirectTo: '/shop'})}>
-                    <FaGoogle/> Login with Google
+                <Button variant="outline" type='button' className="w-full flex flex-row gap-2 cursor-pointer" onClick={() => signIn('google', { redirectTo: '/shop' })}>
+                    <FaGoogle /> Login with Google
                 </Button>
-                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('discord', {redirectTo: '/shop'})}>
-                    <FaDiscord/> Login with Discord
+                <Button variant="outline" type='button' className="w-full cursor-pointer flex flex-row gap-2" onClick={() => signIn('discord', { redirectTo: '/shop' })}>
+                    <FaDiscord /> Login with Discord
                 </Button>
                 <Link href="/auth/magicLink" className="w-full">
-                <Button 
-                    variant="outline" 
-                    type="button" 
-                    className="w-full cursor-pointer flex flex-row gap-2"
-                >
-                    <LuWand size={18} />
-                    Login with Magic Links
-                </Button>
-                </Link> 
+                    <Button
+                        variant="outline"
+                        type="button"
+                        className="w-full cursor-pointer flex flex-row gap-2"
+                    >
+                        <LuWand size={18} />
+                        Login with Magic Links
+                    </Button>
+                </Link>
             </CardFooter>
         </Card>
     );
