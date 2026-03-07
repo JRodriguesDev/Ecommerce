@@ -63,6 +63,34 @@ export const userCartCreateDB = async (userId: string) => {
     })
 }
 
+export const userProfileDB = async (userId: string) => {
+    const user = await prisma.user.findUnique({
+        where: {id: userId},
+        select: {
+            name: true,
+            password: true,
+            customerId: true,
+            mainImage: true,
+        }
+    })
+    if (!user) return null
+    return {
+        customerId: user.customerId,
+        mainImage: user.mainImage,
+        hasName: !!user.name,     
+        hasPassword: !!user.password,
+        needsProfile: !user.name || !user.password
+    };
+}
+
+export const verifyProfile = async (userId: string) => {
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { name: true, password: true }
+    })
+    return { name: user!.name ? true : false, password: user?.password ? true : false }
+}
+
 export const userLoginDB = async (email: string) => {
     const user = await prisma.user.findUnique({
         where: { email: email },
@@ -72,6 +100,14 @@ export const userLoginDB = async (email: string) => {
     return { id: user.id, name: user.name, email: user.email, password: user.password!, image: user.mainImage }
 }
 
+export const verifyTwoFactorDB = async (userId: string) => {
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { email: true, twoFactorToken: true }
+    })
+    if (!user) throw new Error('Verification Falied')
+    return { token: user.twoFactorToken, email: user.email }
+}
 
 export const verifySession = async () => {
     const session = await auth()
@@ -117,44 +153,10 @@ export const completeRegister = async (userId: string, name: string, password: s
     })
 }
 
-export const verifyProfile = async (userId: string) => {
-    const user = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { name: true, password: true }
-    })
-    return { name: user!.name ? true : false, password: user?.password ? true : false }
-}
-
-export const verifyTwoFactor = async (userId: string) => {
-    const user = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { email: true, twoFactorToken: true }
-    })
-    return { token: user?.twoFactorToken, email: user?.email }
-}
-
 export const twoFactorLogin = async (email: string) => {
     const user = await prisma.user.findUnique({
         where: { email: email },
         select: { id: true, name: true, email: true, password: true, mainImage: true }
     })
     return { id: user?.id, name: user?.name, email: user?.email, image: user?.mainImage }
-}
-
-export const getRoles = async (userId: string) => {
-    const roles = await prisma.user.findUnique({
-        where: { id: userId },
-        select: {
-            role: { select: { role: { select: { name: true } } } }
-        }
-    })
-    return roles?.role.map((el) => el.role.name)
-}
-
-export const getCustomerId = async (userId: string) => {
-    const id = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { customerId: true }
-    })
-    return id?.customerId
 }

@@ -30,7 +30,7 @@ export const loginFormAction = async (prevState: FormState, form: FormData): Pro
         return { success: false, error: errorMessage }
     }
     const { email, password } = validatedFields.data
-    let twoFactor: boolean = false
+    let twoFactor = false
     try {
         twoFactor = await verifyLogin(email, password)
         if (twoFactor) {

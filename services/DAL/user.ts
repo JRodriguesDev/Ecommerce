@@ -2,7 +2,6 @@ import 'server-only'
 
 import prisma from '@/lib/prisma'
 import {verifySession} from './auth'
-import { email } from 'zod'
 
 
 export const getProfile = async () => {
@@ -54,7 +53,9 @@ export const security2FaToggle = async (userId: string, isTwoFactorEnabled: bool
     await prisma.user.update({
         where: {id: userId},
         data: {
-            twoFactorEnabled: isTwoFactorEnabled
+            twoFactor: {update: {
+                twoFactorEnabled: isTwoFactorEnabled
+            }}
         }
     })
 }
