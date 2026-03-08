@@ -7,5 +7,5 @@ model TwoFactor {
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @unique
 
-    @@map("twoFactorConfirmations")
+    @@map("twoFactors")
 }

@@ -5,6 +5,11 @@ import {userCartCreateDB, userTwoFactorCreateDB} from '@/services/DAL/auth'
 export const myEvents: NextAuthConfig['events'] = {
     async createUser({user}) {
         await userTwoFactorCreateDB(user.id!)
+        console.log('criado')
+        console.log('criado')
+        console.log('criado')
+        console.log('criado')
+        console.log('criado')
         await userCartCreateDB(user.id!)
     },
     async linkAccount({user, profile, account}) {

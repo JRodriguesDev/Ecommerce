@@ -7,7 +7,7 @@ const Loading = () => {
             <div className="relative flex items-center justify-center">
                 {/* Brilho de fundo focado em segurança (Cyan/Emerald dá um ar de proteção) */}
                 <div className="absolute size-14 bg-cyan-500/20 blur-2xl rounded-full animate-pulse" />
-                
+
                 {/* Ícone de Escudo que pulsa enquanto o círculo gira */}
                 <div className="relative">
                     <LuShieldCheck className="size-10 text-cyan-500 animate-pulse" />
@@ -26,7 +26,7 @@ const Loading = () => {
                     Buscando dados de segurança...
                 </p>
             </div>
-            
+
             {/* Barra de progresso fake (opcional, mas fica bem visual) */}
             <div className="w-32 h-[2px] bg-zinc-800 rounded-full overflow-hidden">
                 <div className="w-full h-full bg-cyan-500/50 animate-progress origin-left" />

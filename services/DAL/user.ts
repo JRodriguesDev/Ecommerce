@@ -3,7 +3,6 @@ import 'server-only'
 import prisma from '@/lib/prisma'
 import {verifySession} from './auth'
 
-
 export const getProfile = async () => {
     const session = await verifySession()
     if (!session.isAuth) return null
@@ -41,26 +40,21 @@ export const getPerfil = async (userId: string) => {
     return {name: user?.name, email: user?.email, image: user?.mainImage}
 }
 
-export const securityInfo = async (userId: string) => {
+export const securityInfoDB = async (userId: string) => {
     const data = await prisma.user.findUnique({
         where: {id: userId},
-        select: {twoFactorEnabled: true, password: true}
-    })
-    return {twoFactor: data?.twoFactorEnabled, password: data?.password ? true : false}
-}
-
-export const security2FaToggle = async (userId: string, isTwoFactorEnabled: boolean) => {
-    await prisma.user.update({
-        where: {id: userId},
-        data: {
-            twoFactor: {update: {
-                twoFactorEnabled: isTwoFactorEnabled
+        select: {
+            password: true,
+            twoFactor: {select: {
+                twoFactorEnabled: true
             }}
         }
     })
+    if (!data) return null
+    return {twoFactor: data.twoFactor!.twoFactorEnabled, password: data.password ? true : false}
 }
 
-export const securityResetPassword = async (userId: string, newPassword: string) => {
+export const securityResetPasswordDB = async (userId: string, newPassword: string) => {
     await prisma.user.update({
         where: {id: userId},
         data: {password: newPassword}
