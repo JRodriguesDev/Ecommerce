@@ -14,12 +14,22 @@ import { verify2FaAction } from './actions'
 import Form from 'next/form';
 import { useActionState } from 'react';
 import { FormState } from '../../types';
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { useEffect } from "react"
 
 const prevState: FormState = { success: false, error: null }
 
 const TwoFactor = () => {
     const [code, setCode] = useState("")
     const [state, formAction, pending] = useActionState(verify2FaAction, prevState)
+    const {update} = useSession()
+    const router = useRouter()
+    useEffect(() => {
+        (async () => {
+            await update({needsProfile: true})
+        })()
+    }, [state.success, update])
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 bg-zinc-950">
@@ -39,7 +49,7 @@ const TwoFactor = () => {
 
                 <div className="flex flex-col items-center space-y-6">
                     <Form action={formAction} id='formComplete'>
-                        <input type="hidden" name="code" value={code}/>
+                        <input type="hidden" name="code" value={code} />
                         <InputOTP
                             maxLength={6}
                             value={code}

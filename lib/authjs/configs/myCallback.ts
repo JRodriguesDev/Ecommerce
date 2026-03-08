@@ -27,8 +27,7 @@ export const myCallback: NextAuthConfig['callbacks'] = {
         }
         if (trigger == 'update' && !session.customer) {
             const data = await userProfileDB(token.id as string)
-            if (!data) return null
-            token.customerId = data.customerId
+            token.customerId = data!.customerId
         }
         if (trigger == 'update' && !session.needsProfile) {
             token.needsProfile = session.needsProfile

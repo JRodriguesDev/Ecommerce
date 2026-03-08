@@ -109,6 +109,13 @@ export const verifyTwoFactorDB = async (userId: string) => {
     return { token: user.twoFactorToken, email: user.email }
 }
 
+export const completeRegisterDB = async (userId: string, name: string, password: string, customerId: string) => {
+    await prisma.user.update({
+        where: { id: userId },
+        data: { name: name, password, customerId: customerId }
+    })
+}
+
 export const verifySession = async () => {
     const session = await auth()
     if (!session?.user?.id) redirect('/login')
@@ -143,13 +150,6 @@ export const unlikedProvider = async (userId: string, provider: string) => {
             where: { id: userId },
             data: { mainImage: '', ...providerImage }
         })
-    })
-}
-
-export const completeRegister = async (userId: string, name: string, password: string, customerId: string) => {
-    await prisma.user.update({
-        where: { id: userId },
-        data: { name: name, password, customerId: customerId }
     })
 }
 

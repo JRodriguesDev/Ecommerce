@@ -1,37 +1,51 @@
 'use client'
 
-import { useActionState } from "react"
+// 1. React & Next.js Hooks/Components
+import { useActionState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import Form from 'next/form'
+
+// 2. Auth & State Management
+import { useSession } from 'next-auth/react'
+
+// 3. UI Components (Shadcn/UI)
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import Form from 'next/form'
-import { LuCircleCheck, LuLoader, LuUser, LuTriangleAlert, LuLock } from "react-icons/lu"
-import { FormState } from '../types';
-import { completeRegistrationAction } from './actions' // Lembre-se de atualizar a action para receber o password!
-import {useSession} from 'next-auth/react'
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
+
+// 4. Icons
+import { 
+    LuCircleCheck, 
+    LuLoader, 
+    LuUser, 
+    LuTriangleAlert, 
+    LuLock 
+} from "react-icons/lu"
+
+// 5. Internal Actions & Types
+import { completeRegistrationAction } from './actions'
+import { FormState } from '../types'
 
 const prevState: FormState = { success: false, error: null }
 
 export const CompleteRegistration = () => {
     const [state, formAction, pending] = useActionState(completeRegistrationAction, prevState)
-    const {update} = useSession()
+    const { update } = useSession()
     const router = useRouter()
     useEffect(() => {
         if (state.success) {
             (async () => {
-                await update({needsProfile: false})
-                await update({customer: true})
+                await update({ needsProfile: false })
+                await update({ customer: true })
                 router.push('/shop')
                 router.refresh() // Garante que o servidor perceba a mudança
             })()
         }
-    }, [state])
+    }, [state.success])
 
     return (
         <div className="flex flex-col items-center justify-center min-h-[90vh] bg-black px-4">
             <div className="w-full max-w-md p-8 bg-zinc-950 border border-zinc-900 rounded-2xl shadow-2xl">
-                
+
                 {/* Cabeçalho */}
                 <div className="flex flex-col items-center mb-6">
                     <div className="p-3 bg-blue-500/10 rounded-full mb-3">
@@ -44,7 +58,7 @@ export const CompleteRegistration = () => {
                 </div>
 
                 <Form action={formAction} className="space-y-5">
-                    
+
                     {/* CAMPO: NOME */}
                     <div className="space-y-2">
                         <label htmlFor="name" className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">
@@ -56,8 +70,7 @@ export const CompleteRegistration = () => {
                                 id="name"
                                 name="name"
                                 type="text"
-                                required
-                                disabled={pending}
+                                disabled={pending || state.success}
                                 placeholder="Nome completo ou apelido"
                                 className="pl-10 bg-zinc-900 border-zinc-800 text-white py-6 focus:ring-blue-600 transition-all placeholder:text-zinc-700"
                             />
@@ -75,8 +88,7 @@ export const CompleteRegistration = () => {
                                 id="password"
                                 name="password"
                                 type="password"
-                                required
-                                disabled={pending}
+                                disabled={pending || state.success}
                                 placeholder="Mínimo 8 caracteres"
                                 className="pl-10 bg-zinc-900 border-zinc-800 text-white py-6 focus:ring-blue-600 transition-all placeholder:text-zinc-700"
                             />
@@ -88,7 +100,7 @@ export const CompleteRegistration = () => {
 
                     {/* Exibição de Erros */}
                     {state?.error && (
-                        <div 
+                        <div
                             role="alert"
                             className="p-3 text-sm font-medium border rounded-lg bg-destructive/10 border-destructive/20 text-red-500 flex items-center gap-2 animate-in fade-in slide-in-from-top-1"
                         >
@@ -97,17 +109,25 @@ export const CompleteRegistration = () => {
                         </div>
                     )}
 
-                    <Button 
+                    <Button
                         type="submit"
                         disabled={pending}
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 transition-all active:scale-[0.98] shadow-lg shadow-blue-500/10"
                     >
                         {pending ? (
+                            // ESTADO 1: O servidor está processando a Action
                             <div className="flex items-center gap-2">
                                 <LuLoader className="animate-spin" size={20} />
-                                <span>Finalizando...</span>
+                                <span>Validando Código...</span>
+                            </div>
+                        ) : state.success ? (
+                            // ESTADO 2: Sucesso! O update() está rodando e o router.push() vem a seguir
+                            <div className="flex items-center gap-2 text-emerald-300">
+                                <LuLoader className="animate-spin opacity-50" size={18} />
+                                <span>Redirecionando para o Shop...</span>
                             </div>
                         ) : (
+                            // ESTADO 3: Estado inicial (Botão pronto para clique)
                             "CONCLUIR REGISTRO"
                         )}
                     </Button>

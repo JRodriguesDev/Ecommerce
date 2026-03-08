@@ -36,7 +36,7 @@ const Register = () => {
     const [state, formAction, pending] = useActionState(registerFormAction, prevState)
 
     return (
-        <Card className='w-full max-w-sm m-auto mt-15'>
+        <Card className='w-full max-w-sm m-auto mt-10'>
             <CardHeader>
                 <CardTitle>Register your account</CardTitle>
                 <CardDescription>
@@ -72,7 +72,7 @@ const Register = () => {
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Input id='password' name='password' type="password" required disabled={pending} />
+                            <Input id='password' name='password' type="password" placeholder='You password' required disabled={pending} />
                             {state?.error && (
                                 <div
                                     role="alert"
