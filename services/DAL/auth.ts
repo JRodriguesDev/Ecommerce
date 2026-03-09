@@ -1,7 +1,6 @@
 import 'server-only'
 
 import prisma from '../../lib/prisma/index'
-import bcrypt from 'bcryptjs'
 import { auth } from '@/lib/authjs/auth'
 import { redirect } from 'next/navigation'
 
@@ -36,7 +35,7 @@ export const userRegisterDB = async (name: string, email: string, password: stri
             data: {
                 name: name,
                 email: email,
-                password: await bcrypt.hash(password, 10),
+                password: password,
                 customerId: customerId
             },
             select: { id: true }
@@ -83,14 +82,6 @@ export const userProfileDB = async (userId: string) => {
     };
 }
 
-export const verifyProfile = async (userId: string) => {
-    const user = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { name: true, password: true }
-    })
-    return { name: user!.name ? true : false, password: user?.password ? true : false }
-}
-
 export const userLoginDB = async (email: string) => {
     const user = await prisma.user.findUnique({
         where: { email: email },
@@ -98,6 +89,13 @@ export const userLoginDB = async (email: string) => {
     })
     if (!user) return
     return { id: user.id, name: user.name, email: user.email, password: user.password!, image: user.mainImage }
+}
+
+export const completeRegisterDB = async (userId: string, name: string, password: string, customerId: string) => {
+    await prisma.user.update({
+        where: { id: userId },
+        data: { name: name, password, customerId: customerId }
+    })
 }
 
 export const verifyTwoFactorDB = async (userId: string) => {
@@ -109,11 +107,12 @@ export const verifyTwoFactorDB = async (userId: string) => {
     return { token: user.twoFactorToken, email: user.email }
 }
 
-export const completeRegisterDB = async (userId: string, name: string, password: string, customerId: string) => {
-    await prisma.user.update({
+export const verifyProfile = async (userId: string) => {
+    const user = await prisma.user.findUnique({
         where: { id: userId },
-        data: { name: name, password, customerId: customerId }
+        select: { name: true, password: true }
     })
+    return { name: user!.name ? true : false, password: user?.password ? true : false }
 }
 
 export const verifySession = async () => {

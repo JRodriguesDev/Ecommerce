@@ -15,6 +15,7 @@ import { createCustomer } from '@/services/stripe/customer'
 // 4. Validation, Types & Schemas
 import { registerSchema } from '../schema'
 import { FormState } from '../types'
+import bcrypt from 'bcryptjs'
 
 export const registerFormAction = async (prevState: FormState, form: FormData): Promise<FormState> => {
     const validatedFields = registerSchema.safeParse({
@@ -27,6 +28,7 @@ export const registerFormAction = async (prevState: FormState, form: FormData): 
         const errorMessage = fieldsErros.name?.[0] || fieldsErros.email?.[0] || fieldsErros.password?.[0]
         return { success: false, error: errorMessage }
     }
+    validatedFields.data.password = await bcrypt.hash(validatedFields.data.password, 10)
     const { name, email, password } = validatedFields.data
     try {
         const customerId = await createCustomer(name, email)

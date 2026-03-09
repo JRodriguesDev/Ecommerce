@@ -6,7 +6,7 @@ const VerifyRequestPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] px-4">
       <div className="w-full max-w-md bg-zinc-950 border border-zinc-900 p-8 rounded-2xl shadow-2xl text-center space-y-6">
-        
+
         {/* Ícone com Pulse Effect */}
         <div className="relative inline-flex mb-2">
           <div className="absolute inset-0 bg-blue-500/20 rounded-full animate-ping" />
