@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { jwtVerifyToken } from '@/lib/jwt/token'
 import { verifyTwoFactorDB } from '@/services/DAL/auth'
 import { FormState } from '../../types';
+import {signIn} from '@/lib/authjs/auth'
 
 export const verify2FaAction = async (prevState: FormState, form: FormData): Promise<FormState> => {
     const code = form.get('code')
@@ -28,9 +29,10 @@ export const verify2FaAction = async (prevState: FormState, form: FormData): Pro
         cookieStore.delete('2fa_login_email')
         
         // Retornamos sucesso para o cliente fazer o redirect
-        return { success: true}
+        await signIn('credentials', {email: tokenData.email, is2FaVerified: true, redirect: false})
+        return {success: true}
     } catch (err) {
-        if (err instanceof Error)  return {success: false, error: 'Invalid email or password.'}
+        console.log(err)
         return { success: false, error: 'An internal error occurred. Please try again later.' }
     }
 }

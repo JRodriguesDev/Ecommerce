@@ -7,10 +7,17 @@ import { redirect } from 'next/navigation'
 export const getVerifyLoginDB = async (email: string) => {
     const data = await prisma.user.findUnique({
         where: { email: email },
-        select: { password: true, twoFactorEnabled: true }
+        select: {
+            password: true,
+            twoFactor: {
+                select: {
+                    twoFactorEnabled: true
+                }
+            }
+        }
     })
     if (!data) return null
-    return { password: data.password, twoFactor: data.twoFactorEnabled }
+    return { password: data.password, twoFactor: data.twoFactor?.twoFactorEnabled }
 }
 
 export const setTwoFactorDB = async (email: string, token: string, secret: string) => {
@@ -64,7 +71,7 @@ export const userCartCreateDB = async (userId: string) => {
 
 export const userProfileDB = async (userId: string) => {
     const user = await prisma.user.findUnique({
-        where: {id: userId},
+        where: { id: userId },
         select: {
             name: true,
             password: true,
@@ -76,7 +83,7 @@ export const userProfileDB = async (userId: string) => {
     return {
         customerId: user.customerId,
         mainImage: user.mainImage,
-        hasName: !!user.name,     
+        hasName: !!user.name,
         hasPassword: !!user.password,
         needsProfile: !user.name || !user.password
     };
@@ -101,10 +108,17 @@ export const completeRegisterDB = async (userId: string, name: string, password:
 export const verifyTwoFactorDB = async (userId: string) => {
     const user = await prisma.user.findUnique({
         where: { id: userId },
-        select: { email: true, twoFactorToken: true }
+        select: {
+            email: true,
+            twoFactor: {
+                select: {
+                    twoFactorToken: true
+                }
+            }
+        }
     })
     if (!user) throw new Error('Verification Falied')
-    return { token: user.twoFactorToken, email: user.email }
+    return { token: user.twoFactor?.twoFactorToken, email: user.email }
 }
 
 export const verifyProfile = async (userId: string) => {
@@ -150,12 +164,4 @@ export const unlikedProvider = async (userId: string, provider: string) => {
             data: { mainImage: '', ...providerImage }
         })
     })
-}
-
-export const twoFactorLogin = async (email: string) => {
-    const user = await prisma.user.findUnique({
-        where: { email: email },
-        select: { id: true, name: true, email: true, password: true, mainImage: true }
-    })
-    return { id: user?.id, name: user?.name, email: user?.email, image: user?.mainImage }
 }

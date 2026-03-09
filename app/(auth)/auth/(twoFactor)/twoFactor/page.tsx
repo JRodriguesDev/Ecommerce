@@ -14,22 +14,22 @@ import { verify2FaAction } from './actions'
 import Form from 'next/form';
 import { useActionState } from 'react';
 import { FormState } from '../../types';
-import { useRouter } from "next/navigation"
-import { useSession } from "next-auth/react"
 import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 const prevState: FormState = { success: false, error: null }
 
 const TwoFactor = () => {
+    const router = useRouter()
     const [code, setCode] = useState("")
     const [state, formAction, pending] = useActionState(verify2FaAction, prevState)
-    const {update} = useSession()
-    const router = useRouter()
     useEffect(() => {
-        (async () => {
-            await update({needsProfile: true})
-        })()
-    }, [state.success, update])
+        if (state.success) {
+            router.push('/shop')
+        } else {
+            setCode('')
+        }
+    }, [state.success, pending])
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 bg-zinc-950">
@@ -42,8 +42,11 @@ const TwoFactor = () => {
                     <h1 className="text-2xl font-black tracking-tighter text-zinc-100 uppercase italic pt-4">
                         2FA Security
                     </h1>
-                    <p className="text-zinc-500 text-sm font-medium max-w-[280px]">
-                        Enter the code sent to your email to continue.
+                    <p className={`text-sm font-medium max-w-[280px] transition-colors ${state.success ? 'text-emerald-500' : 'text-zinc-500'}`}>
+                        {state.success
+                            ? "Security verified! Sending you to the shop..."
+                            : "Enter the code sent to your email to continue."
+                        }
                     </p>
                 </div>
 
@@ -54,7 +57,7 @@ const TwoFactor = () => {
                             maxLength={6}
                             value={code}
                             onChange={(value) => setCode(value)}
-                            disabled={pending}
+                            disabled={pending || state.success}
                         >
                             <InputOTPGroup className="gap-2">
                                 <InputOTPSlot index={0} className="w-12 h-14 border-zinc-800 bg-zinc-950/50 text-white rounded-lg focus:ring-emerald-500" />
@@ -81,10 +84,15 @@ const TwoFactor = () => {
                     <Button
                         form='formComplete'
                         type="submit"
-                        disabled={pending || code.length < 6}
+                        disabled={pending || code.length < 6 || state.success}
                         className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest py-6 transition-all"
                     >
-                        {pending ? (
+                        {state.success ? (
+                            <div className="flex items-center gap-2">
+                                <LuLoader className="animate-spin" size={20} />
+                                <span>Redirecting...</span>
+                            </div>
+                        ) : pending ? (
                             <LuLoader className="animate-spin" size={20} />
                         ) : (
                             "Confirmar Acesso"

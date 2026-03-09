@@ -30,4 +30,5 @@ export const resetPasswordAction = async (newPassword: string) => {
     if (!validatePass.success) return { success: false, error: validatePass.error.flatten().fieldErrors.password?.[0] }
     const password = await bcrypt.hash(newPassword, 10)
     await securityResetPasswordDB(userId, password)
+    return {sucess: true}
 }

@@ -35,6 +35,7 @@ export const SecurityActionButton = ({ label, type, isTwoFactorEnabled }: Props)
             if (!result?.success) {
                 setNewPassword("")
                 setError(result!.error!)
+                setOpen(false)
                 return
             }
             setOpen(false) // Fecha o modal

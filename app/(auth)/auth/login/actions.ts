@@ -32,6 +32,7 @@ export const loginFormAction = async (prevState: FormState, form: FormData): Pro
     const { email, password } = validatedFields.data
     let twoFactor = false
     try {
+        console.log('a')
         twoFactor = await verifyLogin(email, password)
         if (twoFactor) {
             const { token, secret } = await generateToken()
@@ -44,6 +45,7 @@ export const loginFormAction = async (prevState: FormState, form: FormData): Pro
             await signIn('credentials', { email: email, password: password, redirect: false })
         }
     } catch (err) {
+        console.log(err)
         if (err instanceof Error && (err.message === 'User not found' || err.message === 'Password incorrect')) {
             return {success: false, error: 'Invalid email or password.'}
         }
