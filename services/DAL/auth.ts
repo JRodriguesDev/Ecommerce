@@ -21,19 +21,24 @@ export const getVerifyLoginDB = async (email: string) => {
 }
 
 export const setTwoFactorDB = async (email: string, token: string, secret: string) => {
-    const user = await prisma.user.update({
-        where: { email: email },
-        data: {
-            twoFactor: {
-                update: {
-                    twoFactorToken: token,
-                    twoFactorSecret: secret
+    const userId = await prisma.$transaction(async (tx) => {
+        const userExisting = await tx.user.findUnique({ where: { email } })
+        if (!userExisting) return null
+        const user = await tx.user.update({
+            where: { email: email },
+            data: {
+                twoFactor: {
+                    update: {
+                        twoFactorToken: token,
+                        twoFactorSecret: secret
+                    }
                 }
-            }
-        },
-        select: { id: true }
+            },
+            select: { id: true }
+        })
+        return user.id
     })
-    return user.id
+    return userId
 }
 
 export const userRegisterDB = async (name: string, email: string, password: string, customerId: string) => {

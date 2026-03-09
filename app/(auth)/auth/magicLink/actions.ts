@@ -1,11 +1,11 @@
 'use server'
 
 import { FormState } from '../types'
-import { magicLinkSchema } from '../schema'
+import { emailSchema } from '../schema'
 import {signIn} from '@/lib/authjs/auth'
 
 export const magicLinkAction = async (prevState: FormState, form: FormData): Promise<FormState> => {
-    const validateField = magicLinkSchema.safeParse({
+    const validateField = emailSchema.safeParse({
         email: form.get('email')
     })
     if (!validateField.success) return { success: false, error: validateField.error.flatten().fieldErrors.email?.[0] }

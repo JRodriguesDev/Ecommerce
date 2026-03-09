@@ -1,9 +1,9 @@
 'use client'
 
-import { useActionState, useState } from 'react';
+import { useActionState, useTransition, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Form from 'next/form';
-import { LuMail, LuArrowLeft, LuLoader, LuShieldCheck } from "react-icons/lu";
+import { LuMail, LuArrowLeft, LuLoader, LuShieldCheck, LuCircleAlert } from "react-icons/lu";
 import { sendCodeAction, verifyCodeAction } from './actions'
 
 import { Button } from "@/components/ui/button";
@@ -23,39 +23,50 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp"
 import { useRouter } from 'next/navigation';
-import {FormState} from '../../types'
+import { FormState } from '../../types'
 
 
-const prevState: FormState = {success: false, error: null}
-
+const prevState: FormState = { success: false, error: null }
 const VerifyReset = () => {
     const router = useRouter()
+    const [isLoading, startTransition] = useTransition()
+    
+    // 1. CONTROLADOR DE FLUXO LOCAL (O segredo do reset)
+    const [step, setStep] = useState<'EMAIL' | 'OTP'>('EMAIL');
+    
     const [state, formAction, pending] = useActionState(sendCodeAction, prevState)
     const [otpCode, setOtpCode] = useState("");
-    const [isLoading, setIsloading] = useState(false)
-    const [verifyState, setVerifyState] = useState<{sucess: boolean, err: string | undefined}>({sucess: false, err: ''})
+    const [verifyState, setVerifyState] = useState({ sucess: false, err: '' as string | undefined })
 
-    const handleVerifyOtp = async () => {
-    setIsloading(true);
-    setVerifyState({ sucess: false, err: '' }); // Resetamos para o estado inicial
+    // 2. SINCRONIZA O SUCESSO DO SERVIDOR COM A UI
+    useEffect(() => {
+        if (state.success) {
+            setStep('OTP');
+        }
+    }, [state.success]);
 
-    const data = await verifyCodeAction(otpCode);
+    // 3. GARANTE QUE AO ENTRAR NA PÁGINA TUDO ESTEJA RESETADO
+    useEffect(() => {
+        setStep('EMAIL');
+        setOtpCode("");
+    }, []);
 
-    if (!data.success) {
-        // Se deu erro, sucess é false e setamos o erro
-        setVerifyState({ sucess: false, err: data.error });
-        setOtpCode(''); // Limpa o campo se errar
-    } else {
-        // Se deu certo, vai para a próxima página
-        router.push('/auth/resetPassword');
-    }
-    
-    setIsloading(false);
-};
+    const handleVerifyOtp = () => {
+        startTransition(async () => {
+            setVerifyState({ sucess: false, err: '' });
+            const data = await verifyCodeAction(otpCode);
+            if (!data.success) {
+                setVerifyState({ sucess: false, err: data.error });
+                setOtpCode(''); 
+            } else {
+                router.push('/auth/resetPassword');
+            }
+        })
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 bg-zinc-950">
-            <Card className="w-full max-w-sm bg-zinc-900/20 border-zinc-800/50 backdrop-blur-sm shadow-2xl transition-all duration-500">
+            <Card className="w-full max-w-sm bg-zinc-900/20 border-zinc-800/50 backdrop-blur-sm shadow-2xl">
                 <CardHeader className="space-y-1">
                     <div className="flex items-center gap-2 mb-2">
                         <Link href="/auth/login" className="text-zinc-500 hover:text-white transition-colors">
@@ -66,91 +77,81 @@ const VerifyReset = () => {
                         Reset Password
                     </CardTitle>
                     <CardDescription className="text-zinc-500">
-                        {state.success 
-                            ? "Check your email for the 6-digit code." 
+                        {step === 'OTP'
+                            ? "Check your email for the 6-digit code."
                             : "Enter your email address to receive a reset code."}
                     </CardDescription>
                 </CardHeader>
-                
+
                 <CardContent className="space-y-6">
-                    <Form action={formAction} className="space-y-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email" className="text-zinc-400">Email Address</Label>
-                            <div className="relative">
-                                <LuMail className="absolute left-3 top-3 text-zinc-600" size={18} />
-                                <Input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="name@example.com"
-                                    required
-                                    disabled={pending || state.success}
-                                    className="pl-10 bg-zinc-950/50 border-zinc-800 focus:ring-emerald-500 disabled:opacity-50"
-                                />
-                            </div>
-                        </div>
-
-                        {!state.success && (
-                            <Button 
-                                type="submit" 
-                                disabled={pending} 
-                                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase tracking-widest py-6"
-                            >
-                                {pending ? <LuLoader className="animate-spin" size={20} /> : "Send Reset Link"}
-                            </Button>
-                        )}
-                    </Form>
-
-                    {/* SEÇÃO DO OTP - Aparece após o envio do e-mail */}
-                    {state.success && (
-                        <div className="flex flex-col items-center space-y-4 animate-in fade-in zoom-in duration-300">
-                            <div className="flex items-center gap-2 text-emerald-500 text-sm font-bold mb-2">
-                                <LuShieldCheck size={16} />
-                                <span>Code sent successfully!</span>
+                    {/* SÓ MOSTRA O FORM DE EMAIL SE O STEP FOR 'EMAIL' */}
+                    {step === 'EMAIL' ? (
+                        <Form action={formAction} className="space-y-4">
+                            <div className="grid gap-2">
+                                <Label htmlFor="email" className="text-zinc-400">Email Address</Label>
+                                <div className="relative">
+                                    <LuMail className="absolute left-3 top-3 text-zinc-600" size={18} />
+                                    <Input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        required
+                                        disabled={pending}
+                                        className="pl-10 bg-zinc-950/50 border-zinc-800 focus:ring-emerald-500"
+                                    />
+                                </div>
                             </div>
                             
-                            <InputOTP 
-                                maxLength={6} 
-                                value={otpCode} 
-                                onChange={(val) => setOtpCode(val)}
-                            >
+                            {state.error && (
+                                <div className="flex items-center gap-2 text-red-400 text-xs bg-red-400/10 p-3 rounded-lg border border-red-400/20">
+                                    <LuCircleAlert size={16} />
+                                    <span>{state.error}</span>
+                                </div>
+                            )}
+
+                            <Button type="submit" disabled={pending} className="w-full bg-emerald-600 font-bold py-6">
+                                {pending ? <LuLoader className="animate-spin" size={20} /> : "Send Reset Link"}
+                            </Button>
+                        </Form>
+                    ) : (
+                        /* SEÇÃO DO OTP - Só aparece se o step for 'OTP' */
+                        <div className="flex flex-col items-center space-y-4 animate-in fade-in zoom-in duration-300">
+                            <div className="flex items-center gap-2 text-emerald-500 text-sm font-bold">
+                                <LuShieldCheck size={16} />
+                                <span>Code sent!</span>
+                                <button 
+                                    onClick={() => setStep('EMAIL')} 
+                                    className="text-[10px] underline text-zinc-500 hover:text-zinc-300 ml-auto"
+                                >
+                                    Change Email
+                                </button>
+                            </div>
+
+                            <InputOTP maxLength={6} value={otpCode} onChange={setOtpCode} disabled={isLoading}>
                                 <InputOTPGroup className="gap-2">
-                                    <InputOTPSlot index={0} className="bg-zinc-950 border-zinc-800 text-white w-10 h-12" />
-                                    <InputOTPSlot index={1} className="bg-zinc-950 border-zinc-800 text-white w-10 h-12" />
-                                    <InputOTPSlot index={2} className="bg-zinc-950 border-zinc-800 text-white w-10 h-12" />
-                                    <InputOTPSlot index={3} className="bg-zinc-950 border-zinc-800 text-white w-10 h-12" />
-                                    <InputOTPSlot index={4} className="bg-zinc-950 border-zinc-800 text-white w-10 h-12" />
-                                    <InputOTPSlot index={5} className="bg-zinc-950 border-zinc-800 text-white w-10 h-12" />
+                                    {[...Array(6)].map((_, i) => (
+                                        <InputOTPSlot key={i} index={i} className="bg-zinc-950 border-zinc-800 text-white w-10 h-12" />
+                                    ))}
                                 </InputOTPGroup>
                             </InputOTP>
+
                             {verifyState.err && (
-                                <div className="w-full text-center text-xs font-bold text-red-500 bg-red-500/10 p-2 rounded border border-red-500/20 animate-in fade-in slide-in-from-top-1">
+                                <div className="w-full text-center text-xs font-bold text-red-500 bg-red-500/10 p-2 rounded border border-red-500/20">
                                     ⚠️ {verifyState.err}
                                 </div>
                             )}
-                            <Button 
+
+                            <Button
                                 onClick={handleVerifyOtp}
-                                disabled={otpCode.length < 6 || isLoading} // Adicionei o isLoading se você estiver usando
-                                className="w-full bg-zinc-950 hover:bg-zinc-900 text-emerald-500 border border-emerald-500/20 hover:border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_20px_rgba(16,185,129,0.2)] font-black uppercase tracking-[0.2em] py-6 transition-all duration-300 group"
+                                disabled={otpCode.length < 6 || isLoading}
+                                className="w-full bg-zinc-950 text-emerald-500 border border-emerald-500/20 py-6"
                             >
-                                {isLoading ? (
-                                    <LuLoader className="animate-spin" size={20} />
-                                ) : (
-                                    <div className="flex items-center gap-2">
-                                        <span>Verify Code</span>
-                                        <LuShieldCheck className="group-hover:scale-110 transition-transform" size={18} />
-                                    </div>
-                                )}
+                                {isLoading ? <LuLoader className="animate-spin" /> : "Verify Code"}
                             </Button>
                         </div>
                     )}
                 </CardContent>
-
-                <CardFooter className="flex justify-center border-t border-zinc-800/50 mt-4 pt-6">
-                    <Link href="/auth/login" className="text-sm text-zinc-500 hover:text-emerald-500 transition-colors">
-                        Back to Login
-                    </Link>
-                </CardFooter>
+                {/* ... footer */}
             </Card>
         </div>
     );

@@ -1,8 +1,7 @@
 "use client";
 
-import { useActionState, useState, useEffect } from "react"; // Adicionado useEffect
+import { useActionState, useState } from "react"; // Adicionado useEffect
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Importado useRouter
 import Form from "next/form";
 import {
     LuLock,
@@ -29,20 +28,11 @@ import { FormState } from "../../types";
 const prevState: FormState = { success: false, error: null };
 
 const NewPassword = () => {
-    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
-
     const [state, formAction, pending] = useActionState(
         updatePasswordAction,
         prevState,
     );
-    // Monitora o sucesso para redirecionar
-    useEffect(() => {
-        if (state?.success) {
-            // Redireciona com um parâmetro opcional para exibir um alerta de sucesso no Login
-            router.push("/auth/login");
-        }
-    }, [state?.success, router]);
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 bg-zinc-950">
@@ -71,7 +61,6 @@ const NewPassword = () => {
                                     id="password"
                                     name="password"
                                     type={showPassword ? "text" : "password"}
-                                    required
                                     disabled={pending || state?.success}
                                     className="pl-10 pr-10 bg-zinc-950/50 border-zinc-800 focus:ring-emerald-500"
                                 />
