@@ -3,7 +3,7 @@ import 'server-only'
 import prisma from '@/lib/prisma/index'
 import {Product} from '@/types/product'
 
-export const toggleCartItem = async (userId: string, productId: string) => {
+export const toggleCartItemDB = async (userId: string, productId: string) => {
     const result = await prisma.$transaction(async (tx) => {
         const cart = await tx.cart.findUnique({
             where: {userId: userId},
@@ -50,7 +50,7 @@ export const isCart = async (userId: string, productId: string) => {
     return !!result
 }
 
-export const getCartProducts = async (userId: string) => {
+export const getCartProductsDB = async (userId: string) => {
     const result = await prisma.$transaction(async (tx) => {
         // 1. Busca os itens que estão no carrinho (ID e Quantidade)
         const cartData = await tx.cart.findUnique({
@@ -99,7 +99,7 @@ export const getCartProducts = async (userId: string) => {
     return result
 }
 
-export const updateProductQuantity = async (userId: string, productId: string, newQuantity: number) => {
+export const updateProductQuantityDB = async (userId: string, productId: string, newQuantity: number) => {
     await prisma.$transaction(async (tx) => {
         const cart = await tx.cart.findUnique({
             where: {userId: userId},
