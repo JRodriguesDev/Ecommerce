@@ -2,14 +2,13 @@
 
 import {auth} from '@/lib/authjs/auth'
 import { redirect } from 'next/navigation'
-import {userPlan, userSubcription, cancelPlan, toggleSubscription} from '@/services/DAL/user'
+import {userPlan, userSubcription, cancelPlan, toggleSubscription} from '@/services/DAL/subscription'
 import {cancelSubscription, toggleChangeSubscription} from '@/services/stripe/subscription'
 
 export const planAction = async () => {
     const session = await auth()
     if (!session!.user!.id) redirect('/auth/login') 
     const plan = await userPlan(session!.user!.id)
-
     return plan
 }
 

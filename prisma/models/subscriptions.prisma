@@ -1,0 +1,16 @@
+model Subscription {
+    id String @id @default(nanoid())
+    stripeSubscriptionId String? @unique
+
+    nextBillingDate DateTime?
+    billingMethod String?
+    status String
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @unique
+
+    plan Plan? @relation(fields: [planId], references: [id], onDelete: SetNull)
+    planId String?
+
+    @@map("subscriptions")
+}

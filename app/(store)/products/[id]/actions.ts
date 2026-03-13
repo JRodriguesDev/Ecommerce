@@ -1,10 +1,10 @@
 'use server'
 
 import { getProductById } from '@/services/DAL/shop'
-import {toggleFavorite, isFavorite} from '@/services/DAL/favorite'
+import {toggleFavoriteDB, isFavorite} from '@/services/DAL/favorite'
 import { redirect } from 'next/navigation'
 import {auth} from '@/lib/authjs/auth'
-import {toggleCartItem, isCart} from '@/services/DAL/cart'
+import {toggleCartItemDB, isCart} from '@/services/DAL/cart'
 import { revalidatePath } from 'next/cache'
 
 export const getProductAction = async (id: string) => {
@@ -33,7 +33,7 @@ export const getProductAction = async (id: string) => {
 export const toggleFavoriteAction = async (productId: string) => {
     const session = await auth()
     if (!session?.user?.id) redirect('/auth/login')
-    const data = await toggleFavorite(session.user.id, productId)
+    const data = await toggleFavoriteDB(session.user.id, productId)
     revalidatePath(`/products/${productId}`)
     return data
 }
@@ -46,7 +46,7 @@ export const checkIsFAvoriteAction = async (userId: string, productId: string) =
 export const toggleCartAction = async (productId: string) => {
     const session = await auth()
     if (!session?.user?.id) redirect('/auth/login')
-    await toggleCartItem(session.user.id, productId)
+    await toggleCartItemDB(session.user.id, productId)
     revalidatePath(`/products/${productId}`)
 }
 

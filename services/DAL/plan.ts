@@ -1,7 +1,7 @@
 import 'server-only'
 
 import prisma from '@/lib/prisma'
-import type {Stripe} from 'stripe'
+import type { Stripe } from 'stripe'
 
 export const allPlans = async () => {
     try {
@@ -18,7 +18,7 @@ export const allPlans = async () => {
 
         // Se plans for null ou undefined (raro no findMany), retorna []
         return plans ?? []
-        
+
     } catch (error) {
         console.error("Erro ao buscar planos:", error)
         // Em caso de erro crítico no banco, retorna array vazio para não quebrar o .map() no front
@@ -28,13 +28,13 @@ export const allPlans = async () => {
 
 export const getPlan = async (planId: string) => {
     const plan = await prisma.plan.findUnique({
-        where: {id: planId},
+        where: { id: planId },
         select: {
             id: true,
-            name: true, 
+            name: true,
             price: true,
-            description: true, 
-            
+            description: true,
+
         }
     })
     return plan
@@ -42,7 +42,7 @@ export const getPlan = async (planId: string) => {
 
 export const userCheckPlan = async (userId: string) => {
     // Busca o usuário e seleciona apenas o planId
-    const user = await prisma.user.findUnique({
+    const user = await prisma.subscription.findUnique({
         where: { id: userId },
         select: {
             planId: true
@@ -57,13 +57,30 @@ type typeSession = Stripe.Checkout.Session
 
 export const processPlan = async (userId: string, session: typeSession) => {
     const subscription = session.subscription as Stripe.Subscription;
-    await prisma.user.update({
-      where: { id: userId },
-      data: {
-        planId: session.line_items!.data[0].metadata!.plandId, // Vincula ao ID do plano que criamos na Seed
-        stripeSubscriptionId: subscription.id as string, // "Controle remoto" da assinatura
-        nextBillingDate: new Date(subscription.items.data[0].current_period_end * 1000),
-        billingMethod: subscription.collection_method
-      }
+
+    // Pegando o ID do plano do metadata (Cuidado com o nome 'plandId' vs 'planId')
+    const planIdFromMetadata = session.line_items!.data[0].metadata!.plandId;
+
+    await prisma.subscription.upsert({
+        where: {
+            userId: userId
+        },
+        update: {
+            planId: planIdFromMetadata,
+            stripeSubscriptionId: subscription.id,
+            status: subscription.status,
+            nextBillingDate: new Date(subscription.items.data[0].current_period_end * 1000),
+            billingMethod: subscription.collection_method
+            // Adicione outros campos que deseja atualizar
+        },
+        create: {
+            userId: userId,
+            planId: planIdFromMetadata,
+            stripeSubscriptionId: subscription.id,
+            status: subscription.status,
+            nextBillingDate: new Date(subscription.items.data[0].current_period_end * 1000),
+            billingMethod: subscription.collection_method
+            // Campos obrigatórios para criação
+        },
     });
 }

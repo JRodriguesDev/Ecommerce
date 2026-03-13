@@ -1,7 +1,7 @@
 'use server'
 
 import {retrieveSession, retrieveSubscriptionSession} from '@/services/stripe/session'
-import { getCartProducts } from '@/services/DAL/cart'
+import { getCartProductsDB } from '@/services/DAL/cart'
 import { processOrder } from '@/services/DAL/order'
 import {processPlan} from '@/services/DAL/plan'
 import {auth} from '@/lib/authjs/auth'
@@ -15,7 +15,7 @@ export const processPurchaseAction = async (sessionId: string, type: string) => 
     let stripeSession
     switch (type) {
         case 'cart':
-            const cartProducts = await getCartProducts(session!.user!.id!)
+            const cartProducts = await getCartProductsDB(session!.user!.id!)
             stripeSession = await retrieveSession(sessionId)
             await processOrder(session!.user!.id!, stripeSession, cartProducts)
             break

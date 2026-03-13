@@ -12,11 +12,7 @@ model User {
     order Order[]
     accounts  Account[]
     favorites Favorite[]
-    stripeSubscriptionId String? @unique
-    plan Plan? @relation(fields: [planId], references: [id], onDelete: SetNull)
-    nextBillingDate DateTime?
-    billingMethod String?
-    planId String?
+    subscription Subscription?
     cart Cart?
     twoFactor TwoFactor?
 

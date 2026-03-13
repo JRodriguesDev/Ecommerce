@@ -7,7 +7,7 @@ model Plan {
   tier Int @default(0)
   // Guardamos as features como um Array de Strings para facilitar o .map() no React
   features    String[] 
-  users User[]
+  subscriptions Subscription[]
 
   @@map("plans")
 }

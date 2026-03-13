@@ -1,7 +1,7 @@
 'use server'
 
 import {allPlans} from '@/services/DAL/plan'
-import {userPlan} from '@/services/DAL/user'
+import {userPlan} from '@/services/DAL/subscription'
 import {auth} from '@/lib/authjs/auth'
 import { redirect } from 'next/navigation'
 

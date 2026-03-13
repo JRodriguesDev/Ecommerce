@@ -2,7 +2,7 @@
 
 import {auth} from '@/lib/authjs/auth'
 import { redirect } from 'next/navigation'
-import {subscriptionId} from '@/services/DAL/user'
+import {subscriptionId} from '@/services/DAL/subscription'
 import {listInvoices} from '@/services/stripe/invoice'
 
 export const listInvoicesAction = async () => {
