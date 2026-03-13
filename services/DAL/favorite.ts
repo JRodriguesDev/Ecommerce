@@ -2,7 +2,7 @@ import 'server-only'
 
 import prisma from '@/lib/prisma/index'
 
-export const toggleFavorite = async (userId: string, productId: string) => {
+export const toggleFavoriteDB = async (userId: string, productId: string) => {
     const result = await prisma.$transaction(async (prisma) => {
         const existing = await prisma.favorite.findUnique({
             where: {
@@ -33,7 +33,7 @@ export const isFavorite = async (userId: string, productId: string) => {
     return !!result
 }
 
-export const getFavorites = async (userId: string) => {
+export const getFavoritesDB = async (userId: string) => {
     const result = await prisma.$transaction(async (prisma) => {
         const favorites = await prisma.favorite.findMany({
             where: {userId: userId},
