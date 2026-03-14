@@ -82,7 +82,7 @@ const InvoiceCard = ({ invoice }: {
                             size="sm" 
                             className="bg-amber-500 hover:bg-amber-600 text-black font-black text-[10px] uppercase tracking-widest px-4 h-9 shadow-[0_0_20px_rgba(245,158,11,0.2)]"
                         >
-                            <Link href={invoice.hosted_invoice_url}>
+                            <Link href={invoice.hosted_invoice_url || ''}>
                                 Pagar Agora
                             </Link>
                         </Button>

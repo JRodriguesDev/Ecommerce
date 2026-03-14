@@ -1,6 +1,7 @@
 import stripe from '@/lib/stripe/index'
 import { NextRequest, NextResponse } from 'next/server'
 import type Stripe from 'stripe'
+import {subscriptionUpdate} from '@/services/DAL/subscription'
 
 const webHookSecret = process.env.WEBHOOK_SECRET
 
@@ -19,6 +20,9 @@ export const POST = async (req: NextRequest) => {
     }
     switch (event.type) {
         case 'checkout.session.completed':
+            break
+        case 'customer.subscription.updated':
+            await subscriptionUpdate(event.data.object)
             break
     }
     return NextResponse.json({recived: true}, {status: 200})

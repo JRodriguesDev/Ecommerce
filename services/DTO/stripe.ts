@@ -5,15 +5,22 @@ import type { Stripe } from 'stripe'
 type stripeLineItems = Stripe.Checkout.SessionCreateParams.LineItem
 
 export const productsModeDTO = (
-    data: Pick<Product, 'id' | 'title' | 'price' | 'quantity' | 'description' | 'rating' | 'stock' | 'slug' | 'thumbnail'>[], 
-    planTier: number // Recebendo o Tier como parâmetro
+    data: Pick<Product, 'id' | 'title' | 'price' | 'quantity' | 'description' | 'rating' | 'stock' | 'slug' | 'thumbnail'>[],
+    planTier: number,
+    planStatus: string
 ): stripeLineItems[] => {
-    
-    // 1. Mapeia os produtos aplicando Desconto de 15% se for Tier 2
+
+    // 0. Validação de Benefícios: Só aplica se for ACTIVE ou TRIALING
+    // Se for 'past_due', 'canceled' ou 'unpaid', isBenefitEligible será false.
+    const isBenefitEligible = planStatus.toLowerCase() === 'active' || planStatus.toLowerCase() === 'trialing';
+
+    // 1. Mapeia os produtos aplicando Desconto
     const lineItems = data.map((product) => {
-        // Lógica de Desconto Tier 2: Preço original * 0.85 (15% OFF)
-        const finalPrice = planTier >= 2 
-            ? Math.round(product.price * 0.85) 
+        // Só aplica o desconto de 15% se for Tier 2 E estiver com pagamento em dia
+        const applyDiscount = isBenefitEligible && planTier >= 2;
+
+        const finalPrice = applyDiscount
+            ? Math.round(product.price * 0.85)
             : product.price;
 
         return {
@@ -21,34 +28,37 @@ export const productsModeDTO = (
                 currency: 'brl',
                 product_data: {
                     metadata: { id: product.id },
-                    name: planTier >= 2 ? `${product.title} (15% OFF)` : product.title,
+                    name: applyDiscount ? `${product.title} (15% OFF)` : product.title,
                     description: product.description,
                     images: [product.thumbnail],
                 },
-                unit_amount: finalPrice 
+                unit_amount: finalPrice
             },
             quantity: product.quantity
         }
     })
 
-    // 2. Lógica de Entrega (Tier 1 ou superior ganha Frete Grátis)
-    const shippingFee = planTier >= 1 ? 0 : 1500; // R$ 0,00 ou R$ 15,00
+    // 2. Lógica de Entrega (Tier 1+ e elegível ganha Frete Grátis)
+    const hasFreeShipping = isBenefitEligible && planTier >= 1;
+    const shippingFee = hasFreeShipping ? 0 : 1500;
 
     const shippingItem: stripeLineItems = {
         price_data: {
             currency: 'brl',
             product_data: {
-                name: planTier >= 1 ? 'Entrega Grátis (Membro Pro/Elite)' : 'Entrega Expressa',
-                description: planTier >= 1 
-                    ? 'Benefício exclusivo do seu plano ativo.' 
-                    : 'Envio via transportadora com seguro e rastreio.',
+                name: hasFreeShipping ? 'Entrega Grátis (Membro Pro/Elite)' : 'Entrega Expressa',
+                description: hasFreeShipping
+                    ? 'Benefício exclusivo do seu plano ativo.'
+                    : isBenefitEligible === false && planTier >= 1
+                        ? 'Frete grátis suspenso por pendência no pagamento.'
+                        : 'Envio via transportadora com seguro e rastreio.',
             },
             unit_amount: shippingFee,
         },
         quantity: 1,
     }
 
-    // 3. Taxa de Processamento Seguro (Mantida igual para todos)
+    // 3. Taxa de Processamento Seguro
     const serviceFeeItem: stripeLineItems = {
         price_data: {
             currency: 'brl',
@@ -56,18 +66,17 @@ export const productsModeDTO = (
                 name: 'Processamento Seguro',
                 description: 'Criptografia de ponta a ponta e proteção ao comprador.',
             },
-            unit_amount: 490, // R$ 4,90
+            unit_amount: 490,
         },
         quantity: 1,
     }
 
-    // Retorna a lista completa: Produtos (com ou sem desconto) + Frete (grátis ou pago) + Taxa
     return [...lineItems, shippingItem, serviceFeeItem]
 }
 
-export const subscriptionDTO = (data: {id: string, name: string, price: number, description: string}): stripeLineItems[] => {
+export const subscriptionDTO = (data: { id: string, name: string, price: number, description: string }): stripeLineItems[] => {
     const lineItems: stripeLineItems = {
-        metadata: {plandId: data.id},
+        metadata: { plandId: data.id },
         price_data: {
             currency: 'brl',
             product_data: {
@@ -80,6 +89,6 @@ export const subscriptionDTO = (data: {id: string, name: string, price: number, 
             unit_amount: data.price
         },
         quantity: 1
-    } 
+    }
     return [lineItems]
 }

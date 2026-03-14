@@ -2,36 +2,37 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import {planAction} from '../actions'
+import { planAction } from '../actions'
 import { LuCrown, LuCreditCard, LuMail } from "react-icons/lu";
 import Link from "next/link"
-import {ToggleChargeButton} from './cardInteractive'
+import { ToggleChargeButton } from './cardInteractive'
 
 export const Plan = async () => {
     const userPlan = await planAction()
-    
+
     if (!userPlan || !userPlan.id) {
         return <EmptyPlan />
     }
 
     return (
         <>
-            <CardPlan  plan={userPlan}/>
+            <CardPlan plan={userPlan} />
         </>
     )
 }
 // ... outros imports (Button, Card, etc)
 
-const CardPlan = ({ plan }: { 
-    plan: { 
-        id: string, 
-        name: string, 
-        description: string, 
-        price: number, 
-        features: string[], 
-        nextBillingDate: Date, 
-        billingMethod: string 
-    } 
+const CardPlan = ({ plan }: {
+    plan: {
+        id: string,
+        name: string,
+        description: string,
+        price: number,
+        features: string[],
+        nextBillingDate: Date,
+        billingMethod: string,
+        status: string
+    }
 }) => {
     const isAuto = plan.billingMethod === 'charge_automatically';
 
@@ -43,15 +44,24 @@ const CardPlan = ({ plan }: {
                 <div className="space-y-1">
                     <CardTitle className="text-xl font-bold flex items-center gap-2">
                         {plan.name}
-                        <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">
-                            Ativo
+                        <Badge
+                            className={
+                                plan.status === 'past_due'
+                                    ? "bg-red-500/10 text-red-500 border-red-500/20"
+                                    : "bg-blue-500/10 text-blue-500 border-blue-500/20"
+                            }
+                        >
+                            {plan.status === 'past_due' ? 'Pagamento Pendente' : 'Ativo'}
                         </Badge>
                     </CardTitle>
                     <CardDescription className="text-zinc-500">
                         {plan.description}
                     </CardDescription>
                 </div>
-                <div className="p-3 bg-zinc-900 rounded-xl border border-zinc-800 text-blue-500">
+                <div className={`p-3 rounded-xl border border-zinc-800 ${plan.status === 'past_due'
+                        ? 'bg-red-500/10 text-red-500'
+                        : 'bg-zinc-900 text-blue-500'
+                    }`}>
                     <LuCrown size={24} />
                 </div>
             </CardHeader>
@@ -78,7 +88,7 @@ const CardPlan = ({ plan }: {
                                 {isAuto ? 'Cobrado no cartão salvo' : 'Pagamento manual'}
                             </p>
                         </div>
-                        <ToggleChargeButton/>
+                        <ToggleChargeButton />
                     </div>
                 </div>
 
@@ -111,7 +121,7 @@ export const EmptyPlan = () => {
     return (
         /* Adicionei md:col-span-2 para alinhar com o tamanho do seu card original */
         <div className="md:col-span-2 flex flex-col items-center justify-center min-h-[450px] w-full border-2 border-dashed border-zinc-800/50 rounded-[2rem] bg-zinc-900/10 backdrop-blur-sm px-4 text-center">
-            
+
             <div className="relative mb-6">
                 <div className="absolute inset-0 bg-blue-500/10 blur-3xl rounded-full" />
                 <div className="relative bg-zinc-900 border border-zinc-800 p-6 rounded-2xl shadow-2xl">
@@ -128,7 +138,7 @@ export const EmptyPlan = () => {
                 </p>
             </div>
 
-            <Button 
+            <Button
                 asChild
                 className="mt-10 bg-zinc-100 text-black hover:bg-white transition-all gap-2 px-12 h-14 rounded-xl font-bold uppercase text-[10px] tracking-widest shadow-xl shadow-white/5"
             >
@@ -145,7 +155,7 @@ export const CardPlanSkeleton = () => {
         <Card className="md:col-span-2 bg-zinc-950 border-zinc-800 overflow-hidden relative">
             {/* Efeito de brilho estático para manter a identidade */}
             <div className="absolute top-0 left-0 w-full h-[2px] bg-zinc-800" />
-            
+
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
                 <div className="space-y-2">
                     {/* Simula Título e Badge */}
@@ -170,7 +180,7 @@ export const CardPlanSkeleton = () => {
                 <div className="pt-4 border-t border-zinc-900">
                     {/* Simula Label "O que inclui" */}
                     <Skeleton className="h-3 w-32 bg-zinc-900 mb-4" />
-                    
+
                     {/* Grid de Features */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {[1, 2, 3, 4].map((i) => (

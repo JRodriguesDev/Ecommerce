@@ -1,14 +1,15 @@
 import 'server-only'
 
 import prisma from '@/lib/prisma'
+import type {Stripe} from 'stripe'
 
 export const userPlan = async (userId: string) => {
-
     const plan = await prisma.subscription.findUnique({
         where: {userId: userId},
         select: {
             nextBillingDate: true,
             billingMethod: true,
+            status: true,
             plan: {select: {
                 id: true,
                 name: true,
@@ -16,10 +17,11 @@ export const userPlan = async (userId: string) => {
                 description: true,
                 features: true,
                 tier: true,
+                
             }}
         }
     })
-    return { nextBillingDate: plan?.nextBillingDate, billingMethod: plan?.billingMethod, ...plan?.plan}
+    return { nextBillingDate: plan?.nextBillingDate, billingMethod: plan?.billingMethod, status: plan?.status, ...plan?.plan}
 }
 
 export const userSubcription = async (userId: string) => {
@@ -58,4 +60,17 @@ export const subscriptionId = async (userId: string) => {
         }  
     })
     return id?.stripeSubscriptionId
+}
+
+export const subscriptionUpdate = async (session: any) => {
+    await prisma.$transaction(async (tx) => {
+        await tx.user.update({
+            where: {customerId: session.customer},
+            data: {
+                subscription: {update: {
+                    status: session.status
+                }}
+            }
+        })
+    })
 }

@@ -21,7 +21,8 @@ export const createCheckoutAction = async (products: Product[], type: string) =>
     if (!session?.user?.id) redirect('/auth/login')
     const customerId = session!.user.customerId
     const plan = await userPlan(session.user.id)
-    const stripeData = productsModeDTO(products, plan.tier!)
+
+    const stripeData = productsModeDTO(products, plan.tier!, plan.status!)
     return await createSession(stripeData, customerId, type)
 }
 
