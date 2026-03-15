@@ -23,13 +23,13 @@ export default function ErrorLinkingPage() {
         <div className="flex justify-center mb-4">
           <AlertCircle className="w-12 h-12 text-destructive" />
         </div>
-        
+
         <h1 className="text-2xl font-bold mb-2">Linking Failed</h1>
         <p className="text-muted-foreground mb-6">
           {message}
         </p>
 
-        <Button 
+        <Button
           onClick={() => router.push('/dashboard/profile/personalData')}
           className="w-full flex items-center gap-2"
         >

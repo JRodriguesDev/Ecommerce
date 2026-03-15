@@ -11,7 +11,6 @@ const Shop = () => {
             <section className="py-8 md:py-12">
                     <ByCategoryProducts />
             </section>
-            
             {/* Divisor centralizado e sutil */}
             <div className="container mx-auto px-6">
                 <Separator className="bg-zinc-800/40 my-8 md:my-12" />

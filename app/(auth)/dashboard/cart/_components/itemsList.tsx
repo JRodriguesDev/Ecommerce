@@ -2,10 +2,14 @@ import {CartItemCard} from './itemCard'
 import {Summary} from './summary'
 import {getProductsAction} from '../actions'
 import {auth} from '@/lib/authjs/auth'
+import {EmptyCart} from './emptyCart'
 
 export const Cards = async () => {
     const session = await auth()
-    const products = await getProductsAction(session!.user!.id!)
+    const products = await getProductsAction()
+    console.log(products)
+
+    if (products.length == 0) return <EmptyCart/>
 
     return (
         <>
@@ -28,7 +32,7 @@ export const Cards = async () => {
 
 export const SummaryPrices = async () => {
     const session = await auth()
-    const products = await getProductsAction(session!.user!.id!)
+    const products = await getProductsAction()
     const items = products.map((el) => ({title: el.title!, price: el.price!, quantity: el.quantity}))
 
     return (

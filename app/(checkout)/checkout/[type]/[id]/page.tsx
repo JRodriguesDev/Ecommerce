@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle2, ShoppingBag, Mail } from 'lucide-react'
 
-const Return = async ({ params }: { params: Promise<{ type: string, id: string }> }) => {
+const Return = async ({ params, searchParams }: { params: Promise<{ type: string, id: string }>, searchParams: Promise<{oldPlan?: string}>}) => {
     const { type, id: sessionId } = await params
     
     if (!sessionId) throw new Error('Sessão inválida')
@@ -16,7 +16,9 @@ const Return = async ({ params }: { params: Promise<{ type: string, id: string }
     if (status === 'open') redirect('/dashboard/cart')
 
     if (status === 'complete') {
-        await processPurchaseAction(sessionId, type)
+        const {oldPlan} = await searchParams
+
+        await processPurchaseAction(sessionId, type, oldPlan)
         return (
             <>
             <SuccessNotification/>

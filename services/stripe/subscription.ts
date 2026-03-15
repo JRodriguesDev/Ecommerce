@@ -23,3 +23,7 @@ export const toggleChangeSubscription = async (subscriptionId: string, currentMe
         )
         return subscription.collection_method
 }
+
+export const upgradePlan = async (subscriptionId: string) => {
+    const subscription = await stripe.subscriptions.cancel(subscriptionId)
+}

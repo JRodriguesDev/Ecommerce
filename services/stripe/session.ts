@@ -28,14 +28,14 @@ export const retrieveSession = async (sessionId: string) => {
 }
 
 export const createSubscriptionSession = async (data: stripeLineItems[], customerId: string, type: string, hasPlan: string) => {
-    if (hasPlan) await stripe.subscriptions.cancel(hasPlan)
+    const oldPlan = hasPlan ? `?oldPlan=${hasPlan}` : ''
     const session = await stripe.checkout.sessions.create({
         customer: customerId,
         ui_mode: 'embedded',
         mode: 'subscription',
         line_items: data,
         saved_payment_method_options: {payment_method_save: 'enabled'},
-        return_url: `http://localhost:3000/checkout/${type}/{CHECKOUT_SESSION_ID}`
+        return_url: `http://localhost:3000/checkout/${type}/{CHECKOUT_SESSION_ID}${oldPlan}`
     })
     return session.client_secret!
 }

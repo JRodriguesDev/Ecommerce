@@ -91,8 +91,10 @@ export const FavoriteCard = ({
                 </Link>
 
                 <p className="text-lg font-black text-zinc-100 italic">
-                    {/* Renderiza R$ 1.200,00 por exemplo */}
-                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price)}
+                    {(price / 100).toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    })}
                 </p>
             </CardContent>
 
@@ -108,7 +110,7 @@ export const FavoriteCard = ({
         </Card>
     )
 }
- 
+
 export const FavoriteCardSkeleton = () => {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

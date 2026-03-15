@@ -49,7 +49,10 @@ export const CartItemCard = ({
 
                             <div className="flex items-center gap-2">
                                 <p className="text-sm font-black text-zinc-100 italic">
-                                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price)}
+                                    {new Intl.NumberFormat('pt-BR', {
+                                        style: 'currency',
+                                        currency: 'BRL'
+                                    }).format(price / 100)}
                                 </p>
                                 <span className="text-[10px] text-zinc-500 font-medium">
                                     Estoque: {stock}

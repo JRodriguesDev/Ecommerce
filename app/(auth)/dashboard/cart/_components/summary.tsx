@@ -2,7 +2,7 @@ import { LuArrowRight } from "react-icons/lu"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
-import {SummaryProps} from '../props/summary'
+import { SummaryProps } from '../props/summary'
 
 
 export const Summary = ({ items }: SummaryProps) => {
@@ -12,7 +12,7 @@ export const Summary = ({ items }: SummaryProps) => {
         return new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL',
-        }).format(value)
+        }).format(value / 100) // Divide por 100 aqui
     }
 
     return (

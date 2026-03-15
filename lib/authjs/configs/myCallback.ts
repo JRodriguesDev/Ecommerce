@@ -10,7 +10,7 @@ export const myCallback: NextAuthConfig['callbacks'] = {
         if (session && (account?.type == 'oauth' || account?.type == 'oidc')) {
             const newEmail = profile?.email
             const currentEmail = session.user?.email
-            if (newEmail !== currentEmail) return `/auth/errorLinking?error=EmailMismatch`
+            if (newEmail !== currentEmail) return `/errors/errorLinking?error=EmailMismatch`
         }
         return true
     },
