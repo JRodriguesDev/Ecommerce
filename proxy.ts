@@ -7,11 +7,13 @@ export const proxy = async (req: NextRequest) => {
     const isAuth = nextUrl.pathname.startsWith('/auth')
     const isCheckout = nextUrl.pathname.startsWith('/checkout')
     const publicRoute = nextUrl.pathname.startsWith('/')
+    const isRoot = nextUrl.pathname === '/'
     const session = await auth()
     const needsProfile = session?.user?.needsProfile ?? false
 
     // REGRA 1: Se está logado mas o perfil está incompleto, 
     // obriga a ir para a página de finalização (a menos que já esteja nela)
+    if (isRoot) return NextResponse.redirect(new URL('/shop', req.nextUrl))
     if (session && publicRoute && needsProfile && !isAuth) return NextResponse.redirect(new URL('/auth/completeRegistration', req.nextUrl))
     // REGRA 2: Proteção do Dashboard
     // Se não está logado e tenta acessar o dashboard, vai para o login

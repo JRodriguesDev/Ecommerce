@@ -30,7 +30,7 @@ export const CancelButton = () => {
                 <LuCircleX className="size-4" />
             )}
             
-            {isPending ? "Cancelando..." : "Cancelar Plano"}
+            {isPending ? "Canceling..." : "Cancel Plan"}
         </Button>
     )
 }
@@ -55,7 +55,7 @@ export const ToggleChargeButton = () => {
             size="icon" 
             // 2. Muda a opacidade se estiver pendente
             className="h-8 w-8 text-zinc-600 hover:text-white hover:bg-zinc-800 ml-2 disabled:opacity-50"
-            title="Alterar método"
+            title="Change method"
         >
             {/* 3. Adiciona a classe animate-spin condicionalmente */}
             <LuRefreshCw 

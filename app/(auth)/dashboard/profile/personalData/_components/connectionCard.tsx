@@ -59,7 +59,7 @@ export const ConnectionCard = ({ connectedProviders }: { connectedProviders: str
                                         "text-[10px] font-bold uppercase tracking-widest",
                                         isConnected ? "text-emerald-500/80" : "text-zinc-500"
                                     )}>
-                                        {isConnected ? 'Conta Vinculada' : 'Não Identificado'}
+                                        {isConnected ? 'Linked Account' : 'Unidentified'}
                                     </span>
                                 </div>
                             </div>
@@ -86,12 +86,12 @@ const ActionButton = ({isConnected, provider}: {isConnected: boolean, provider: 
         <>
             {isConnected ? (
                 <button onClick={() => handlerUnlink(provider)} className={"px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 bg-zinc-900 text-zinc-500 hover:text-red-500 hover:bg-red-500/10 border border-zinc-800"}>
-                Desvincular
+                Unlink
             </button>
             ) : (
                 <button onClick={() => signIn(provider)} className={
                 "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-600/10"}>
-                Conectar Agora
+                Connect Now
             </button>
             )}
         </>

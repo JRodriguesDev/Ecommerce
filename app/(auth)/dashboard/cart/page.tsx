@@ -15,7 +15,7 @@ const Cart = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-black tracking-tighter text-zinc-100 uppercase italic flex items-center gap-2">
-                        Carrinho <LuShoppingBag className="size-5 text-zinc-600" />
+                        Cart <LuShoppingBag className="size-5 text-zinc-600" />
                     </h1>
                 </div>
             </div>

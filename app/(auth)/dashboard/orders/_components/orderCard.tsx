@@ -85,15 +85,15 @@ export const EmptyOrders = () => (
         <div className="size-16 rounded-2xl bg-zinc-800/50 flex items-center justify-center mb-6">
             <ShoppingBag className="size-8 text-zinc-500" />
         </div>
-        <h3 className="text-xl font-bold text-zinc-200 mb-2">Nenhum pedido encontrado</h3>
+        <h3 className="text-xl font-bold text-zinc-200 mb-2">No orders found</h3>
         <p className="text-zinc-500 text-sm text-center max-w-xs mb-8">
-            Parece que você ainda não realizou nenhuma compra em nossa loja.
+            It appears you haven't made any purchases from our store yet.
         </p>
         <Link
             href="/shop"
             className="flex items-center gap-2 px-6 py-3 bg-zinc-100 hover:bg-white text-black rounded-xl font-bold transition-all"
         >
-            Ir para a Loja
+            Go to Store
             <ArrowRight className="size-4" />
         </Link>
     </div>

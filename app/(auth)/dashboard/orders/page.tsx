@@ -8,8 +8,8 @@ const Shopping = () => {
             {/* HEADER DA PÁGINA */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-4">
                 <div>
-                    <h1 className="text-3xl font-black tracking-tighter text-zinc-100 uppercase italic">Meus Pedidos</h1>
-                    <p className="text-zinc-500 text-sm font-medium">Histórico de compras e acessos.</p>
+                    <h1 className="text-3xl font-black tracking-tighter text-zinc-100 uppercase italic">My Orders</h1>
+                    <p className="text-zinc-500 text-sm font-medium">Purchase and access history.</p>
                 </div>
             </div>
 

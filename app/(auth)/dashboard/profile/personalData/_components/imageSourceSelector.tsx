@@ -35,9 +35,9 @@ export const ImageSourceSelector = ({ children, images }: Props) => {
       <DialogContent className="sm:max-w-[420px] bg-zinc-950 border-zinc-800 text-zinc-100 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] p-0 overflow-hidden">
         <DialogHeader className="p-6 pb-0">
           <DialogTitle className="text-left text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500">
-            Origem da Imagem
+            Image Origin
           </DialogTitle>
-          <p className="text-zinc-400 text-sm font-medium mt-1">Selecione qual avatar você deseja exibir no seu perfil.</p>
+          <p className="text-zinc-400 text-sm font-medium mt-1">Select which avatar you want to display on your profile.</p>
         </DialogHeader>
 
         <div className="grid gap-2 p-6">
@@ -45,7 +45,7 @@ export const ImageSourceSelector = ({ children, images }: Props) => {
           {images.google && (
             <SourceOption 
               label="Google Account"
-              sublabel="Sincronizado via Google Auth"
+              sublabel="Synchronized via Google Auth"
               image={images.google}
               icon={<FaGoogle size={10} className="text-blue-500" />}
               isActive={images.main === images.google}
@@ -58,7 +58,7 @@ export const ImageSourceSelector = ({ children, images }: Props) => {
           {images.discord && (
             <SourceOption 
               label="Discord Profile"
-              sublabel="Sincronizado via Discord App"
+              sublabel="Synchronized via Discord App"
               image={images.discord}
               icon={<FaDiscord size={10} className="text-[#5865F2]" />}
               isActive={images.main === images.discord}

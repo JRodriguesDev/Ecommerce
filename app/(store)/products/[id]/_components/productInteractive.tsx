@@ -59,7 +59,7 @@ export const Gallery = ({ thumbnail, images, title }: GalleryProps) => {
                 />
                 
                 <div className="absolute bottom-4 right-4 bg-zinc-950/40 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider text-zinc-200 opacity-0 group-hover:opacity-100 transition-opacity border border-white/10">
-                    Passe o mouse para ampliar
+                    Hover your mouse to zoom in.
                 </div>
             </Card>
         </div>
@@ -98,9 +98,6 @@ export const ActionButtons = ({ productId, isFavorite, isCart }: { productId: st
             break
         }
       } catch (error) {
-        // Se der erro, o useOptimistic volta pro valor original da prop automaticamente
-        // Mas aqui você pode disparar um Toast de erro (ex: toast.error("Falha ao salvar"))
-        console.error("Erro na ação:", error)
       }
     })
   }
@@ -114,7 +111,7 @@ export const ActionButtons = ({ productId, isFavorite, isCart }: { productId: st
           className="flex-[3] bg-blue-600 hover:bg-blue-700 text-white font-bold gap-2 h-14 active:scale-95"
           disabled={isPending}
         >
-          <FaBagShopping className="size-5" /> Comprar Agora
+          <FaBagShopping className="size-5" /> Buy Now
         </Button>
         
         <Button 
@@ -139,7 +136,7 @@ export const ActionButtons = ({ productId, isFavorite, isCart }: { productId: st
         className="w-full gap-2 font-bold bg-zinc-800/50 hover:bg-zinc-800 text-zinc-100 h-14 border border-zinc-700/50 transition-all"
       >
         <FaCartPlus className="size-5" /> 
-        {optimisticCart ? "Remover do Carrinho" : "Adicionar ao Carrinho"}
+        {optimisticCart ? "Remove from Cart" : "Add to Cart"}
       </Button>
     </div>
   )

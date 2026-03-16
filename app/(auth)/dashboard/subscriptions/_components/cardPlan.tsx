@@ -82,10 +82,10 @@ const CardPlan = ({ plan }: {
                         </div>
                         <div className="flex flex-col">
                             <p className="text-[10px] font-bold uppercase tracking-tight text-zinc-300">
-                                {isAuto ? 'Cobrança Automática' : 'Fatura Manual'}
+                                {isAuto ? 'Automatic Billing' : 'Manual Invoice'}
                             </p>
                             <p className="text-[11px] text-zinc-500 leading-tight">
-                                {isAuto ? 'Cobrado no cartão salvo' : 'Pagamento manual'}
+                                {isAuto ? 'Charged to saved card' : 'Manual payment'}
                             </p>
                         </div>
                         <ToggleChargeButton />
@@ -107,11 +107,8 @@ const CardPlan = ({ plan }: {
 
             <CardFooter className="bg-zinc-900/30 border-t border-zinc-800/50 py-4 flex justify-between items-center">
                 <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-tight">
-                    Próxima cobrança em: <span className="text-zinc-300">{plan.nextBillingDate.toLocaleDateString('pt-BR')}</span>
+                    Next payment due in: <span className="text-zinc-300">{plan.nextBillingDate.toLocaleDateString('pt-BR')}</span>
                 </p>
-                <Button variant="ghost" className="text-xs font-bold text-blue-500 hover:text-blue-400 hover:bg-transparent">
-                    Ver Notas Fiscais
-                </Button>
             </CardFooter>
         </Card>
     );
@@ -131,10 +128,10 @@ export const EmptyPlan = () => {
 
             <div className="space-y-2 max-w-sm"> {/* Aumentei de max-w-xs para max-w-sm para o texto espalhar mais */}
                 <h2 className="text-zinc-100 font-black uppercase italic text-2xl tracking-tighter">
-                    Nenhum Plano Ativo
+                    No Active Plan
                 </h2>
                 <p className="text-zinc-500 text-sm font-medium leading-relaxed">
-                    Você ainda não possui uma assinatura ativa. Escolha um plano para desbloquear recursos exclusivos e elevar sua experiência para o próximo nível.
+                    You don&apos;t have an active subscription yet. Choose a plan to unlock exclusive features and take your experience to the next level.
                 </p>
             </div>
 
@@ -143,7 +140,7 @@ export const EmptyPlan = () => {
                 className="mt-10 bg-zinc-100 text-black hover:bg-white transition-all gap-2 px-12 h-14 rounded-xl font-bold uppercase text-[10px] tracking-widest shadow-xl shadow-white/5"
             >
                 <Link href="/subscription">
-                    Explorar Nossos Planos
+                    Explore Our Plans
                 </Link>
             </Button>
         </div>

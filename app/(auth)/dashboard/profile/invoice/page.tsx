@@ -15,11 +15,11 @@ const InvoicePage = () => {
                         <LuFileText className="text-blue-500" size={24} />
                     </div>
                     <h1 className="text-2xl font-black italic text-zinc-100 tracking-tight uppercase">
-                        Minhas Faturas
+                        My Invoices
                     </h1>
                 </div>
                 <p className="text-zinc-500 text-sm max-w-md">
-                    Histórico detalhado de cobranças. Você pode baixar o PDF oficial da Stripe para sua contabilidade.
+                    Detailed billing history. You can download the official Stripe PDF for your accounting.
                 </p>
             </div>
 
@@ -28,21 +28,6 @@ const InvoicePage = () => {
                 <InvoiceCardList/>
             </Suspense>
 
-            {/* Nota de rodapé Estilo Dashboard Profissional */}
-            <div className="mt-12 p-6 rounded-2xl bg-blue-500/5 border border-blue-500/10 flex items-center gap-4">
-                <div className="size-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500">
-                    <LuFileText size={20} />
-                </div>
-                <div className="flex-1">
-                    <h4 className="text-xs font-bold text-blue-400 uppercase tracking-widest">Dúvidas sobre faturamento?</h4>
-                    <p className="text-[11px] text-zinc-500 max-w-sm">
-                        As notas fiscais são enviadas automaticamente para seu e-mail de cadastro em cada renovação.
-                    </p>
-                </div>
-                <Button variant="link" className="text-xs font-bold text-blue-500 uppercase">
-                    Falar com Suporte
-                </Button>
-            </div>
         </div>
     );
 };

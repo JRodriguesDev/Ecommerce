@@ -52,7 +52,7 @@ export const ProductDetails = async ({ params }: { params: Promise<{ id: string 
                             <FaStar className="size-3" /> {product.rating?.toFixed(1) || "0.0"}
                         </div>
                         <div className="flex items-center gap-2 text-zinc-400 text-xs font-medium">
-                            <FaBoxOpen className="text-zinc-500" /> {product.stock} em estoque
+                            <FaBoxOpen className="text-zinc-500" /> {product.stock} in stock
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@ export const ProductDetails = async ({ params }: { params: Promise<{ id: string 
                 <Separator className="bg-zinc-800/50" />
 
                 <div className="space-y-1">
-                    <span className="text-zinc-500 text-[11px] font-bold uppercase tracking-widest">Preço à vista</span>
+                    <span className="text-zinc-500 text-[11px] font-bold uppercase tracking-widest">Cash price</span>
                     <div className="text-4xl xl:text-5xl font-black text-zinc-100 tracking-tighter flex items-baseline gap-1">
                         <span className="text-xl font-bold text-blue-500">R$</span>
                         {((product.price || 0) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
@@ -68,7 +68,7 @@ export const ProductDetails = async ({ params }: { params: Promise<{ id: string 
                 </div>
 
                 <div className="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/50 backdrop-blur-sm">
-                    <h4 className="text-zinc-200 text-xs font-bold uppercase mb-2 tracking-wider">Descrição</h4>
+                    <h4 className="text-zinc-200 text-xs font-bold uppercase mb-2 tracking-wider">Description</h4>
                     <p className="text-zinc-400 text-sm leading-relaxed">
                         {product.description}
                     </p>

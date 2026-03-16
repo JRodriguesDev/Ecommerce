@@ -19,7 +19,7 @@ export const Summary = ({ items }: SummaryProps) => {
         <aside className="w-full xl:w-80 shrink-0 sticky top-8">
             <Card className="bg-zinc-900/10 border-zinc-800/40 backdrop-blur-md overflow-hidden rounded-2xl">
                 <div className="p-5 space-y-6">
-                    <h2 className="text-sm font-black uppercase italic text-zinc-400 tracking-tighter">Resumo do Pedido</h2>
+                    <h2 className="text-sm font-black uppercase italic text-zinc-400 tracking-tighter">Order Summary</h2>
 
                     {/* LISTA DE ITENS COMPACTA */}
                     <div className="space-y-3 max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-zinc-800">
@@ -39,7 +39,7 @@ export const Summary = ({ items }: SummaryProps) => {
                             </div>
                         ))}
                         {items.length === 0 && (
-                            <p className="text-[10px] text-zinc-600 italic">Seu carrinho está vazio.</p>
+                            <p className="text-[10px] text-zinc-600 italic">Your cart is empty.</p>
                         )}
                     </div>
 
@@ -55,7 +55,7 @@ export const Summary = ({ items }: SummaryProps) => {
                         <div className="h-px bg-zinc-800/50 my-3" />
 
                         <div className="flex justify-between items-end pt-1">
-                            <span className="text-[10px] font-black uppercase text-zinc-500">Total Final</span>
+                            <span className="text-[10px] font-black uppercase text-zinc-500">Final Total</span>
                             <span className="text-xl font-black italic text-white tracking-tighter">
                                 {formatCurrency(subtotal)}
                             </span>
@@ -67,7 +67,7 @@ export const Summary = ({ items }: SummaryProps) => {
                             disabled={items.length === 0}
                             className="w-full bg-zinc-100 hover:bg-white text-black font-black py-6 rounded-xl uppercase tracking-widest text-[9px] gap-2 transition-all disabled:opacity-50 active:scale-[0.98]"
                         >
-                            Finalizar Compra
+                            Finalize Purchase
                             <LuArrowRight className="size-4" />
                         </Button>
                     </Link>

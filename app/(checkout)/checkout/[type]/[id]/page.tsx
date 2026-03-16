@@ -33,11 +33,11 @@ const Return = async ({ params, searchParams }: { params: Promise<{ type: string
                     </div>
 
                     <h1 className="text-3xl font-bold text-zinc-100 tracking-tight mb-4">
-                        Pedido Confirmado!
+                        Order Confirmed!
                     </h1>
                     
                     <p className="text-zinc-400 text-sm leading-relaxed mb-8">
-                        Agradecemos pela confiança. Um e-mail de confirmação foi enviado para{' '}
+                        Thank you for your trust.
                         <span className="text-zinc-100 font-medium">{customerEmail}</span>.
                     </p>
 
@@ -45,12 +45,6 @@ const Return = async ({ params, searchParams }: { params: Promise<{ type: string
                     <div className="bg-zinc-950/50 border border-zinc-800/50 rounded-2xl p-4 mb-8 flex items-center gap-4 text-left">
                         <div className="size-10 rounded-xl bg-zinc-900 flex items-center justify-center shrink-0">
                             <Mail className="size-5 text-zinc-400" />
-                        </div>
-                        <div>
-                            <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Dúvidas?</p>
-                            <a href="mailto:support@exemplo.com" className="text-xs text-zinc-300 hover:text-blue-400 transition-colors">
-                                support@exemplo.com
-                            </a>
                         </div>
                     </div>
 
@@ -62,7 +56,7 @@ const Return = async ({ params, searchParams }: { params: Promise<{ type: string
                             className="flex items-center justify-center gap-2 w-full py-3 bg-transparent hover:bg-zinc-800 text-zinc-400 hover:text-zinc-100 font-medium rounded-xl transition-all"
                         >
                             <ShoppingBag className="size-4" />
-                            Continuar Comprando
+                            Continue Shopping
                         </Link>
                     </div>
                 </div>

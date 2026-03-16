@@ -21,15 +21,15 @@ const MagicLink = () => {
                 </div>
                 <h1 className="text-2xl font-bold text-white">Login Mágico</h1>
                 <p className="text-zinc-400 text-sm text-center mt-2">
-                    Enviaremos um link de acesso instantâneo para o seu e-mail.
-                    Sem senhas, sem complicações.
+                    We&apos;ll send an instant access link to your email.
+                    No passwords, no hassle.
                 </p>
             </div>
 
             <Form action={formAction} className="space-y-4">
                 <div className="space-y-2">
                     <label htmlFor="email" className="text-sm font-medium text-zinc-300 ml-1">
-                        Seu melhor e-mail
+                        Your best email
                     </label>
                     <input
                         id="email"
@@ -68,7 +68,7 @@ const MagicLink = () => {
             </Form>
 
             <p className="mt-6 text-center text-xs text-zinc-500">
-                Ao entrar, você concorda com nossos Termos de Serviço.
+                By entering, you agree to our Terms of Service.
             </p>
         </div>
     )

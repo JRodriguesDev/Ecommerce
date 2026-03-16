@@ -19,10 +19,10 @@ const Security = async () => {
             {/* TÍTULO E INTRO */}
             <div className="space-y-1">
                 <h1 className="text-3xl font-black tracking-tighter text-zinc-100 uppercase italic">
-                    Segurança
+                    Security
                 </h1>
                 <p className="text-zinc-500 text-sm font-medium">
-                    Configurações de proteção e acesso à sua conta.
+                    Settings for protecting and accessing your account.
                 </p>
             </div>
 
@@ -31,7 +31,7 @@ const Security = async () => {
                 {/* SEÇÃO 1: ACESSO POR SENHA */}
                 <section className="space-y-4">
                     <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-blue-500/80 px-1">
-                        Credenciais de Login
+                        Login Credentials
                     </h2>
                     <Card className="bg-zinc-900/20 border-zinc-800/50 backdrop-blur-sm divide-y divide-zinc-800/50 overflow-hidden shadow-2xl">
                         <div className="p-6 flex items-center justify-between hover:bg-zinc-800/20 transition-all cursor-pointer group">
@@ -41,14 +41,14 @@ const Security = async () => {
                                 </div>
 
                                 <div className="space-y-0.5">
-                                    <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Senha da Conta</p>
+                                    <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Account Password</p>
                                     <p className="text-sm font-bold text-zinc-200 group-hover:text-white transition-colors">
                                         {"••••••••••••"}
                                     </p>
                                 </div>
                             </div>
 
-                            <SecurityActionButton type="PASSWORD" label={"ALTERAR"} />
+                            <SecurityActionButton type="PASSWORD" label={"Edit"} />
                         </div>
 
                     </Card>
@@ -58,7 +58,7 @@ const Security = async () => {
                 <section className="space-y-4">
                     <div className="flex flex-col gap-1 px-1">
                         <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-600">
-                            Segurança Adicional
+                            Additional Security
                         </h2>
                     </div>
 
@@ -72,24 +72,20 @@ const Security = async () => {
                                 </div>
 
                                 <div className="space-y-0.5">
-                                    <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Autenticação de Dois Fatores (2FA)</p>
+                                    <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Two-Factor Authentication (2FA)</p>
                                     <p className="text-sm font-bold text-zinc-200 group-hover:text-white transition-colors">
-                                        {isTwoFactorEnabled ? "Ativado" : "Desativado"}
+                                        {isTwoFactorEnabled ? "Activated" : "Disabled"}
                                     </p>
                                     <p className="text-[11px] text-zinc-500 font-medium leading-tight max-w-[280px] md:max-w-md italic">
-                                        Adicione uma camada extra de segurança exigindo um código no login.
+                                        Add an extra layer of security by requiring a code at login.
                                     </p>
                                 </div>
                             </div>
 
-                            <SecurityActionButton type="2FA" label={isTwoFactorEnabled ? "DESATIVAR" : "ATIVAR"} isTwoFactorEnabled={isTwoFactorEnabled} />
+                            <SecurityActionButton type="2FA" label={isTwoFactorEnabled ? "DISABLE" : "ACTIVATE"} isTwoFactorEnabled={isTwoFactorEnabled} />
                         </div>
                     </Card>
                 </section>
-                {/* NOTA DE RODAPÉ */}
-                <p className="text-[10px] text-zinc-600 px-1 italic">
-                    * Alterar sua senha ou desativar o 2FA pode encerrar suas sessões ativas em outros dispositivos por segurança.
-                </p>
             </div>
         </div>
     )

@@ -22,10 +22,10 @@ const PersonalData = async () => {
             {/* TÍTULO E INTRO */}
             <div className="space-y-1">
                 <h1 className="text-3xl font-black tracking-tighter text-zinc-100 uppercase italic">
-                    Dados Pessoais
+                    Personal Data
                 </h1>
                 <p className="text-zinc-500 text-sm font-medium">
-                    Gerencie as informações que identificam sua conta.
+                    Manage the information that identifies your account.
                 </p>
             </div>
 
@@ -33,7 +33,7 @@ const PersonalData = async () => {
                 {/* SEÇÃO 1: IDENTIDADE */}
                 <section className="space-y-4">
                     <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-blue-500/80 px-1">
-                        Identidade do Usuário
+                        User Identity
                     </h2>
                     <Card className="bg-zinc-900/20 border-zinc-800/50 backdrop-blur-sm divide-y divide-zinc-800/50 overflow-hidden shadow-2xl">
                         
@@ -44,7 +44,7 @@ const PersonalData = async () => {
                                     <div className="relative group/avatar">
                                         <Avatar images={userProfile.images}/>
                                         <div className="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover/avatar:opacity-100 transition-opacity flex items-center justify-center">
-                                            <span className="text-[10px] font-bold text-white uppercase">Trocar</span>
+                                            <span className="text-[10px] font-bold text-white uppercase">To replace</span>
                                         </div>
                                     </div>
                                 </ImageSourceSelector>
@@ -72,9 +72,9 @@ const PersonalData = async () => {
                 <section className="space-y-4">
                     <div className="flex flex-col gap-1 px-1">
                         <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-600">
-                            Conexões de Acesso
+                            Access Connections
                         </h2>
-                        <p className="text-[11px] text-zinc-500">Provedores que você utiliza para entrar na conta.</p>
+                        <p className="text-[11px] text-zinc-500">Providers you use to log into your account.</p>
                     </div>
                     <ConnectionCard connectedProviders={providers}/>
                 </section>
@@ -94,10 +94,6 @@ const DataItem = ({ label, value, icon }: { label: string, value?: string | null
                 <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-0.5">{label}</p>
                 <p className="text-sm font-bold text-zinc-200 group-hover:text-white transition-colors">{value}</p>
             </div>
-        </div>
-        <div className="flex items-center gap-3">
-            <span className="text-[10px] font-bold text-zinc-700 opacity-0 group-hover:opacity-100 transition-opacity">EDITAR</span>
-            <LuChevronRight className="text-zinc-700 group-hover:text-zinc-400 group-hover:translate-x-1 transition-all" />
         </div>
     </div>
 )

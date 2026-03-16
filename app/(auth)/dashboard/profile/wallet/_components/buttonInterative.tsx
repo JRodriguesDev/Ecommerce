@@ -29,7 +29,7 @@ export const RemoveCardButton = ({ id }: { id: string }) => {
             ) : (
                 <LuTrash2 className="size-3" />
             )}
-            {isPending ? "REMOVENDO..." : "REMOVER"}
+            {isPending ? "REMOVING..." : "REMOVE"}
         </DropdownMenuItem>
     )
 }

@@ -95,7 +95,7 @@ const TwoFactor = () => {
                         ) : pending ? (
                             <LuLoader className="animate-spin" size={20} />
                         ) : (
-                            "Confirmar Acesso"
+                            "Confirm Access"
                         )}
                     </Button>
                 </div>

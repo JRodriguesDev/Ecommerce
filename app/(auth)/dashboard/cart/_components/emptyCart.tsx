@@ -22,11 +22,11 @@ export const EmptyCart = () => {
             {/* TEXTOS COM TIPOGRAFIA ESTILIZADA */}
             <div className="space-y-3 max-w-sm">
                 <h2 className="text-zinc-100 font-black uppercase italic text-2xl tracking-tighter leading-none">
-                    Carrinho Vazio
+                    Empty Cart
                 </h2>
                 <p className="text-zinc-500 text-sm font-medium leading-relaxed">
-                    Parece que você ainda não escolheu seus produtos. <br />
-                    Explore nossa loja e aproveite seus benefícios de membro.
+                    It seems you haven&apos;t chosen your products yet. <br />
+                    Explore our store and enjoy your member benefits.
                 </p>
             </div>
 
@@ -37,7 +37,7 @@ export const EmptyCart = () => {
                 className="mt-10 border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:bg-zinc-100 hover:text-black transition-all duration-300 gap-2 px-10 h-14 rounded-2xl font-bold uppercase text-[11px] tracking-[0.2em]"
             >
                 <Link href="/shop">
-                    Começar a Comprar
+                    Start Shopping
                 </Link>
             </Button>
         </div>

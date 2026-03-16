@@ -51,9 +51,9 @@ export const CompleteRegistration = () => {
                     <div className="p-3 bg-blue-500/10 rounded-full mb-3">
                         <LuCircleCheck className="text-blue-500" size={32} />
                     </div>
-                    <h2 className="text-xl font-bold text-white tracking-tight">Quase lá!</h2>
+                    <h2 className="text-xl font-bold text-white tracking-tight">Almost there!</h2>
                     <p className="text-zinc-400 text-sm text-center mt-1">
-                        Complete seu perfil para garantir o acesso total à sua conta.
+                        Complete your profile to ensure full access to your account.
                     </p>
                 </div>
 
@@ -62,7 +62,7 @@ export const CompleteRegistration = () => {
                     {/* CAMPO: NOME */}
                     <div className="space-y-2">
                         <label htmlFor="name" className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">
-                            Como devemos te chamar?
+                            What should we call you?
                         </label>
                         <div className="relative">
                             <LuUser className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600" size={18} />
@@ -80,7 +80,7 @@ export const CompleteRegistration = () => {
                     {/* CAMPO: SENHA */}
                     <div className="space-y-2">
                         <label htmlFor="password" className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">
-                            Defina uma senha de acesso
+                            Set an access password.
                         </label>
                         <div className="relative">
                             <LuLock className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600" size={18} />
@@ -94,7 +94,7 @@ export const CompleteRegistration = () => {
                             />
                         </div>
                         <p className="text-[10px] text-zinc-600 italic px-1">
-                            * Você poderá usar esta senha para entrar sem depender do Discord/Google.
+                            * You can use this password to log in without relying on Discord/Google.
                         </p>
                     </div>
 
@@ -124,11 +124,11 @@ export const CompleteRegistration = () => {
                             // ESTADO 2: Sucesso! O update() está rodando e o router.push() vem a seguir
                             <div className="flex items-center gap-2 text-emerald-300">
                                 <LuLoader className="animate-spin opacity-50" size={18} />
-                                <span>Redirecionando para o Shop...</span>
+                                <span>Redirecting to the Shop...</span>
                             </div>
                         ) : (
                             // ESTADO 3: Estado inicial (Botão pronto para clique)
-                            "CONCLUIR REGISTRO"
+                            "COMPLETE REGISTRATION"
                         )}
                     </Button>
                 </Form>

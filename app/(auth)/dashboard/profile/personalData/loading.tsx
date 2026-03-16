@@ -15,10 +15,10 @@ const Loading = () => {
             {/* TEXTO DE STATUS */}
             <div className="flex flex-col items-center">
                 <p className="text-xs font-black uppercase tracking-[0.3em] text-zinc-200 italic animate-pulse">
-                    Sincronizando
+                    Syncing
                 </p>
                 <p className="text-[10px] text-zinc-500 font-medium uppercase tracking-widest mt-1">
-                    Buscando dados da conta...
+                    Retrieving account data...
                 </p>
             </div>
         </div>

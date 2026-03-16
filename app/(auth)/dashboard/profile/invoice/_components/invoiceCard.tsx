@@ -49,7 +49,7 @@ const InvoiceCard = ({ invoice }: {
 
                 <div className="flex flex-col gap-1">
                     <span className="text-sm font-bold text-zinc-200 group-hover:text-white transition-colors">
-                        Pagamento de {invoice.date}
+                        Payment of {invoice.date}
                     </span>
                     <div className="flex items-center gap-2">
                         <code className="text-[10px] text-zinc-600 font-mono bg-zinc-900 px-1.5 py-0.5 rounded">
@@ -60,7 +60,7 @@ const InvoiceCard = ({ invoice }: {
                             ? 'text-emerald-500 border-emerald-500/20 bg-emerald-500/5' 
                             : 'text-amber-500 border-amber-500/20 bg-amber-500/5'
                         }`}>
-                            {isPaid ? 'Confirmado' : 'Aguardando'}
+                            {isPaid ? 'Confirmed' : 'Waiting'}
                         </Badge>
                     </div>
                 </div>
@@ -83,7 +83,7 @@ const InvoiceCard = ({ invoice }: {
                             className="bg-amber-500 hover:bg-amber-600 text-black font-black text-[10px] uppercase tracking-widest px-4 h-9 shadow-[0_0_20px_rgba(245,158,11,0.2)]"
                         >
                             <Link href={invoice.hosted_invoice_url || ''}>
-                                Pagar Agora
+                                Pay Now
                             </Link>
                         </Button>
                     ) : (

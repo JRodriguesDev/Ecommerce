@@ -13,8 +13,8 @@ export const CartCheckout = ({ client }: { client: string }) => {
             {/* COLUNA ESQUERDA: O FORMULÁRIO */}
             <div className="flex flex-col gap-6">
                 <div className="space-y-2">
-                    <h2 className="text-2xl font-bold text-zinc-100 tracking-tight">Pagamento</h2>
-                    <p className="text-zinc-400 text-sm">Finalize sua compra de forma segura.</p>
+                    <h2 className="text-2xl font-bold text-zinc-100 tracking-tight">Payment</h2>
+                    <p className="text-zinc-400 text-sm">Complete your purchase securely.</p>
                 </div>
 
                 <div id='checkout' className="bg-zinc-900/50 border border-zinc-800 rounded-2xl overflow-hidden p-4 shadow-2xl">
@@ -31,16 +31,16 @@ export const CartCheckout = ({ client }: { client: string }) => {
             <div className="flex flex-col gap-8 lg:sticky lg:top-24 h-fit">
                 {/* Benefícios (Garante que o usuário não desista) */}
                 <div className="grid grid-cols-1 gap-4">
-                    <Benefit icon={<ShieldCheck className="text-blue-500" />} title="Pagamento Criptografado" desc="Seus dados estão 100% protegidos pela Stripe." />
-                    <Benefit icon={<Truck className="text-blue-500" />} title="Entrega Rápida" desc="Processamento imediato após a confirmação." />
-                    <Benefit icon={<RefreshCcw className="text-blue-500" />} title="Devolução Fácil" desc="Até 7 dias para cancelamento sem burocracia." />
+                    <Benefit icon={<ShieldCheck className="text-blue-500" />} title="Encrypted Payment" desc="Your data is 100% protected by Stripe." />
+                    <Benefit icon={<Truck className="text-blue-500" />} title="Fast Delivery" desc="Immediate processing after confirmation." />
+                    <Benefit icon={<RefreshCcw className="text-blue-500" />} title="Easy Returns" desc="Up to 7 days for cancellation without bureaucracy." />
                 </div>
 
                 {/* Banner de Ajuda */}
                 <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl">
-                    <h3 className="text-sm font-semibold text-zinc-100 mb-2">Precisa de ajuda?</h3>
+                    <h3 className="text-sm font-semibold text-zinc-100 mb-2">Need help?</h3>
                     <p className="text-xs text-zinc-500 leading-relaxed">
-                        Se tiver dúvidas sobre o pagamento ou sobre o seu pedido, fale com nosso suporte via chat ou email.
+                        If you have any questions about payment or your order, please contact our support team via chat or email.
                     </p>
                 </div>
             </div>

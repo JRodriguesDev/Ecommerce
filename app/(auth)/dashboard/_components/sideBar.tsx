@@ -1,7 +1,6 @@
 'use client'
 
 import { usePathname } from 'next/navigation' // Adicionamos isso para evitar erros de hidratação
-import Link from 'next/link'
 import {
     LuUser, LuPackage,
     LuGem, LuHeart, LuLogOut
@@ -33,32 +32,32 @@ const DashboardSidebar = () => {
                     <SidebarItem
                         href="/dashboard/profile"
                         icon={<LuUser />}
-                        label="Dados Pessoais"
+                        label="Personal Data"
                         active={pathName.startsWith("/dashboard/profile")}
                     />
                     <SidebarItem
                         href="/dashboard/orders"
                         icon={<LuPackage />}
-                        label="Compras"
+                        label="Shopping"
                         active={pathName === "/dashboard/orders"}
                     />
                     <SidebarItem
                         href="/dashboard/cart"
                         icon={<GrCart />}
-                        label="Carrinho"
+                        label="Cart"
                         active={pathName === "/dashboard/cart"}
                         badgeCount={cartCount.count}
                     />
                     <SidebarItem
                         href="/dashboard/favorites"
                         icon={<LuHeart />}
-                        label="Favoritos"
+                        label="Favorites"
                         active={pathName === "/dashboard/favorites"}
                     />
                     <SidebarItem
                         href="/dashboard/subscriptions"
                         icon={<LuGem />}
-                        label="Assinaturas"
+                        label="Signatures"
                         active={pathName === "/dashboard/subscriptions"}
                     />
                 </nav>
@@ -68,7 +67,7 @@ const DashboardSidebar = () => {
                 <button className="flex items-center gap-4 w-full px-4 py-3 text-red-500/70 hover:text-red-500 hover:bg-red-500/5 rounded-xl transition-all overflow-hidden">
                     <LuLogOut className="size-5 shrink-0" />
                     <span onClick={() => signOut()} className="cursor-pointer text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                        Sair
+                        To go out
                     </span>
                 </button>
             </div>

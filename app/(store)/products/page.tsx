@@ -1,8 +1,6 @@
 import FilterSideBar from "./_components/filterSidebar"
 import { Suspense } from "react"
 import { ProductListSkeleton, ProductList } from './_components/products'
-import { ParamsFilter } from '@/types/params'
-import {} from './'
 
 const ProductsPage = async ({ searchParams }: PageProps) => {
     // Aguardamos os params para garantir que a key do Suspense seja reativa

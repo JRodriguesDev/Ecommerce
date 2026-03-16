@@ -54,18 +54,18 @@ const CardPayment = ({id, last4, brand, exp_month, exp_year, funding} : {id: str
                                                         •••• •••• •••• {last4} {/* last4 */}
                                                     </p>
                                                     <Badge className="bg-emerald-500/10 text-emerald-500 border-none text-[8px] font-black px-1.5 h-4 uppercase">
-                                                        Padrão
+                                                        Standard
                                                     </Badge>
                                                 </div>
                                                 <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-tighter">
-                                                    {brand} • Expira em {exp_month}/{exp_year} {/* brand, exp_month/year */}
+                                                    {brand} • Expires in {exp_month}/{exp_year} {/* brand, exp_month/year */}
                                                 </p>
                                             </div>
                                         </div>
 
                                         <div className="flex items-center gap-3">
                                             <div className="hidden md:block text-right">
-                                                <p className="text-[10px] font-black text-zinc-600 uppercase">Tipo</p>
+                                                <p className="text-[10px] font-black text-zinc-600 uppercase">Type</p>
                                                 <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{funding}</p> {/* funding */}
                                             </div>
                                             

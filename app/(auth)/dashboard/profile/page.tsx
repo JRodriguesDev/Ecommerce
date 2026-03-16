@@ -5,7 +5,6 @@ import {
     LuCreditCard, 
     LuHistory, 
     LuArrowRight,
-    LuFileText
 } from "react-icons/lu"
 import { Card, CardContent } from "@/components/ui/card"
 import {PerfilInfo, PerfilInfoSkeleton} from './_components/perfilnfo'
@@ -24,8 +23,8 @@ const Profile = () => {
 
             <div className="space-y-6">
                 <div className="flex flex-col gap-1">
-                    <h2 className="text-2xl font-black text-zinc-100 tracking-tighter italic">CENTRAL DA CONTA</h2>
-                    <p className="text-zinc-500 text-sm">Gerencie suas preferências e histórico de navegação.</p>
+                    <h2 className="text-2xl font-black text-zinc-100 tracking-tighter italic">ACCOUNT CENTER</h2>
+                    <p className="text-zinc-500 text-sm">Manage your browsing preferences and history.</p>
                 </div>
 
                 {/* 2. GRID DE NAVEGAÇÃO */}
@@ -34,29 +33,29 @@ const Profile = () => {
                     <ProfileMenuCard 
                         href="/dashboard/profile/personalData"
                         icon={<LuUser />}
-                        title="Dados Pessoais"
-                        description="Edite seu nome, e-mail e informações de contato básicas."
+                        title="Personal Data"
+                        description="Edit your name, email, and basic contact information."
                     />
 
                     <ProfileMenuCard 
                         href="/dashboard/profile/security"
                         icon={<LuShieldCheck />}
-                        title="Segurança"
-                        description="Gerencie sua senha e autenticação de dois fatores."
+                        title="Security"
+                        description="Manage your password and two-factor authentication."
                     />
 
                     <ProfileMenuCard 
                         href="/dashboard/profile/wallet"
                         icon={<LuCreditCard />}
-                        title="Carteira"
-                        description="Veja seus métodos de pagamento."
+                        title="Wallet"
+                        description="See your payment methods."
                     />
 
                     <ProfileMenuCard 
                         href="/dashboard/profile/invoice"
                         icon={<LuHistory />}
-                        title="Faturas"
-                        description="Acompanhe seu histórico de faturas"
+                        title="Invoices"
+                        description="Track your billing history."
                     />
                 </div>
             </div>

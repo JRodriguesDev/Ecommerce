@@ -25,10 +25,10 @@ export const FavoritesList = async () => {
                 {/* TEXTOS */}
                 <div className="space-y-2 max-w-xs">
                     <h2 className="text-zinc-100 font-black uppercase italic text-xl tracking-tighter">
-                        Nada por aqui ainda
+                        Nothing here yet
                     </h2>
                     <p className="text-zinc-500 text-sm font-medium leading-relaxed">
-                        Sua lista de desejos está pedindo por novos itens. Que tal explorar nossas ofertas?
+                        Your wish list is asking for new items. How about exploring our offers?
                     </p>
                 </div>
 

@@ -20,7 +20,6 @@ export const SuccessNotification = () => {
 
     useEffect(() => {
         if (!hasUpdated.current) {
-            console.log("Sincronizando sessão...")
             update({ countUpdate: true })
             hasUpdated.current = true
         }
@@ -59,7 +58,7 @@ export const SuccessNotification = () => {
                 </div>
                 
                 <div className="flex-1">
-                    <p className="text-sm font-bold text-zinc-100">Compra Finalizada!</p>
+                    <p className="text-sm font-bold text-zinc-100">Purchase Completed!</p>
                 </div>
 
                 <button 

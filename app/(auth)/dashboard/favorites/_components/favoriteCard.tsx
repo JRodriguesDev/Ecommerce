@@ -9,7 +9,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { FaStar } from "react-icons/fa6"
 import { toggleFavoriteAction } from '../actions'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { FavoriteCardProps } from '../types'
@@ -72,7 +71,7 @@ export const FavoriteCard = ({
                 {/* BADGE DE ESTOQUE (Opcional) */}
                 {stock <= 5 && stock > 0 && (
                     <span className="absolute bottom-3 left-3 bg-orange-500/10 text-orange-500 text-[9px] font-bold px-2 py-1 rounded border border-orange-500/20 backdrop-blur-sm">
-                        ÚLTIMAS {stock} UNIDADES
+                        LATEST {stock} UNITS
                     </span>
                 )}
             </div>

@@ -1,14 +1,14 @@
-import { 
-    LuUser, 
-    LuChevronRight, 
+import {
+    LuUser,
+    LuChevronRight,
     LuCamera,
 } from "react-icons/lu"
 import { FaGoogle, FaDiscord } from "react-icons/fa"
 import Image from "next/image";
-import {AvatarProps} from '../types'
+import { AvatarProps } from '../types'
 
 export const Avatar = ({ images }: AvatarProps) => {
-    
+
     return (
         <div className="p-6 flex items-center justify-between hover:bg-zinc-800/10 transition-all cursor-pointer group select-none">
             <div className="flex items-center gap-6">
@@ -16,20 +16,20 @@ export const Avatar = ({ images }: AvatarProps) => {
                 <div className="relative">
                     <div className="size-20 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center overflow-hidden ring-4 ring-zinc-950 shadow-2xl transition-transform duration-300 group-hover:scale-105">
                         {images.main ? (
-                            <Image 
+                            <Image
                                 src={images.main}
-                                alt="Profile" 
+                                alt="Profile"
                                 fill
-                                className="size-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                className="size-full object-cover transition-transform duration-700 group-hover:scale-110"
                             />
                         ) : (
                             <LuUser className="size-10 text-zinc-700" />
                         )}
-                        
+
                         {/* Overlay sutil no hover */}
                         <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
-                    
+
                     {/* INDICADOR DE EDIÇÃO (Crachá) */}
                     <div className="absolute -bottom-1 -right-1 p-2 bg-blue-600 rounded-lg text-white border-4 border-zinc-950 shadow-xl group-hover:bg-blue-500 transition-colors">
                         <LuCamera size={14} />
@@ -39,8 +39,8 @@ export const Avatar = ({ images }: AvatarProps) => {
                 {/* TEXTOS E FONTES */}
                 <div className="space-y-2">
                     <div>
-                        <p className="text-sm font-black text-zinc-100 uppercase tracking-tighter italic">Sua Identidade Visual</p>
-                        <p className="text-[11px] text-zinc-500 font-medium">Gerencie as fontes da sua imagem de perfil.</p>
+                        <p className="text-sm font-black text-zinc-100 uppercase tracking-tighter italic">Your Visual Identity</p>
+                        <p className="text-[11px] text-zinc-500 font-medium">Manage the fonts for your profile picture.</p>
                     </div>
 
                     {/* BADGES DE CONEXÃO */}
@@ -67,9 +67,9 @@ export const Avatar = ({ images }: AvatarProps) => {
                         )
                     ))}
                 </div>
-                
+
                 <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold text-zinc-700 opacity-0 group-hover:opacity-100 transition-all uppercase tracking-widest">Ajustar</span>
+                    <span className="text-[10px] font-bold text-zinc-700 opacity-0 group-hover:opacity-100 transition-all uppercase tracking-widest">Adjust</span>
                     <LuChevronRight className="text-zinc-700 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
                 </div>
             </div>

@@ -20,10 +20,10 @@ const WalletPage = () => {
                         </Badge>
                     </div>
                     <h1 className="text-4xl font-black tracking-tighter text-zinc-100 uppercase italic flex items-center gap-3">
-                        Carteira
+                        Wallet
                     </h1>
                     <p className="text-zinc-500 text-sm font-medium">
-                        Gerencie seus cartões salvos para um checkout mais rápido.
+                        Manage your saved cards for faster checkout.
                     </p>
                 </div>
             </div>
@@ -34,7 +34,7 @@ const WalletPage = () => {
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
                     <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">
-                        Cartões
+                        Cards
                     </h3>
                 </div>
 
@@ -50,7 +50,7 @@ const WalletPage = () => {
             <div className="flex items-center justify-center gap-3 pt-10 opacity-30">
                 <LuShieldCheck className="size-4" />
                 <span className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500">
-                    Sua segurança é nossa prioridade via Stripe 256-bit AES
+                    Your security is our priority via Stripe 256-bit AES.
                 </span>
             </div>
         </div>

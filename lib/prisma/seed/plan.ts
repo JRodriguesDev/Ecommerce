@@ -6,22 +6,22 @@ export const planSeed = async () => {
             id: "plan_standard",
             name: "Standard",
             price: 0, // R$ 0,00
-            description: "O básico para começar sua jornada.",
-            features: ["Acesso à loja completa", "Histórico de pedidos", "Suporte via e-mail"],
+            description: "The basics to begin your journey.",
+            features: ["Access to the full store", "Order history", "Email support"],
             status: true,
             tier: 0,
             icon: "LuStar", // Nome do ícone para o IconRenderer
         },
         {
             id: "plan_pro",
-            name: "Logística Pro",
+            name: "Pro Logistics",
             price: 1990, // R$ 19,90
-            description: "Esqueça as taxas de entrega em todas as suas compras.",
+            description: "Forget about delivery fees on all your purchases.",
             features: [
-                "Frete Grátis em todo o site", 
-                "Entrega Prioritária (Sedex)", 
-                "Rastreamento em Tempo Real",
-                "Suporte VIP 24/7"
+                "Free shipping sitewide.", 
+                "Priority Delivery (Sedex)", 
+                "Real-Time Tracking",
+                "24/7 VIP Support"
             ],
             tier: 1,
             status: true,
@@ -31,12 +31,12 @@ export const planSeed = async () => {
             id: "plan_elite",
             name: "Elite VIP",
             price: 4990, // R$ 49,90
-            description: "O máximo de economia com descontos.",
+            description: "Maximum savings with discounts.",
             features: [
-                "Tudo do Logística Pro", 
-                "15% OFF em todo o catálogo", 
-                "Acesso antecipado a Drops",
-                "Brinde exclusivo mensal"
+                "Everything from Logistics Pro", 
+                "15% OFF on the entire catalog", 
+                "Early access to Drops",
+                "Exclusive monthly gift"
             ],
             tier: 2,
             status: true,
