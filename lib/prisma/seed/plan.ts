@@ -1,4 +1,5 @@
 import prisma from '../index'
+import { revalidateTag } from 'next/cache'
 
 export const planSeed = async () => {
     const plans = [
@@ -62,6 +63,7 @@ export const planSeed = async () => {
             }
         })
     }
+    revalidateTag('plans-tag', 'max')
 
     console.log("✅ Seed de planos finalizada!")
 }

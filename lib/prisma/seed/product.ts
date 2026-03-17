@@ -2,6 +2,7 @@ import {fakeStore, jsonDummy, platzi} from '@/types/fakeStores'
 import { Product } from '@/types/product'
 import {normalizeRating} from '@/lib/utils'
 import prisma from '../index'
+import { revalidateTag } from 'next/cache'
 
 export const productsSeed = async () => {
     console.log('Fetching Products...')
@@ -61,6 +62,9 @@ export const productsSeed = async () => {
                 console.log('🚀 Syncing database...');
                 const products = await prisma.product.createMany({data: fullDataProducts})
                 const categories = await prisma.category.createMany({data: fullDataCategories, skipDuplicates: true})
+                revalidateTag('low-stock-key', 'max')
+                revalidateTag('rating-products-key', 'max')
+                revalidateTag('categories-key', 'max')
                 return {products, categories}
             })
             if (result.skipped) {

@@ -2,23 +2,33 @@ import 'server-only'
 
 import prisma from '@/lib/prisma'
 import type { Stripe } from 'stripe'
+import { unstable_cache as nextCache, revalidateTag } from 'next/cache'
 
 export const allPlans = async () => {
     try {
-        const plans = await prisma.plan.findMany({
-            select: {
-                id: true,
-                name: true,
-                price: true,
-                description: true,
-                features: true,
-                icon: true
+        const dataCached = nextCache(
+            async () => {
+                const plans = await prisma.plan.findMany({
+                    select: {
+                        id: true,
+                        name: true,
+                        price: true,
+                        description: true,
+                        features: true,
+                        icon: true
+                    }
+                })
+                // Se plans for null ou undefined (raro no findMany), retorna []
+                return plans ?? []
+            },
+            [`plans-key`],
+            {
+                tags: ['plans-tag'],
+                revalidate: false
             }
-        })
-
-        // Se plans for null ou undefined (raro no findMany), retorna []
-        return plans ?? []
-
+        )
+        const data = await dataCached()
+        return data
     } catch (error) {
         console.error("Erro ao buscar planos:", error)
         // Em caso de erro crítico no banco, retorna array vazio para não quebrar o .map() no front
@@ -34,7 +44,6 @@ export const getPlan = async (planId: string) => {
             name: true,
             price: true,
             description: true,
-
         }
     })
     return plan
@@ -83,4 +92,5 @@ export const processPlan = async (userId: string, session: typeSession) => {
             // Campos obrigatórios para criação
         },
     });
+    revalidateTag(`user-plan-tag-${userId}`, 'max')
 }
