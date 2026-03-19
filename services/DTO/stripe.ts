@@ -12,7 +12,7 @@ export const productsModeDTO = (
 
     // 0. Validação de Benefícios: Só aplica se for ACTIVE ou TRIALING
     // Se for 'past_due', 'canceled' ou 'unpaid', isBenefitEligible será false.
-    const isBenefitEligible = planStatus.toLowerCase() === 'active' || planStatus.toLowerCase() === 'trialing';
+    const isBenefitEligible = planStatus === 'active' || planStatus === 'trialing';
 
     // 1. Mapeia os produtos aplicando Desconto
     const lineItems = data.map((product) => {

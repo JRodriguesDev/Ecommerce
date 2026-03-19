@@ -1,23 +1,23 @@
 import 'server-only'
 
 import prisma from "@/lib/prisma"
-import {Product} from '@/types/product'
-import type {Stripe} from 'stripe'
+import { Product } from '@/types/product'
+import type { Stripe } from 'stripe'
 import { unstable_cache as nextCache, revalidateTag } from 'next/cache'
 
 type typeSession = Stripe.Checkout.Session
 
 export const processOrder = async (userId: string, session: typeSession, data: Product[]) => {
     const existingOrder = await prisma.order.findUnique({
-        where: {stripeSessionId: session.id}
+        where: { stripeSessionId: session.id }
     })
     if (existingOrder) return null
     await prisma.$transaction(async (tx) => {
         for (const item of data) {
             await tx.product.update({
-                where: {id: item.id},
+                where: { id: item.id },
                 data: {
-                    stock: {decrement: item.quantity}
+                    stock: { decrement: item.quantity }
                 }
             })
         }
@@ -38,34 +38,23 @@ export const processOrder = async (userId: string, session: typeSession, data: P
         })
         await tx.cartItem.deleteMany({
             where: {
-                cart: {userId: userId}
+                cart: { userId: userId }
             }
         })
     })
-    revalidateTag(`order-tag-${userId}`, 'max')
 }
 
 export const getOrder = async (userId: string) => {
-    const dataCached = nextCache(
-        async () => {
-            return await prisma.order.findMany({
-                where: {userId: userId},
-                select: {
-                    id: true,
-                    status: true,
-                    stripeSessionId: true,
-                    totalAmount: true,
-                    products: true,
-                    createdAt: true
-                }
-            })
-        },
-        [`oder-key-${userId}`],
-        {
-            tags: [`order-tag-${userId}`],
-            revalidate: false
+    const data = await prisma.order.findMany({
+        where: { userId: userId },
+        select: {
+            id: true,
+            status: true,
+            stripeSessionId: true,
+            totalAmount: true,
+            products: true,
+            createdAt: true
         }
-    )
-    const data = await dataCached()
+    })
     return data
 }

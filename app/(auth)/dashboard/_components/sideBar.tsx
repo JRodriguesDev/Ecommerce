@@ -19,7 +19,7 @@ const DashboardSidebar = () => {
     useEffect(() => {
         // Se cartCount for null ou undefined, ele passa 0
         cartCount.setInitialCount(session?.user?.cartCount ?? 0)
-    }, [session?.user?.cartCount, cartCount])
+    }, [session?.user?.cartCount])
     return (
         <aside className="group fixed left-0 top-16 h-[calc(100vh-64px)] w-20 hover:w-64 bg-black border-r border-zinc-900 transition-all duration-300 ease-in-out z-40 overflow-hidden flex flex-col py-6">
 

@@ -6,29 +6,19 @@ import { unstable_cache as nextCache, revalidateTag } from 'next/cache'
 
 export const allPlans = async () => {
     try {
-        const dataCached = nextCache(
-            async () => {
-                const plans = await prisma.plan.findMany({
-                    select: {
-                        id: true,
-                        name: true,
-                        price: true,
-                        description: true,
-                        features: true,
-                        icon: true
-                    }
-                })
-                // Se plans for null ou undefined (raro no findMany), retorna []
-                return plans ?? []
-            },
-            [`plans-key`],
-            {
-                tags: ['plans-tag'],
-                revalidate: false
+        const plans = await prisma.plan.findMany({
+            select: {
+                id: true,
+                name: true,
+                price: true,
+                description: true,
+                features: true,
+                icon: true
             }
-        )
-        const data = await dataCached()
-        return data
+        })
+        // Se plans for null ou undefined (raro no findMany), retorna []
+        return plans ?? []
+        return plans
     } catch (error) {
         console.error("Erro ao buscar planos:", error)
         // Em caso de erro crítico no banco, retorna array vazio para não quebrar o .map() no front
@@ -92,5 +82,4 @@ export const processPlan = async (userId: string, session: typeSession) => {
             // Campos obrigatórios para criação
         },
     });
-    revalidateTag(`user-plan-tag-${userId}`, 'max')
 }

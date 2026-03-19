@@ -14,7 +14,6 @@ export const SuccessNotification = () => {
     // Trava para evitar o loop de requisições
     const hasUpdated = useRef(false)
     const timerRef = useRef<NodeJS.Timeout | null>(null)
-    
     const DURATION = 6000 // 6 segundos
     const STEP = 50
 
