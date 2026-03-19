@@ -19,11 +19,13 @@ Este projeto é um ecossistema completo de e-commerce construído do zero com as
 1. **Checkout Customizado (Stripe Wrapper):** Diferente de checkouts tradicionais que redirecionam o usuário, o pagamento é processado dentro da própria aplicação utilizando Stripe Elements, garantindo maior conversão e retenção visual.
 2. **Gestão de Assinaturas:** Lógica completa de planos de assinatura, incluindo verificação de status e uso de limites.
 3. **Wallet Segura:** Exibição segura de métodos de pagamento (apresentando apenas os 4 últimos dígitos do cartão) e histórico de faturas direto da Stripe.
+4. **Sincronização via Webhooks (Hooks):** Implementação de uma rota de Webhook dedicada para escutar eventos da Stripe (customer.subscription.updated). Isso garante que o status do plano do usuário no banco de dados esteja sempre em sincronia com o pagamento real.
 
 ### 🛡️ Autenticação e Segurança (Auth.js)
 1. **Sistema de Login Completo:** Autenticação moderna utilizando NextAuth v5 (Auth.js) com credenciais e integração segura.
 2. **Autenticação em Duas Etapas (2FA):** Camada extra de segurança para os usuários da plataforma.
 3. **Recuperação de Senha Segura:** Fluxo de "Esqueci minha senha" utilizando tokens JWT e envio de e-mails transacionais com a Resend.
+4. **Proxy de Dados:** Camada de abstração que protege o acesso a rotas.
 
 ### ⚡ Arquitetura e Performance
 1. **Data Access Layer (DAL):** Separação rigorosa das chamadas de banco de dados, garantindo que componentes de UI não acessem diretamente o Prisma.
@@ -36,7 +38,7 @@ Este projeto é um ecossistema completo de e-commerce construído do zero com as
 - **[Next.js 16.1](https://nextjs.org/)**: Framework React com App Router, Server Actions e renderização dinâmica/estática.
 - **[React 19](https://react.dev/)**: Biblioteca base atualizada com as mais recentes otimizações.
 - **[Tailwind CSS v4](https://tailwindcss.com/)**: Estilização utilitária de alta performance.
-- **[Radix UI](https://www.radix-ui.com/)**: Componentes acessíveis e sem estilo predefinido para construção de interfaces complexas.
+- **[Shadcn/UI](https://ui.shadcn.com/)**: Componentes de interface modernos e customizáveis.
 - **[Zustand](https://zustand-demo.pmnd.rs/)**: Gerenciamento de estado global leve e rápido para o carrinho e UI.
 
 ### Back-End & Persistência
