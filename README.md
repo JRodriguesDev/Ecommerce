@@ -55,14 +55,75 @@ Este projeto é um ecossistema completo de e-commerce construído do zero com as
 
 ## 🚀 Guia de Instalação e Setup
 
-1. **Pré-requisitos**
+### 1. **Pré-requisitos**
 - Node.js (v20+ recomendado)
 - Docker & Docker Compose
 - Contas ativas na Stripe e Resend para as chaves de API.
 
-2. **Configuração Inicial**
+### 2. **Configuração Inicial**
 Clone o repositório e instale as dependências:
-```bash
-git clone [https://github.com/JRodriguesDev/ecommerce-next16.git](https://github.com/JRodriguesDev/ecommerce-next16.git)
-cd ecommerce-next16
+```
+git clone https://github.com/JRodriguesDev/Ecommerce.git
+cd ecommerce
 npm install
+```
+### 3. Configuração das Variáveis de Ambiente (```.env.local```)
+Crie um arquivo chamado ```.env.local``` na raiz do projeto e preencha com as suas credenciais. Você pode se basear no modelo abaixo:
+```
+# --- Banco de Dados (PostgreSQL via Docker) ---
+POSTGRES_USER=root
+POSTGRES_PASSWORD=sua_senha_aqui
+POSTGRES_DB=ecommerce
+# URL de conexão utilizada pelo Prisma ORM
+DATABASE_URL="postgresql://root:sua_senha_aqui@postgres:5432/ecommerce?schema=public"
+
+# --- Autenticação & Segurança (Auth.js v5 / JWT) ---
+# Gere uma chave segura rodando: npx auth secret
+AUTH_SECRET="sua_chave_secreta_aqui"
+JWT_SECRET="sua_hash_para_tokens_de_segurança"
+
+# Provedores de Login Social (OAuth)
+AUTH_GOOGLE_ID="seu_google_client_id"
+AUTH_GOOGLE_SECRET="seu_google_client_secret"
+AUTH_DISCORD_ID="seu_discord_client_id"
+AUTH_DISCORD_SECRET="seu_discord_client_secret"
+
+# --- E-mail & Verificação (Resend) ---
+# Necessário para o Two-Factor (2FA) e Reset de Senha
+AUTH_RESEND_KEY="re_sua_chave_da_resend"
+
+# --- Integração de Pagamentos (Stripe) ---
+# Chave Pública (Exposta ao Client-side via prefixo NEXT_PUBLIC)
+NEXT_PUBLIC_STRIPE_PUBLIC="pk_test_sua_chave_publica"
+# Chave Privada (Apenas Server-side)
+STRIPE_API_KEY="sk_test_sua_chave_privada"
+# Segredo do Webhook (Obtido via Stripe CLI ou Dashboard)
+WEBHOOK_SECRET="whsec_seu_segredo_de_webhook"
+```
+### 4. Inicialização da Infraestrutura e Banco de Dados 
+Siga os passos abaixo para subir os containers e preparar o banco com os dados iniciais.
+### A. Subir os Containers (Docker):
+```
+docker compose -f docker/compose.yaml up --build
+```
+### B. Sincronizar o Schema (Prisma Migrate):
+```
+npx prisma migrate dev
+```
+### C. Popular o Banco (Prisma Seed):
+```
+npx prisma db seed
+```
+### 5. Executando a Aplicação
+Acesse ```http://localhost:3000``` para navegar na loja.
+
+## 👨‍💻 Autor
+Se você tiver dúvidas sobre este projeto ou quiser conversar sobre oportunidades, sinta-se à vontade para entrar em contato:
+
+- **Nome**: José Rodrigues Flora
+- **LinkedIn**: **[José Rodrigues](https://www.linkedin.com/in/joserodrigues-dev/)**
+- **Instagram**: **[jose.rodriguess1](https://www.instagram.com/jose.rodriguess1/)**
+- **E-mail**: 0joserodrigues0@gmail.com
+
+
+
