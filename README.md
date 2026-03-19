@@ -3,7 +3,6 @@
 Este projeto é um ecossistema completo de e-commerce construído do zero com as tecnologias mais recentes do mercado (Next.js 16 e React 19). O foco principal foi desenvolver uma experiência de usuário fluida e segura, com um checkout totalmente integrado à plataforma, gestão avançada de estado e arquitetura escalável.
 
 ## 📸 Prévia da Aplicação
-> **Dica:** Adicione aqui um GIF ou imagem da sua tela de produtos e do seu checkout customizado.
 <p align="center">
   <img src="./public/images/projeto.png" alt="Preview da Aplicação" width="50%">
 </p>
