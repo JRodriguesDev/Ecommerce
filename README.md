@@ -5,7 +5,10 @@ Este projeto é um ecossistema completo de e-commerce construído do zero com as
 ## 📸 Prévia da Aplicação
 > **Dica:** Adicione aqui um GIF ou imagem da sua tela de produtos e do seu checkout customizado.
 <p align="center">
-  <img src="./assets/preview.png" alt="Preview da Aplicação" width="100%">
+  <img src="./public/images/projeto.png" alt="Preview da Aplicação" width="50%">
+</p>
+<p align="center">
+  <img src="./public/images/projeto2.png" alt="Preview do Checkout" width="50%">
 </p>
 
 ## 🌟 Funcionalidades do Sistema
