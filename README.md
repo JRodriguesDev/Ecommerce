@@ -1,6 +1,13 @@
 # 🛍️ E-commerce Full Stack - Next.js 16 & Stripe Custom Checkout
 
-Este projeto é um ecossistema completo de e-commerce construído do zero com as tecnologias mais recentes do mercado (Next.js 16 e React 19). O foco principal foi desenvolver uma experiência de usuário fluida e segura, com um checkout totalmente integrado à plataforma, gestão avançada de estado e arquitetura escalável.
+Este projeto é um **laboratório de estudos full-stack** desenvolvido para explorar as fronteiras das tecnologias mais recentes do ecossistema JavaScript. O objetivo principal não foi apenas criar uma loja, mas sim aprofundar conhecimentos em renderização dinâmica, gestão de cache complexa e integração profunda com serviços de pagamento, enfrentando os desafios reais de bibliotecas que ainda estão em versões de ponta (Next.js 16 e React 19).
+
+## 📚 Objetivos de Aprendizado
+Este repositório documenta minha evolução técnica e a superação de desafios específicos:
+- **Domínio de Next.js 16:** Entender o ciclo de vida de renderização e as restrições de *side-effects* em Server Components.
+- **Arquitetura de Segurança:** Implementação prática de **Data Access Layer (DAL)** e **Proxy** para entender como proteger dados sensíveis em aplicações modernas.
+- **Fluxos Assíncronos:** Estudo de **Webhooks** da Stripe para entender a consistência de dados entre serviços externos e banco de dados local.
+- **Novos Hooks do React 19:** Experimentação com as novas formas de manipulação de estado e transições da biblioteca.
 
 ## 📸 Prévia da Aplicação
 <p align="center">
