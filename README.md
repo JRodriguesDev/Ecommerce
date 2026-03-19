@@ -115,11 +115,11 @@ docker compose -f docker/compose.yaml up --build
 ```
 ### B. Sincronizar o Schema (Prisma Migrate):
 ```
-npx prisma migrate dev
+docker exec -it next npx prisma migrate dev
 ```
 ### C. Popular o Banco (Prisma Seed):
-```
-npx prisma db seed
+``` 
+docker exec -it next npx prisma db seed
 ```
 ### 5. Executando a Aplicação
 Acesse ```http://localhost:3000``` para navegar na loja.
