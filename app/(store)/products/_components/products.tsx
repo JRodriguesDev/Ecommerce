@@ -94,7 +94,7 @@ export const ProductCard = ({ el }: { el: Product }) => {
 
                         <div className="flex items-center justify-between mt-2 pt-4 border-t border-zinc-800/50">
                             <span className="text-zinc-100 text-xl font-black tracking-tight">
-                                {el.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                {(el.price / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                             </span>
                             
                             <div className="p-2 bg-zinc-800 rounded-full text-zinc-400 group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:translate-x-1">
