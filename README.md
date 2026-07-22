@@ -1,13 +1,6 @@
 # 🛍️ E-commerce Full Stack - Next.js 16 & Stripe Custom Checkout
 
-Este projeto é um **laboratório de estudos full-stack** desenvolvido para explorar as fronteiras das tecnologias mais recentes do ecossistema JavaScript. O objetivo principal não foi apenas criar uma loja, mas sim aprofundar conhecimentos em renderização dinâmica, gestão de cache complexa e integração profunda com serviços de pagamento, enfrentando os desafios reais de bibliotecas que ainda estão em versões de ponta (Next.js 16 e React 19).
-
-## 📚 Objetivos de Aprendizado
-Este repositório documenta minha evolução técnica e a superação de desafios específicos:
-- **Domínio de Next.js 16:** Entender o ciclo de vida de renderização e as restrições de *side-effects* em Server Components.
-- **Arquitetura de Segurança:** Implementação prática de **Data Access Layer (DAL)** e **Proxy** para entender como proteger dados sensíveis em aplicações modernas.
-- **Fluxos Assíncronos:** Estudo de **Webhooks** da Stripe para entender a consistência de dados entre serviços externos e banco de dados local.
-- **Novos Hooks do React 19:** Experimentação com as novas formas de manipulação de estado e transições da biblioteca.
+Um projeto de estudo prático criado para aplicar conceitos de desenvolvimento web na criação de um e-commerce Full Stack. O foco do repositório é documentar meu aprendizado ao estruturar integrações de pagamentos, gerenciar o estado e o cache da aplicação e implementar uma arquitetura de dados segura com TypeScript, Next.js e PostgreSQL.
 
 ## 📸 Prévia da Aplicação
 <p align="center">
@@ -26,39 +19,39 @@ Este repositório documenta minha evolução técnica e a superação de desafio
 
 ### 💳 Pagamentos e Assinaturas (Stripe Integrado)
 1. **Checkout Customizado (Stripe Wrapper):** Diferente de checkouts tradicionais que redirecionam o usuário, o pagamento é processado dentro da própria aplicação utilizando Stripe Elements, garantindo maior conversão e retenção visual.
-2. **Gestão de Assinaturas:** Lógica completa de planos de assinatura, incluindo verificação de status e uso de limites.
+2. **Gestão de Assinaturas:** Lógica de planos de assinatura, incluindo verificação de status e uso de limites.
 3. **Wallet Segura:** Exibição segura de métodos de pagamento (apresentando apenas os 4 últimos dígitos do cartão) e histórico de faturas direto da Stripe.
 4. **Sincronização via Webhooks (Hooks):** Implementação de uma rota de Webhook dedicada para escutar eventos da Stripe (customer.subscription.updated). Isso garante que o status do plano do usuário no banco de dados esteja sempre em sincronia com o pagamento real.
 
 ### 🛡️ Autenticação e Segurança (Auth.js)
-1. **Sistema de Login Completo:** Autenticação moderna utilizando NextAuth v5 (Auth.js) com credenciais e integração segura.
+1. **Sistema de Login Completo:** Autenticação utilizando NextAuth v5 (Auth.js) com credenciais e integração segura.
 2. **Autenticação em Duas Etapas (2FA):** Camada extra de segurança para os usuários da plataforma.
 3. **Recuperação de Senha Segura:** Fluxo de "Esqueci minha senha" utilizando tokens JWT e envio de e-mails transacionais com a Resend.
-4. **Proxy de Dados:** Camada de abstração que protege o acesso a rotas.
+4. **Proxy de Dados:** Camada que protege o acesso a rotas.
 
 ### ⚡ Arquitetura e Performance
-1. **Data Access Layer (DAL):** Separação rigorosa das chamadas de banco de dados, garantindo que componentes de UI não acessem diretamente o Prisma.
-2. **Estratégias de Cache (Next.js):** Gerenciamento inteligente de cache e revalidação de rotas seguindo as severas diretrizes do App Router do Next.js 16.
+1. **Data Access Layer (DAL):** Separação das chamadas de banco de dados, garantindo que componentes de UI não acessem diretamente o Prisma.
+2. **Estratégias de Cache (Next.js):** Gerenciamento de cache e revalidação de rotas seguindo as severas diretrizes do App Router do Next.js 16.
 3. **Banco de Dados Dockerizado:** Ambiente de desenvolvimento padronizado com PostgreSQL via Docker e seed inicial automatizado.
 
 ## 🛠️ Stack Tecnológico
 
 ### Core & UI
-- **[Next.js 16.1](https://nextjs.org/)**: Framework React com App Router, Server Actions e renderização dinâmica/estática.
-- **[React 19](https://react.dev/)**: Biblioteca base atualizada com as mais recentes otimizações.
-- **[Tailwind CSS v4](https://tailwindcss.com/)**: Estilização utilitária de alta performance.
+- **[Next.js](https://nextjs.org/)**: Renderização dinâmica, Server Actions e gerenciamento de rotas.
+- **[React](https://react.dev/)**: Biblioteca base para construção da interface.
+- **[Tailwind CSS](https://tailwindcss.com/)**: Estilização utilitária e componentes acessíveis.
 - **[Shadcn/UI](https://ui.shadcn.com/)**: Componentes de interface modernos e customizáveis.
-- **[Zustand](https://zustand-demo.pmnd.rs/)**: Gerenciamento de estado global leve e rápido para o carrinho e UI.
+- **[Zustand](https://zustand-demo.pmnd.rs/)**: Gerenciamento de estado global do carrinho de compras.
 
 ### Back-End & Persistência
-- **[Prisma ORM](https://www.prisma.io/orm)**: Modelagem e tipagem estática do banco de dados relacional PostgreSQL.
-- **[PostgreSQL](https://www.postgresql.org/)**: Banco de dados principal rodando em containers Docker.
+- **[Prisma ORM](https://www.prisma.io/orm)**: Modelagem, migrações e tipagem estática do banco.
+- **[PostgreSQL](https://www.postgresql.org/)**: Banco de dados relacional orquestrado em container.
 
 ### Pagamentos & Serviços
-- **[Stripe SDK & React Stripe JS](https://docs.stripe.com/stripe-js)**: Processamento de pagamentos, assinaturas e webhooks com componentes UI hospedados localmente.
-- **[Auth.js (NextAuth v5)](https://authjs.dev/)**: Autenticação flexível e segura compatível com Edge e Server Components.
+- **[Stripe API](https://docs.stripe.com/stripe-js)**: Checkout customizado, gestão de assinaturas e sincronização via Webhooks.
+- **[Auth.js (NextAuth v5)](https://authjs.dev/)**: Autenticação de usuários, suporte a 2FA e controle de sessão.
 - **[Resend](https://resend.com/) & [React Email](https://react.email/)**: Criação e envio de e-mails transacionais (2FA, Reset de Senha) codificados em React.
-- **[Zod](https://zod.dev/)**: Validação rigorosa de formulários e schemas de dados.
+- **[Zod](https://zod.dev/)**: Validação rigorosa de schemas e envio de e-mails transacionais.
 
 ## 🚀 Guia de Instalação e Setup
 
